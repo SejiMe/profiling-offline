@@ -6,19 +6,37 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "prepare": "husky install",
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "12.3.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "@tailwindcss/forms": "^0.5.3",
+    "autoprefixer": "^10.4.9",
+    "clsx": "^1.2.1",
+    "next": "^12.3.0",
+    "postcss": "^8.4.16",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.4.0"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.8",
-    "eslint": "8.23.0",
-    "eslint-config-next": "12.3.0",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "eslint": "^8.23.1",
+    "eslint-config-next": "^12.3.0",
     "husky": "^8.0.1",
-    "postcss": "^8.4.16",
-    "tailwindcss": "^3.1.8"
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "tailwindcss": "^3.1.8",
+    "yarn-upgrade-all": "^0.7.1"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --max-warnings=0",
+      "prettier -w"
+    ],
+    "src/**/*.{json,css,scss,md}": [
+      "prettier -w"
+    ]
   }
 }
