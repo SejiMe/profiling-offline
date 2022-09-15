@@ -3,12 +3,14 @@ import CustomLink from '@/components/CustomLink';
 import UnstyledLink from '@/components/UnstyledLink';
 import Nav from '@/components/Nav';
 import MainLayout from '@/layouts/MainLayout';
+import { useEffect } from 'react';
 
 export default function Home() {
+  
+  
   return (
     <MainLayout>
       <Seo templateTitle='Home' />
-
       <main className='bg-dark'>
         <section className='flex flex-col justify-center items-center text-white min-h-screen layout'>
           <h1 className=" text-white hover:text-slate-400">Barangay Caramutan</h1>
