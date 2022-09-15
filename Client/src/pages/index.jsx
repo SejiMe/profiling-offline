@@ -2,30 +2,24 @@ import Seo from '@/components/Seo';
 import CustomLink from '@/components/CustomLink';
 import UnstyledLink from '@/components/UnstyledLink';
 import Nav from '@/components/Nav';
+import MainLayout from '@/layouts/MainLayout';
 
 export default function Home() {
   return (
-    <>
+    <MainLayout>
       <Seo templateTitle='Home' />
 
-      <main>
-        <Nav/>
-        <section className='bg-dark'>
-          <div className='flex flex-col items-center justify-center min-h-screen text-white layout'>
-            <h1>
-              <CustomLink href='https://github.com/zyndly'>
-                Zyndly Kent's Github
-              </CustomLink>
-            </h1>
-            <footer className='absolute text-gray-500 bottom-2'>
-              © {new Date().getFullYear()} By{' '}
-              <UnstyledLink href='https://github.com/zyndly'>
-                Zyndly
-              </UnstyledLink>
-            </footer>
-          </div>
+      <main className='bg-dark'>
+        <section className='flex flex-col justify-center items-center text-white min-h-screen layout'>
+          <h1 className=" text-white hover:text-slate-400">Barangay Caramutan</h1>
+          <p className="text-base ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Temporibus eaque incidunt pariatur ducimus iusto autem asperiores, dolores rem? Impedit porro dolorum molestias dolorem odit? Nobis aliquid repudiandae odit iste qui.</p>
+        </section>
+        <section className='flex flex-col justify-center items-center text-white min-h-screen layout'>
+          <h1 className="text-white hover:text-slate-400">Organizational Chart</h1>
+          <span>There will be a chart of images here</span>
+          <p className="text-base  ">Irure amet labore aute ipsum anim quis incididunt nulla eiusmod amet magna. Deserunt adipisicing non cillum velit consectetur occaecat cillum ut tempor. Ipsum duis tempor duis ipsum sint labore ut ullamco nulla officia cillum. Fugiat nisi enim cupidatat quis irure esse ut Lorem proident dolor culpa nisi do ad.</p>
         </section>
       </main>
-    </>
+    </MainLayout>
   );
 }
