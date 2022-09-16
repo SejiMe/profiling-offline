@@ -3,29 +3,37 @@ import Container from '@/layouts/Container';
 import MainLayout from '@/layouts/MainLayout';
 import React from 'react';
 import { useRouter } from 'next/router';
-import app from '../../firebaseConfig';
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth'
+import app from '../config/firebaseConfig';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
-
+import { useAuth } from '@/contexts/AuthContext';
 export default function login() {
-
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
 
-  const auth = getAuth(app);
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+  });
   const router = useRouter();
+  const { user, login } = useAuth();
 
-  const onSubmit = (evt) => {
+  /**
+   * When the user submits the form, prevent the default action, then try to log in with the email and
+   * password provided, and if successful, redirect the user to the admin page, otherwise, render an
+   * error page.
+   */
+  const onSubmit = async (evt) => {
     evt.preventDefault();
-    signInWithEmailAndPassword(auth, email, pass)
-    .then(()=>{
-      alert('login successfully');
-      router.push('/admin')    
-    })
-    .catch((err)=>{
-      console.error({err})
-    })
-  }
+    try {
+      await login(data.email, data.password);
+      router.push('/admin');
+    } catch (error) {
+      //TODO
+      //Render Error page/component
+      console.log(error);
+    }
+  };
 
   return (
     <MainLayout>
@@ -38,7 +46,13 @@ export default function login() {
             type='email'
             name='email'
             placeholder='juandelacruz@gmail.com'
-            onChange={(e)=> {setEmail(e.target.value)}}
+            onChange={(e) => {
+              /* A way to update the state of the component. */
+              setData({
+                ...data,
+                email: e.target.value,
+              });
+            }}
             required='required'
           />
           <label htmlFor='password'>Password</label>
@@ -46,11 +60,21 @@ export default function login() {
             type='password'
             name='password'
             placeholder='password'
-            onChange={(e) => {setPass(e.target.value)}}
+            onChange={(e) => {
+              /* A way to update the state of the component. */
+              setData({
+                ...data,
+                password: e.target.value,
+              });
+            }}
             required='required'
           />
-          {/**TODO*/}
-          <button type='submit' onClick={onSubmit}>Login</button>
+          {/**TODO
+           * setup forget password method
+           */}
+          <button type='submit' onClick={onSubmit}>
+            Login
+          </button>
         </form>
       </Container>
     </MainLayout>
