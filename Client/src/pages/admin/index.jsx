@@ -1,4 +1,4 @@
-import Container from '@/layouts/Container'
+import Container from '@/components/layouts/Container'
 import React from 'react'
 
 export default function admin() {

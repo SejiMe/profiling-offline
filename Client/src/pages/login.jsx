@@ -1,6 +1,6 @@
 import Seo from '@/components/Seo';
-import Container from '@/layouts/Container';
-import MainLayout from '@/layouts/MainLayout';
+import Container from '@/components/layouts/Container';
+import MainLayout from '@/components/layouts/MainLayout';
 import React from 'react';
 import { useRouter } from 'next/router';
 import app from '../config/firebaseConfig';

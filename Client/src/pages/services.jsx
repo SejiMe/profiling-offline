@@ -1,8 +1,8 @@
-import Button from '@/components/Button';
+
 import Checkbox from '@/components/Checkbox';
 import Seo from '@/components/Seo';
-import Container from '@/layouts/Container';
-import MainLayout from '@/layouts/MainLayout';
+import Container from '@/components/layouts/Container';
+import MainLayout from '@/components/layouts/MainLayout';
 
 import React, { useState } from 'react';
 

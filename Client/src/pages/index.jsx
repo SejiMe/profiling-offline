@@ -1,9 +1,7 @@
 import Seo from '@/components/Seo';
-import CustomLink from '@/components/CustomLink';
-import UnstyledLink from '@/components/UnstyledLink';
-import Nav from '@/components/Nav';
-import MainLayout from '@/layouts/MainLayout';
-import { useEffect } from 'react';
+
+import MainLayout from '@/components/layouts/MainLayout';
+
 
 export default function Home() {
   
