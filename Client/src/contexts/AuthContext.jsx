@@ -13,19 +13,25 @@ export function useAuth() {
 }
 
 export function AuthContextProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     /* A function that is called when the user logs in or out. */
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      /* This is checking if the user is logged in and if the token is null. If the user is logged in
+      and the token is null, then the user is set to the user object. If the user is not logged in
+      or the token is not null, then the session storage is cleared and the user is set to null. */
       if (user) {
         setUser({
           uid: user.uid,
           email: user.email,
           displayName: user.displayName,
         });
+        if (sessionStorage.getItem('Token') == null)
+          sessionStorage.setItem('Token', user.uid);
       } else {
+        sessionStorage.clear();
         setUser(null);
       }
       setLoading(false);
@@ -47,6 +53,7 @@ export function AuthContextProvider({ children }) {
   /* Setting the user to null and then signing out. */
   const logout = async () => {
     setUser(null);
+    sessionStorage.clear();
     // firebase function
     await signOut(auth);
   };

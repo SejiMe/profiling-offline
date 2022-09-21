@@ -39,7 +39,7 @@ export default function login() {
     <MainLayout>
       <Seo templateTitle='Official Login' />
       <Container>
-        <form className='flex flex-col gap-4' method='POST'>
+        <form className='flex flex-col gap-4' method='POST' onSubmit={onSubmit}>
           <h1 className='text-black'>Login Barangay Caramutan</h1>
           <label htmlFor='email'>Email Address</label>
           <input
@@ -72,9 +72,7 @@ export default function login() {
           {/**TODO
            * setup forget password method
            */}
-          <button type='submit' onClick={onSubmit}>
-            Login
-          </button>
+          <button type='submit'>Login</button>
         </form>
       </Container>
     </MainLayout>
