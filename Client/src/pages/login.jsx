@@ -3,14 +3,9 @@ import Container from '@/components/layouts/Container';
 import MainLayout from '@/components/layouts/MainLayout';
 import React from 'react';
 import { useRouter } from 'next/router';
-import app from '../config/firebaseConfig';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 export default function login() {
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-
   const [data, setData] = useState({
     email: '',
     password: '',
