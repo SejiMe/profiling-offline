@@ -1,0 +1,12 @@
+### UI/UX
+
+1. Add Card for Resident
+2. Add Page for Request logs in Admins 
+3. Add Page for Charters
+4. Display Logs as Requests in Table view format
+
+### Feat
+
+1. Public User able to send Request --> admin/requests 
+2. CRUD Function for admin to add data in firestore
+3. Admin Able to read
