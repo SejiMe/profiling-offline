@@ -1,9 +1,12 @@
-import React from 'react'
+import AdminLayout from '@/components/layouts/AdminLayout';
+import React from 'react';
 
 const residents = () => {
   return (
-    <div>residents</div>
-  )
-}
+    <AdminLayout>
+      <h1>This is residents page</h1>
+    </AdminLayout>
+  );
+};
 
-export default residents
+export default residents;
