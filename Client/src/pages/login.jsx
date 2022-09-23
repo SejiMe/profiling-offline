@@ -1,16 +1,11 @@
 import Seo from '@/components/Seo';
-import Container from '@/layouts/Container';
-import MainLayout from '@/layouts/MainLayout';
+import Container from '@/components/layouts/Container';
+import MainLayout from '@/components/layouts/MainLayout';
 import React from 'react';
 import { useRouter } from 'next/router';
-import app from '../config/firebaseConfig';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 export default function login() {
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -39,7 +34,7 @@ export default function login() {
     <MainLayout>
       <Seo templateTitle='Official Login' />
       <Container>
-        <form className='flex flex-col gap-4' method='POST'>
+        <form className='flex flex-col gap-4' method='POST' onSubmit={onSubmit}>
           <h1 className='text-black'>Login Barangay Caramutan</h1>
           <label htmlFor='email'>Email Address</label>
           <input
@@ -72,9 +67,7 @@ export default function login() {
           {/**TODO
            * setup forget password method
            */}
-          <button type='submit' onClick={onSubmit}>
-            Login
-          </button>
+          <button type='submit'>Login</button>
         </form>
       </Container>
     </MainLayout>
