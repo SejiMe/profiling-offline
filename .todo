@@ -1,4 +1,0 @@
-### Fix Issues
-
-1. Refactor login authentication
-    - setup session storage for not logging out
