@@ -1,4 +1,4 @@
-import NAV_TYPES from '@/constants/getTypes';
+import { NAV_TYPES } from '@/constants/getTypes';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -11,7 +11,7 @@ function Sidebar() {
   return (
     <div className='flex flex-col justify-between gap-1 w-full h-screen'>
       <Nav type={NAV_TYPES.ADMIN} />
-      {/**Temporary button for loggin out*/}
+      {/**Temporary button for logging out*/}
       <button
         className='border'
         onClick={() => {

@@ -1,4 +1,4 @@
-import NAV_TYPES from '@/constants/getTypes';
+import {NAV_TYPES} from '@/constants/getTypes';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 
