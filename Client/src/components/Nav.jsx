@@ -29,7 +29,7 @@ export default function Nav(props) {
           <li>
             <Link href='/'>
               <a className='font-bold text-green-400'>
-                <img src='/images/Logo Caramutan.png' className='w-2' alt='' />
+                <img src='/images/Logo Caramutan.png' className='w-[20%]' alt='' />
               </a>
             </Link>
           </li>
