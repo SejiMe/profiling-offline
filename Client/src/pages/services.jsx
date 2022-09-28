@@ -2,7 +2,7 @@ import Checkbox from '@/components/Checkbox';
 import Seo from '@/components/Seo';
 import Container from '@/components/layouts/Container';
 import MainLayout from '@/components/layouts/MainLayout';
-
+import { VIEW_TYPES as types } from '@/constants/getTypes';
 import React, { useState } from 'react';
 
 export default function services() {
@@ -15,7 +15,7 @@ export default function services() {
   return (
     <MainLayout>
       <Seo titleTemplate='Online Services' />
-      <Container>
+      <Container type={types.DEFAULT}>
         <form action='' className='flex flex-col border-2 p-2'>
           <label htmlFor='email'>Email Address</label>
           <input
