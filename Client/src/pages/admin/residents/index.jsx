@@ -3,7 +3,7 @@ import ResidentView from '@/components/residents/ResidentView';
 import Container from '@/components/layouts/Container';
 import React from 'react';
 import { VIEW_TYPES as types} from '@/constants/getTypes';
-import AddResidentForm from '@/components/residents/AddResidentForm';
+import ResidentForm from '@/components/residents/ResidentForm';
 
 const residents = () => {
   return (
@@ -12,7 +12,7 @@ const residents = () => {
         <Container type={types.RESIDENT}>
           
           <ResidentView label='This should be dynamic labeling'/>
-          <AddResidentForm/>
+          <ResidentForm/>
         </Container>
       </div>
     </AdminLayout>
