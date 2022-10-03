@@ -7,14 +7,13 @@ const InputTextField = ({
   type,
   value,
   getValue,
-  required= false,
+  required = false,
   pattern = '',
-  placeholder ='',
+  placeholder = '',
   isRequired = false,
 }) => {
   const inputTextHandler = (e) => {
     const { name, value } = e.target;
-    console.log(`${name} ${value}`);
     getValue({
       name,
       value,
