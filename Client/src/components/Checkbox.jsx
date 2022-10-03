@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx';
-//TODO Continue at home
+//TODO Input Handler for Changes
 export default function Checkbox({children, val='', name='', iClassName = '',}) {
   return (
     <div className='flex flex-row items-center'>
