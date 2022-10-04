@@ -8,7 +8,6 @@ const InputTextField = ({
   value,
   getValue,
   required = false,
-  pattern = '',
   placeholder = '',
   isRequired = false,
 }) => {
@@ -27,7 +26,6 @@ const InputTextField = ({
         value={value}
         name={name}
         onChange={inputTextHandler}
-        pattern={pattern}
         required={isRequired}
         placeholder={placeholder}
       />
