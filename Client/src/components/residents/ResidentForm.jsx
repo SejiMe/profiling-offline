@@ -75,13 +75,22 @@ const ResidentForm = () => {
       [name]: value,
     });
   };
-
   const handleContactChange = (e) => {
     const { name, value } = e;
     setData({
       ...data,
       contacts: {
         ...data.contacts,
+        [name]: value,
+      },
+    });
+  };
+  const handleFamilyChange = (e) => {
+    const { name, value } = e;
+    setData({
+      ...data,
+      family: {
+        ...data.family,
         [name]: value,
       },
     });
@@ -110,16 +119,7 @@ const ResidentForm = () => {
       },
     });
   };
-  const handleFamilyChange = (e) => {
-    const { name, value } = e;
-    setData({
-      ...data,
-      family: {
-        ...data.family,
-        [name]: value,
-      },
-    });
-  };
+  //#endregion
 
   console.log(data.family.children);
 };
@@ -139,6 +139,10 @@ const handleChildValues = (e, index) => {
   console.table(data.family.children);
 };
 
+/**
+ * If the name of the input is gender or civ_status, and the value is empty, alert the user and set the
+ * disable state to true.
+ */
 const validateInput = (evt) => {
   const { name, value } = evt.target;
   if (name === 'gender') {
@@ -179,7 +183,6 @@ const handleAddChildForm = () => {
       console.log(error);
     }
   };
-
   return (
     <>
       <form className='flex flex-col gap-2 my-5 ' onSubmit={submitInformation}>
