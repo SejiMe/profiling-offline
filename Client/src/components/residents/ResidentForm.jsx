@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import Checkbox from '../Checkbox';
 import InputNumberField from '../Fields/InputNumberField';
+import { db } from '@/config/firebaseConfig';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+
 const ResidentForm = () => {
   //#region Document Information for firestore
   const [data, setData] = useState({
@@ -75,7 +78,6 @@ const ResidentForm = () => {
 
   const handleContactChange = (e) => {
     const { name, value } = e;
-
     setData({
       ...data,
       contacts: {
@@ -97,7 +99,6 @@ const ResidentForm = () => {
       },
     });
   };
-
   const handleBenefChecks = (e) => {
     const { name, checked } = e;
     console.log('The value received for ' + name + ': ' + checked);
@@ -109,7 +110,6 @@ const ResidentForm = () => {
       },
     });
   };
-
   const handleFamilyChange = (e) => {
     const { name, value } = e;
     setData({
@@ -121,56 +121,68 @@ const ResidentForm = () => {
     });
   };
 
-  /**
-   * When the button is clicked, create a new object that is a copy of the current data object, but
-   * with a new child object added to the children array.
-   */
-  const handleClick = () => {
-    setData({
-      ...data,
-      family: {
-        ...data.family,
-        children: [
-          ...data.family.children,
-          { firstName: '', lastName: '', middleName: '', suffix: '' },
-        ],
-      },
-    });
-    console.log(data.family.children);
-  };
+  console.log(data.family.children);
+};
 
-  const handleChildValues = (e, index) => {
-    const { name, value } = e;
-    const dataChild = [...data.family.children];
-    console.log(dataChild);
-    dataChild[index][name] = value;
-    setData({
-      ...data,
-      family: {
-        ...data.family,
-        children: dataChild,
-      },
-    });
-    console.table(data.family.children);
-  };
+const handleChildValues = (e, index) => {
+  const { name, value } = e;
+  const dataChild = [...data.family.children];
+  console.log(dataChild);
+  dataChild[index][name] = value;
+  setData({
+    ...data,
+    family: {
+      ...data.family,
+      children: dataChild,
+    },
+  });
+  console.table(data.family.children);
+};
 
-  const validateInput = (evt) => {
-    const { name, value } = evt.target;
-    if (name === 'gender') {
-      if (value === '') {
-        alert('You need to select Gender');
-        setDisable(true);
-      }
-    }
-    if (name === 'civ_status') {
-      alert('You need to select Civil Status');
+const validateInput = (evt) => {
+  const { name, value } = evt.target;
+  if (name === 'gender') {
+    if (value === '') {
+      alert('You need to select Gender');
       setDisable(true);
+    }
+  }
+  if (name === 'civ_status') {
+    alert('You need to select Civil Status');
+    setDisable(true);
+  }
+};
+
+/**
+ * When the button is clicked, create a new object that is a copy of the current data object, but
+ * with a new child object added to the children array.
+ */
+//This is to add
+const handleAddChildForm = () => {
+  setData({
+    ...data,
+    family: {
+      ...data.family,
+      children: [
+        ...data.family.children,
+        { firstName: '', lastName: '', middleName: '', suffix: '' },
+      ],
+    },
+  });
+
+  const submitInformation = async (evt) => {
+    evt.preventDefault();
+    try {
+      const response = await addDoc(collection(db, 'residents'), data);
+      alert(response);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   return (
     <>
-      <form className='flex flex-col gap-2 my-5 '>
+      <form className='flex flex-col gap-2 my-5 ' onSubmit={submitInformation}>
         {/* Personal Information */}
         <div>
           Personal Information
@@ -475,7 +487,7 @@ const ResidentForm = () => {
               <button
                 type='button'
                 className='w-full h-10 border cursor-pointer hover:bg-sky-50 focus:bg-sky-200 rounded-lg'
-                onClick={handleClick}
+                onClick={handleAddChildForm}
               >
                 <FontAwesomeIcon className='text-3xl' icon={faUserPlus} />
               </button>
