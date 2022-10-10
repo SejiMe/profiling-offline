@@ -4,7 +4,13 @@
     "es2021": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "next"],
+  "extends": [
+    "eslint:recommended",
+    "next",
+    "prettier",
+    "next/core-web-vitals",
+    "next/babel"
+  ],
   "rules": {
     "no-unused-vars": "warn",
     "no-console": "warn"
