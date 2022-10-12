@@ -5,57 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import Checkbox from '../Checkbox';
 import InputNumberField from '../Fields/InputNumberField';
-import { db } from '@/config/firebaseConfig';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
-const ResidentForm = () => {
+const ResidentForm = ({ getObject, objectData }) => {
   //#region Document Information for firestore
-  const [data, setData] = useState({
-    firstName: '',
-    lastName: '',
-    middleName: '',
-    suffix: '',
-    alias: '',
-    gender: '',
-    birthdate: moment().format('MM-DD-YYYY'),
-    birthplace: '',
-    religion: '',
-    bloodType: '',
-    civ_status: '',
-    nationality: '',
-    education: '',
-    occupation: '',
-    contacts: {
-      lot: '',
-      streetName: '',
-      purok: '',
-      barangay: 'Caramutan',
-      city: 'La Paz',
-      province: 'Tarlac',
-      mobile: '',
-      telephone: '',
-      email: '',
-    },
-    family: {
-      father: '',
-      mother: '',
-      spouse: '',
-      children: [],
-    },
-    beneficiaries: {
-      _4ps: false,
-      pension: false,
-    },
-    health: {
-      pwd: false,
-      covidvax: false,
-    },
-  });
+  const [data, setData] = useState(objectData);
   //#endregion
-
   //TODO Control for Submit
-  const [isDisable, setDisable] = useState(false);
-
+  console.log(data);
+  const [isDisable, setDisable] = useState(true);
   /**
    * The handleInputChange function takes an event as an argument, and then sets the state of the data
    * object to the value of the event target.
@@ -75,6 +32,7 @@ const ResidentForm = () => {
       [name]: value,
     });
   };
+
   const handleContactChange = (e) => {
     const { name, value } = e;
     setData({
@@ -82,6 +40,29 @@ const ResidentForm = () => {
       contacts: {
         ...data.contacts,
         [name]: value,
+      },
+    });
+  };
+
+  const handleHealthCheck = (e) => {
+    const { name, checked } = e;
+
+    setData({
+      ...data,
+      health: {
+        ...data.health,
+        [name]: checked,
+      },
+    });
+  };
+  const handleBenefChecks = (e) => {
+    const { name, checked } = e;
+
+    setData({
+      ...data,
+      beneficiaries: {
+        ...data.beneficiaries,
+        [name]: checked,
       },
     });
   };
@@ -96,95 +77,67 @@ const ResidentForm = () => {
     });
   };
 
-  //#region Checkbox controls
-  const handleHealthCheck = (e) => {
-    const { name, checked } = e;
-    console.log('The value received in parent health: ' + checked);
+  const handleChildValues = (e, index) => {
+    const { name, value } = e;
+    const dataChild = [...data.family.children];
+    console.log(dataChild);
+    dataChild[index][name] = value;
     setData({
       ...data,
-      health: {
-        ...data.health,
-        [name]: checked,
+      family: {
+        ...data.family,
+        children: dataChild,
+      },
+    });
+    console.table(data.family.children);
+  };
+
+  const clickRemoveChild = (index) => {
+    const allData = [...data.family.children];
+    allData.splice(index, 1);
+    setData({
+      ...data,
+      family: {
+        ...data.family,
+        children: allData,
       },
     });
   };
-  const handleBenefChecks = (e) => {
-    const { name, checked } = e;
-    console.log('The value received for ' + name + ': ' + checked);
-    setData({
-      ...data,
-      beneficiaries: {
-        ...data.beneficiaries,
-        [name]: checked,
-      },
-    });
-  };
-  //#endregion
 
-  console.log(data.family.children);
-};
-
-const handleChildValues = (e, index) => {
-  const { name, value } = e;
-  const dataChild = [...data.family.children];
-  console.log(dataChild);
-  dataChild[index][name] = value;
-  setData({
-    ...data,
-    family: {
-      ...data.family,
-      children: dataChild,
-    },
-  });
-  console.table(data.family.children);
-};
-
-/**
- * If the name of the input is gender or civ_status, and the value is empty, alert the user and set the
- * disable state to true.
- */
-const validateInput = (evt) => {
-  const { name, value } = evt.target;
-  if (name === 'gender') {
-    if (value === '') {
-      alert('You need to select Gender');
+  const validateInput = (evt) => {
+    const { name, value } = evt.target;
+    if (name === 'gender') {
+      if (value === '') {
+        setDisable(true);
+      }
+    }
+    if (name === 'civ_status') {
       setDisable(true);
     }
-  }
-  if (name === 'civ_status') {
-    alert('You need to select Civil Status');
-    setDisable(true);
-  }
-};
-
-/**
- * When the button is clicked, create a new object that is a copy of the current data object, but
- * with a new child object added to the children array.
- */
-//This is to add
-const handleAddChildForm = () => {
-  setData({
-    ...data,
-    family: {
-      ...data.family,
-      children: [
-        ...data.family.children,
-        { firstName: '', lastName: '', middleName: '', suffix: '' },
-      ],
-    },
-  });
-
-  const submitInformation = async (evt) => {
+  };
+  /**
+   * When the button is clicked, create a new object that is a copy of the current data object, but
+   * with a new child object added to the children array.
+   */
+  //This is to add
+  const handleAddChildForm = () => {
+    setData({
+      ...data,
+      family: {
+        ...data.family,
+        children: [
+          ...data.family.children,
+          { firstName: '', lastName: '', middleName: '', suffix: '' },
+        ],
+      },
+    });
+  };
+  const submitInformation = (evt) => {
     evt.preventDefault();
-    try {
-      const response = await addDoc(collection(db, 'residents'), data);
-      alert(response);
-    } catch (error) {
-      console.log(error);
-    }
+    getObject(data);
   };
   return (
-    <>
+    <div>
       <form className='flex flex-col gap-2 my-5 ' onSubmit={submitInformation}>
         {/* Personal Information */}
         <div>
@@ -238,7 +191,7 @@ const handleAddChildForm = () => {
             <div className='grid grid-flow-row grow'>
               <select
                 name='gender'
-                selected={data.gender}
+                value={data.gender}
                 onChange={handleInputChange}
                 onBlur={validateInput}
               >
@@ -285,7 +238,7 @@ const handleAddChildForm = () => {
             <div className='grid grid-flow-row grow'>
               <select
                 name='civ_status'
-                selected={data.civ_status}
+                value={data.civ_status}
                 onChange={handleInputChange}
                 onBlur={validateInput}
               >
@@ -308,7 +261,7 @@ const handleAddChildForm = () => {
             <div className='grid grid-flow-row grow'>
               <select
                 name='education'
-                selected={data.education}
+                value={data.education}
                 onChange={handleInputChange}
                 id=''
               >
@@ -478,15 +431,20 @@ const handleAddChildForm = () => {
                     getValue={(e) => handleChildValues(e, index)}
                   />
                   <div className='col-span-2'>
-                    <span>controls</span>
-                    <button>Add</button>
-                    <button>Update</button>
-                    <button>Delete</button>
+                    <button
+                      type='button'
+                      onClick={() => clickRemoveChild(index)}
+                    >
+                      Remove
+                    </button>
                   </div>
                 </div>
               ))}
-
-              {data.family.children.length}
+              <ul>
+                {data.family.children.map((child, index) => (
+                  <li key={index}>{child.firstName}</li>
+                ))}
+              </ul>
               <button
                 type='button'
                 className='w-full h-10 border cursor-pointer hover:bg-sky-50 focus:bg-sky-200 rounded-lg'
@@ -539,9 +497,9 @@ const handleAddChildForm = () => {
             </Checkbox>
           </div>
         </div>
-        <input type='submit' value='Submit' />
+        <button type='submit'>Add Resident</button>
       </form>
-    </>
+    </div>
   );
 };
 
