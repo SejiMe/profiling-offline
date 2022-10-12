@@ -3,6 +3,7 @@ import { AuthContextProvider } from '@/contexts/AuthContext';
 import '@/styles/globals.css';
 import { useRouter } from 'next/router';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 const noAuthRequired = ['/', '/login', '/contact', '/services'];
 
@@ -22,6 +23,7 @@ function MyApp({ Component, pageProps }) {
           </ProtectedRoutes>
         )}
       </AuthContextProvider>
+      <ReactQueryDevtools position='bottom-right' initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
