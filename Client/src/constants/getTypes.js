@@ -3,4 +3,10 @@ const NAV_TYPES = Object.freeze({
   PUBLIC: 'Public',
 });
 
-export default NAV_TYPES;
+const VIEW_TYPES = Object.freeze({
+  DEFAULT: 'Default',
+  RESIDENT: 'Resident',
+  CHARTER: 'CHARTER',
+});
+
+export {NAV_TYPES, VIEW_TYPES};

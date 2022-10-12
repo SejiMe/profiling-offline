@@ -1,5 +1,6 @@
-import AdminLayout from '@/components/layouts/AdminLayout'
-import React from 'react'
+import AdminLayout from '@/components/layouts/AdminLayout';
+import ResidentForm from '@/components/residents/ResidentForm';
+import React from 'react';
 
 const requests = () => {
   return (
@@ -8,7 +9,7 @@ const requests = () => {
         This is request
       </div>
     </AdminLayout>
-  )
-}
+  );
+};
 
-export default requests
+export default requests;
