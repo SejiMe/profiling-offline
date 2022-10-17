@@ -348,7 +348,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               getValue={(value) => handleContactChange(value)}
             />
             <InputNumberField
-              label='Mobile Number'
+              label='Telephone Number'
               type='tel'
               name='mobile'
               placeholder='092-4565'
@@ -360,7 +360,6 @@ const ResidentForm = ({ getObject, objectData }) => {
               label='Email Address'
               type='email'
               name='email'
-              isRequired={true}
               placeholder='juancruz@gmail.com'
               value={data.contacts.email}
               getValue={(value) => handleContactChange(value)}
