@@ -5,8 +5,6 @@ import { useMutation } from 'react-query';
 const colReference = collection(db, 'residents');
 
 const addResident = async (ResidentDoc) => {
-  console.log('calling from addResident inside hook:');
-  console.log(ResidentDoc);
   return await addDoc(colReference, ResidentDoc);
 };
 
