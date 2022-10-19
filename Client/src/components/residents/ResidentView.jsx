@@ -22,17 +22,31 @@ const fetchData = async () => {
   return documents;
 };
 
-const ResidentView = () => {
+function ResidentView() {
   const router = useRouter();
   const [openPopup, setOpenPopup] = useState(false);
   const { isLoading, data } = useQuery('resident-query', fetchData, {
-    cacheTime: 5000,
+    staleTime: 60000,
+    cacheTime: 6000,
   });
 
+  if (isLoading)
+    return (
+      <>
+        <DotLoader />
+      </>
+    );
   return (
-    <div className='h-full w-full'>
-      <input type='text' placeholder='Search Resident Name' />
-      <Button onClick={() => setOpenPopup(true)}>Add Resident</Button>
+    <div className='h-full w-full grid grid-cols-4'>
+      <input
+        className='col-span-2'
+        type='text'
+        placeholder='Search Resident Name'
+      />
+      <div></div>
+      <Button className='col-span-1' onClick={() => setOpenPopup(true)}>
+        Add Resident
+      </Button>
       <Popup
         title='Add Resident Form'
         openPopup={openPopup}
@@ -41,8 +55,8 @@ const ResidentView = () => {
         <AddResident />
       </Popup>
 
-      <div className=''>
-        <ul className='flex flex-col gap-1'>
+      <div className='col-span-4'>
+        <ul className='flex flex-col gap-1 justify-center'>
           {data?.map((document) => (
             <div key={document.id}>
               <ResidentItem
@@ -54,10 +68,9 @@ const ResidentView = () => {
             </div>
           ))}
         </ul>
-        2
       </div>
     </div>
   );
-};
+}
 
 export default ResidentView;

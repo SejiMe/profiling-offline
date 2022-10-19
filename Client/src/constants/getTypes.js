@@ -6,7 +6,14 @@ const NAV_TYPES = Object.freeze({
 const VIEW_TYPES = Object.freeze({
   DEFAULT: 'Default',
   RESIDENT: 'Resident',
-  CHARTER: 'CHARTER',
+  CHARTER: 'Charter',
 });
 
-export {NAV_TYPES, VIEW_TYPES};
+const STATUS_TYPES = Object.freeze({
+  PENDING: 'Pending',
+  DECLINED: 'Decline',
+  SUCCESS: 'Success',
+  EXPIRED: 'Expired',
+});
+
+export { NAV_TYPES, VIEW_TYPES, STATUS_TYPES };

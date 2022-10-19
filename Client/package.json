@@ -31,7 +31,9 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-query": "^3.39.2",
-    "react-spinners": "^0.13.6"
+    "react-scroll": "^1.8.7",
+    "react-spinners": "^0.13.6",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",

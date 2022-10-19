@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import Info from './../svg/icons8-info-26.svg';
 
-const ResidentItem = (props) => {
+function ResidentItem(props) {
   return (
     <>
       <li className='flex justify-between w-[80%] gap-3 pr-10 h-10 px-2 py-1 bg-slate-300 hover:border-l-8 hover:border-green-700 '>
@@ -19,6 +19,6 @@ const ResidentItem = (props) => {
       </li>
     </>
   );
-};
+}
 
 export default ResidentItem;

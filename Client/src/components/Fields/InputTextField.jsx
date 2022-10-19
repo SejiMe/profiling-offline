@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 
 const InputTextField = ({
@@ -19,7 +20,7 @@ const InputTextField = ({
     });
   };
   return (
-    <div className='grid grid-flow-row'>
+    <div className={clsx('grid grid-flow-row', className)}>
       <label htmlFor={name}>{label}</label>
       <input
         type={type}
