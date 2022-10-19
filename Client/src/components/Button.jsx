@@ -5,7 +5,7 @@ export default function Button({ children, className = '', ...rest }) {
     <button
       {...rest}
       className={clsx(
-        'inline-flex items-center font-bold hover:text-primary-500 animated-underline',
+        'rounded p-2 text-center font-bold hover:text-primary-500 bg-green-400 animated-underline',
         className
       )}
     >

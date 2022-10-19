@@ -25,7 +25,7 @@ function DefaultView({ children }) {
 function ResidentView({ children }) {
   return (
     <main className='bg-green-100 px-8 py-8 h-screen w-min-full'>
-      <div className=' bg-slate-50 flex flex-col items-center min-w-fill min-h-full justify-center rounded-lg  p-4'>
+      <div className=' bg-slate-100 flex flex-col min-w-fill min-h-full rounded-lg  p-4'>
         {children}
       </div>
     </main>
