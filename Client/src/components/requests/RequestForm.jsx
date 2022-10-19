@@ -33,8 +33,8 @@ function RequestForm() {
     requestCount: 0,
     paymentMethod: '',
     screenShotUrl: '',
-    dateRequested: moment().format('DD-MM-YYYY'),
-    timeRequested: moment().format('hh-mm-ss-A'),
+    date: moment().format('DD-MM-YYYY'),
+    time: moment().format('hh-mm-ss-A'),
   });
 
   const optionValues = [
@@ -98,8 +98,8 @@ function RequestForm() {
     console.log(user);
     setRequestObj({
       ...requestObj,
-      dateRequested: moment().format('DD-MM-YYYY'),
-      timeRequestedP: moment().format('hh-mm-ss-A'),
+      date: moment().format('DD-MM-YYYY'),
+      time: moment().format('hh-mm-ss A'),
       serialCode: generatedSerial,
       email: user.email,
       uid: user.uid,
