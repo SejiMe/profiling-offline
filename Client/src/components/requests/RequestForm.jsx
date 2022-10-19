@@ -22,7 +22,6 @@ function RequestForm() {
   const [isGcash, setIsGCash] = useState();
   const [imageFile, setImageFile] = useState(null);
   const [requestObj, setRequestObj] = useState({
-    uid: '',
     serialCode: '',
     firstName: '',
     lastName: '',
@@ -102,7 +101,6 @@ function RequestForm() {
       time: moment().format('hh-mm-ss A'),
       serialCode: generatedSerial,
       email: user.email,
-      uid: user.uid,
       documentStatus: STATUS_TYPES.PENDING,
     });
 
