@@ -26,7 +26,8 @@ function ResidentView() {
   const router = useRouter();
   const [openPopup, setOpenPopup] = useState(false);
   const { isLoading, data } = useQuery('resident-query', fetchData, {
-    cacheTime: 5000,
+    staleTime: 60000,
+    cacheTime: 6000,
   });
 
   if (isLoading)
