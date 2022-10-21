@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import InputTextField from '../Fields/InputTextField';
 import moment from 'moment/moment';
@@ -17,7 +17,7 @@ import { useAuth } from '@/contexts/AuthContext';
 
 function RequestForm() {
   //TODO Disable Submit if there
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [isFirstPage, setIsFirstPage] = useState(true);
   const [isGcash, setIsGCash] = useState();
   const [imageFile, setImageFile] = useState(null);
@@ -29,11 +29,10 @@ function RequestForm() {
     contactNumber: '',
     documentType: '',
     documentStatus: '',
-    requestCount: 0,
     paymentMethod: '',
     screenShotUrl: '',
-    date: moment().format('DD-MM-YYYY'),
-    time: moment().format('hh-mm-ss-A'),
+    date: moment().format('DD/MM/YYYY'),
+    time: moment().format('hh:mm:ss A'),
   });
 
   const optionValues = [
@@ -56,11 +55,27 @@ function RequestForm() {
 
   const handleSelect = (e) => {
     const { value, name } = e.target;
-    setRequestObj({
-      ...requestObj,
-      documentType: value,
-    });
-    console.log(requestObj.documentType);
+
+    if (value === ('Guardianship' || 'Barangay Indigency')) {
+      setRequestObj({
+        ...requestObj,
+        documentType: value,
+        paymentMethod: 'Not Valid',
+      });
+      console.log('Not Valid');
+      console.log(requestObj);
+      setIsDisabled(false);
+    } else if (value === 'N/a') {
+      setIsDisabled(true);
+    } else {
+      setRequestObj({
+        ...requestObj,
+        documentType: value,
+      });
+      console.log('Valid');
+      console.log(requestObj);
+    }
+    setIsDisabled(false);
   };
 
   const handleInput = (val) => {
@@ -84,6 +99,31 @@ function RequestForm() {
       setIsGCash(false);
     }
   };
+
+  useEffect(() => {
+    const doThings = addAutoInfo();
+    return doThings;
+  }, []);
+
+  function addAutoInfo() {
+    const serialPattern = 6;
+    const digits =
+      '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let generatedSerial = '';
+    for (let index = 0; index < serialPattern; index++) {
+      let randomVal = Math.floor(Math.random() * digits.length);
+      generatedSerial += digits[randomVal];
+    }
+    console.log(user);
+    setRequestObj({
+      ...requestObj,
+      date: moment().format('DD-MM-YYYY'),
+      time: moment().format('hh-mm-ss A'),
+      serialCode: generatedSerial,
+      email: user.email,
+      documentStatus: STATUS_TYPES.PENDING,
+    });
+  }
 
   const handleNextPage = () => {
     const serialPattern = 6;
@@ -133,7 +173,19 @@ function RequestForm() {
     console.log(requestObj.screenShotUrl);
   };
 
-  const handleSubmit = (evt) => {
+  const generateSerial = () => {
+    const serialPattern = 6;
+    const digits =
+      '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let generatedSerial = '';
+    for (let index = 0; index < serialPattern; index++) {
+      let randomVal = Math.floor(Math.random() * digits.length);
+      generatedSerial += digits[randomVal];
+    }
+    return generatedSerial;
+  };
+
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
     console.log(requestObj);
     addRequest(requestObj);
@@ -146,6 +198,7 @@ function RequestForm() {
       </>
     );
   }
+  console.log(isFirstPage);
   return (
     <>
       <form
@@ -202,7 +255,7 @@ function RequestForm() {
                   onBlur={documentValidator}
                   onChange={(e) => handleSelect(e)}
                 >
-                  <option value=''>Select Document</option>
+                  <option value='N/a'>Select Document</option>
                   {optionValues?.map((element, index) => {
                     return (
                       <option key={index} value={element}>
@@ -218,6 +271,11 @@ function RequestForm() {
           <>
             <div className='col-span-3 gap-2 justify-center text-center grid grid-cols-2 w-full h-full p-2'>
               <h2 className='col-span-2'>Choose your Payment Method</h2>
+              {isGcash && (
+                <h3 className='col-span-3 text-orange-400'>
+                  Please send 50Php
+                </h3>
+              )}
               <RadioButton
                 src={GCashImg}
                 name='paymentMethod'
@@ -246,14 +304,15 @@ function RequestForm() {
                     onChange={handleImage}
                   />
                   <Button onClick={uploadImage}>Upload Image</Button>
-                  <h3>Please send 50Php</h3>
                 </div>
               ) : null}
             </div>
           </>
         )}
 
-        {isFirstPage && (
+        {isFirstPage === true &&
+        (requestObj.documentType === 'Business Permit' ||
+          requestObj.documentType === 'Barangay Clearance') ? (
           <>
             <div></div>
             <div></div>
@@ -265,7 +324,20 @@ function RequestForm() {
               Next
             </Button>
           </>
-        )}
+        ) : isFirstPage ? (
+          <>
+            <div></div>
+            <div></div>
+            <Button
+              disabled={isDisabled}
+              type='submit'
+              className='bg-blue-300 mt-4 disabled:bg-gray-400'
+            >
+              Submit Request
+            </Button>
+          </>
+        ) : null}
+
         {!isFirstPage && (
           <>
             <Button
