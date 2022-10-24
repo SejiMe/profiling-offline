@@ -14,6 +14,7 @@ import { v4 } from 'uuid';
 import { useAddRequestDoc } from '@/hooks/useAddRequestDoc';
 import { DotLoader } from 'react-spinners';
 import { useAuth } from '@/contexts/AuthContext';
+import { serverTimestamp } from 'firebase/firestore';
 
 function RequestForm() {
   //TODO Disable Submit if there
@@ -22,7 +23,7 @@ function RequestForm() {
   const [isGcash, setIsGCash] = useState();
   const [imageFile, setImageFile] = useState(null);
   const [requestObj, setRequestObj] = useState({
-    serialCode: '',
+    serialCode: null,
     firstName: '',
     lastName: '',
     email: '',
@@ -31,8 +32,7 @@ function RequestForm() {
     documentStatus: '',
     paymentMethod: '',
     screenShotUrl: '',
-    date: moment().format('DD/MM/YYYY'),
-    time: moment().format('hh:mm:ss A'),
+    createdAt: '',
   });
 
   const optionValues = [
@@ -45,8 +45,14 @@ function RequestForm() {
   //Value truty
   const trutyVal = true;
 
-  const { mutate: addRequest, isLoading } = useAddRequestDoc();
-  const { user } = useAuth();
+  const {
+    mutate: addRequest,
+    isLoading,
+    isError,
+    isSuccess,
+    reset,
+  } = useAddRequestDoc();
+  const { user, logout } = useAuth();
 
   const handleImage = (e) => {
     console.log(e.target.files);
@@ -106,46 +112,50 @@ function RequestForm() {
   }, []);
 
   function addAutoInfo() {
-    const serialPattern = 6;
-    const digits =
-      '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    let generatedSerial = '';
-    for (let index = 0; index < serialPattern; index++) {
-      let randomVal = Math.floor(Math.random() * digits.length);
-      generatedSerial += digits[randomVal];
-    }
-    console.log(user);
+    console.log('adding auto info...');
     setRequestObj({
       ...requestObj,
-      date: moment().format('DD-MM-YYYY'),
-      time: moment().format('hh-mm-ss A'),
-      serialCode: generatedSerial,
       email: user.email,
       documentStatus: STATUS_TYPES.PENDING,
     });
+    if (requestObj.serialCode === null) {
+      console.log('serial is null generating serial...');
+      setRequestObj({
+        ...requestObj,
+        serialCode: generateSerial(),
+      });
+    }
   }
-
   const handleNextPage = () => {
-    const serialPattern = 6;
-    const digits =
-      '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    let generatedSerial = '';
-    for (let index = 0; index < serialPattern; index++) {
-      let randomVal = Math.floor(Math.random() * digits.length);
-      generatedSerial += digits[randomVal];
-    }
-    console.log(user);
     setRequestObj({
       ...requestObj,
-      date: moment().format('DD-MM-YYYY'),
-      time: moment().format('hh-mm-ss A'),
-      serialCode: generatedSerial,
+      createdAt: serverTimestamp(),
       email: user.email,
       documentStatus: STATUS_TYPES.PENDING,
     });
 
+    if (requestObj.serialCode === null) {
+      setRequestObj({
+        ...requestObj,
+        serialCode: generateSerial(),
+      });
+    }
     setIsFirstPage(false);
   };
+
+  function handleBackOnSuccess() {
+    setRequestObj({
+      ...requestObj,
+      firstName: '',
+      lastName: '',
+      contactNumber: '',
+      documentType: '',
+      paymentMethod: '',
+      screenShotUrl: '',
+      createdAt: null,
+    });
+    reset();
+  }
 
   const documentValidator = (e) => {
     const { name, value } = e.target;
@@ -157,6 +167,7 @@ function RequestForm() {
 
   const uploadImage = async (evt) => {
     evt.preventDefault();
+    // v4 for generating id
     const genID = v4();
     const imagePath = ref(storage, `screenshots/${genID + requestObj.name}`);
     if (imageFile === null) return;
@@ -187,8 +198,15 @@ function RequestForm() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log(requestObj);
-    addRequest(requestObj);
+    try {
+      await setRequestObj({
+        ...requestObj,
+        createdAt: serverTimestamp(),
+      });
+      addRequest(requestObj);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   if (isLoading) {
@@ -198,6 +216,32 @@ function RequestForm() {
       </>
     );
   }
+
+  if (isError) {
+    return (
+      <>
+        <h2>Unable to process your Request</h2>
+      </>
+    );
+  }
+  if (isSuccess) {
+    return (
+      <>
+        <div className='flex flex-col text-center'>
+          <h3>Your request has been sent</h3>
+          <h3>
+            Please Take a screenshot of your Serial Code to claim your Request
+          </h3>
+          <h1>{requestObj.serialCode}</h1>
+          <div>✅</div>
+          <Button type='button' onClick={handleBackOnSuccess}>
+            Done
+          </Button>
+        </div>
+      </>
+    );
+  }
+
   console.log(isFirstPage);
   return (
     <>

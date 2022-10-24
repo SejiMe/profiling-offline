@@ -2,7 +2,7 @@ import { auth } from '@/config/firebaseConfig';
 import { useAuth } from '@/contexts/AuthContext';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import unsplashImg from '~/images/unsplashimg.jpg';
 import Button from '../Button';
 import Popup from '../Popup';
@@ -11,23 +11,23 @@ import RequestForm from '../requests/RequestForm';
 const provider = new GoogleAuthProvider();
 
 function Services() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [requestPopOpen, setRequestPop] = useState(false);
   const { user, logout } = useAuth();
 
   const handleRequestPopup = () => {
     logout();
-    setIsOpen(false);
+    setRequestPop(false);
   };
 
   const handleRequestClick = async (evt) => {
     evt.preventDefault();
     sessionStorage.clear();
     if (user) {
-      setIsOpen(true);
+      setRequestPop(true);
     }
     if (!user) {
       await signInWithPopup(auth, provider);
-      setIsOpen(true);
+      setRequestPop(true);
     }
   };
   return (
@@ -78,9 +78,10 @@ function Services() {
             Request Document
           </Button>
         </div>
+        {/* TODO able to close popup when submit request  */}
         <Popup
           title='Request Document'
-          openPopup={isOpen}
+          openPopup={requestPopOpen}
           setClose={handleRequestPopup}
         >
           <RequestForm />

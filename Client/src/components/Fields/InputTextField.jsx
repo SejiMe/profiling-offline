@@ -8,9 +8,8 @@ const InputTextField = ({
   type,
   value,
   getValue,
-  required = false,
   placeholder = '',
-  isRequired = false,
+  ...rest
 }) => {
   const inputTextHandler = (e) => {
     const { name, value } = e.target;
@@ -27,8 +26,8 @@ const InputTextField = ({
         value={value}
         name={name}
         onChange={inputTextHandler}
-        required={isRequired}
         placeholder={placeholder}
+        {...rest}
       />
     </div>
   );
