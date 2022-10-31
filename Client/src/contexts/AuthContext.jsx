@@ -22,10 +22,8 @@ export function AuthContextProvider({ children }) {
       /* This is checking if the user is logged in and if the token is null. If the user is logged in
       and the token is null, then the user is set to the user object. If the user is not logged in
       or the token is not null, then the session storage is cleared and the user is set to null. */
-      console.log(user);
       if (user) {
         if (user.uid === 'HLMj2JbZR1RdzkAiZEya0eAl0AD2') {
-          console.log(user);
           setUser({
             ...user,
             uid: user.uid,
@@ -40,7 +38,6 @@ export function AuthContextProvider({ children }) {
             email: user.email,
           });
         }
-        console.log('calling from Context: ' + user.uid);
       } else {
         sessionStorage.clear();
         setUser(null);

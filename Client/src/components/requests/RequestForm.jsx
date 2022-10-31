@@ -62,28 +62,24 @@ function RequestForm() {
   const handleSelect = (e) => {
     const { value, name } = e.target;
 
-    if (value === ('Guardianship' || 'Barangay Indigency')) {
+    if (value === 'Guardianship' || value === 'Barangay Indigency') {
       setRequestObj({
         ...requestObj,
         documentType: value,
         paymentMethod: 'Not Valid',
       });
-      console.log('Not Valid');
-      console.log(requestObj);
       setIsDisabled(false);
-    } else if (value === 'N/a') {
+    } else if (value === '') {
       setIsDisabled(true);
     } else {
       setRequestObj({
         ...requestObj,
         documentType: value,
       });
-      console.log('Valid');
-      console.log(requestObj);
     }
     setIsDisabled(false);
   };
-
+  console.log(requestObj.paymentMethod);
   const handleInput = (val) => {
     const { value, name } = val;
     console.log('from handleInput: ' + value);
@@ -152,7 +148,7 @@ function RequestForm() {
       documentType: '',
       paymentMethod: '',
       screenShotUrl: '',
-      createdAt: null,
+      createdAt: serverTimestamp(),
     });
     reset();
   }
@@ -203,7 +199,9 @@ function RequestForm() {
         ...requestObj,
         createdAt: serverTimestamp(),
       });
-      addRequest(requestObj);
+      setTimeout(() => {
+        addRequest(requestObj);
+      }, 1000);
     } catch (error) {
       alert(error);
     }
@@ -299,7 +297,7 @@ function RequestForm() {
                   onBlur={documentValidator}
                   onChange={(e) => handleSelect(e)}
                 >
-                  <option value='N/a'>Select Document</option>
+                  <option value=''>Select Document</option>
                   {optionValues?.map((element, index) => {
                     return (
                       <option key={index} value={element}>

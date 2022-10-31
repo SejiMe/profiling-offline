@@ -149,7 +149,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               name='firstName'
               pattern='[a-zA-Z]'
               placeholder='Juan'
-              isRequired={true}
+              required
               value={data.firstName}
               getValue={(value) => handleTextChange(value)}
             />
@@ -159,7 +159,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               name='lastName'
               pattern='[a-zA-Z]'
               placeholder='Cruz'
-              isRequired={true}
+              required
               value={data.lastName}
               getValue={(value) => handleTextChange(value)}
             />
@@ -205,6 +205,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               <input
                 type='date'
                 name='dob'
+                required
                 selected={data.birthdate}
                 onChange={handleInputChange}
                 id=''
@@ -215,6 +216,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               type='text'
               label='Birth Place'
               name='birthplace'
+              required
               placeholder='Caramutan, La Paz'
               value={data.birthplace}
               getValue={(value) => handleTextChange(value)}
@@ -254,6 +256,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               label='Nationality'
               name='nationality'
               placeholder='Filipino'
+              required
               value={data.nationality}
               getValue={(value) => handleTextChange(value)}
             />
