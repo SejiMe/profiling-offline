@@ -150,10 +150,10 @@ function Login({ setShowLogin }) {
       {!isSmall ? (
         <div className='bg-blue-600 w-[50%] p-0 rounded-l-xl'>
           <Blob className='p-0 w-96 h-96 z-0 absolute top-1/3 left-1/3' />
-          <SecureDraw className='w-52 h-52 absolute top-1/3 left-1/3 z-10' />
+          <SecureDraw className='w-52 h-52 absolute sm:left-1/4 lg:left-1/3 top-1/3 z-10' />
         </div>
       ) : null}
-      <div className='bg-green-600 p-10 h-[80%] sm:w-[50%] rounded-xl sm:rounded-r-xl flex flex-col sm:p-2 text-center'>
+      <div className='bg-green-600 p-10 h-[80%] md:w-[50%] md:h-full rounded-xl sm:rounded-none md:rounded-r-xl flex flex-col sm:p-2 text-center'>
         <div className='border-b-2 mt-10 w-full'>
           <h1 className='text-white mb-2'>Admin Login</h1>
         </div>
