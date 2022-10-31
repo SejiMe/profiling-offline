@@ -64,9 +64,6 @@ export default function Login() {
             }}
             required='required'
           />
-          {/**TODO
-           * setup forget password method
-           */}
           <button type='submit'>Login</button>
         </form>
       </Container>
