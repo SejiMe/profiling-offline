@@ -8,6 +8,7 @@ const nextConfig = {
     });
     return config;
   },
+  images: { domains: ['firebasestorage.googleapis.com'] },
   eslint: {
     dirs: ['src'],
     ignoreDuringBuilds: true,
