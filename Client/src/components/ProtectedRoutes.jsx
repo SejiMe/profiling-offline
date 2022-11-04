@@ -11,7 +11,7 @@ export const ProtectedRoutes = ({ children }) => {
   const router = useRouter();
   useEffect(() => {
     if (!user && sessionStorage.getItem('token') === null) {
-      router.push('/login');
+      router.push('/');
     }
   }, [router, user]);
 
