@@ -233,9 +233,13 @@ export default function RequestView() {
                     <Td className=''>{doc.date}</Td>
                     <Td className=''>
                       {doc.paymentMethod === 'GCash' ? (
-                        <a onClick={handleViewPayment(doc.screenShotUrl)}>
+                        <Button
+                          value={doc.screenShotUrl}
+                          onClick={(e) => handleViewPayment(e)}
+                          className='bg-transparent'
+                        >
                           {doc.paymentMethod}
-                        </a>
+                        </Button>
                       ) : (
                         doc.paymentMethod
                       )}
