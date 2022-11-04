@@ -1,28 +1,29 @@
 import IconInfo from '@/components/svg/icons8-info-52.svg';
 import { useGetRequests } from '@/hooks/getRequests';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../Button';
 import InputTextField from '../Fields/InputTextField';
+import { MoonLoader, PulseLoader } from 'react-spinners';
+import Td from '../Table/Td';
+import Th from '../Table/Th';
+import Modal from '../Modal/Modal';
+import Image from 'next/image';
 
 export default function RequestView() {
   const { data, fetchNextPage, isFetching, isFetched, hasNextPage } =
     useGetRequests();
   const [currentPage, setCurrentPage] = useState(0);
-  const [searchData, setSearchData] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [nextButton, setNextButton] = useState(false);
   const [forwardButton, setForwardButton] = useState(false);
   const [backButton, setBackButton] = useState(true);
   const [backwardButton, setBackwardButton] = useState(true);
+  const [searchPages, setSearchPages] = useState([{}]);
+  const [showImage, setShowImage] = useState(false);
+  const [ssURL, setSSURL] = useState();
   let pages = [];
   let mergedData = [];
-  if (isFetching) {
-    return (
-      <div>
-        <h1>loading...</h1>
-      </div>
-    );
-  }
 
   if (hasNextPage) {
     fetchNextPage();
@@ -35,18 +36,45 @@ export default function RequestView() {
         data.date = moment(data.createdAt.seconds * 1000).format('MM/DD/YYYY');
         return data;
       });
-      if (!documents.length) return;
-      return documents;
+      if (!documents.length) {
+        return '*';
+      } else {
+        return documents;
+      }
     });
     pages = page;
   }
-  console.log('merged data: ' + mergedData);
   if (!hasNextPage) {
     pages.forEach((pageArr) => {
       mergedData = mergedData.concat(pageArr);
     });
-    console.log(mergedData);
   }
+
+  const searchPage = useMemo(() => {
+    console.log('inside memo');
+    console.log(searchInput);
+    const result = mergedData.filter((info) => {
+      if (info === '*') {
+        return;
+      } else {
+        if (info.serialCode === '') {
+          return;
+        } else {
+          if (
+            info.serialCode.toLowerCase().includes(searchInput.toLowerCase())
+          ) {
+            return info;
+          }
+        }
+      }
+      console.log('inside filter');
+      console.log(info);
+    });
+    console.log('inside memo result:');
+    console.log(result);
+    return result;
+  }, [searchInput, pages]);
+
   const handleNextPage = () => {
     setCurrentPage((prev) => prev + 1);
     if (currentPage === pages.length - 3) {
@@ -61,7 +89,6 @@ export default function RequestView() {
       }
     }
   };
-  console.log(pages);
 
   const handlePrevPage = () => {
     setCurrentPage((prev) => prev - 1);
@@ -78,6 +105,21 @@ export default function RequestView() {
     }
   };
 
+  const ss = useMemo(() => {
+    return ssURL;
+  }, [ssURL]);
+  //Link handlers
+  const handleViewPayment = (e) => {
+    const { value } = e.target;
+    setShowImage(true);
+    setSSURL(value);
+  };
+
+  // ----- button handlers ---------
+
+  const closeImage = () => {
+    setShowImage(false);
+  };
   const handleForwardPage = () => {
     setCurrentPage(pages.length - 2);
     setForwardButton(true);
@@ -93,15 +135,23 @@ export default function RequestView() {
     setBackwardButton(true);
   };
 
+  // ---- Search handler
   const handleInput = (e) => {
     const { name, value } = e.target;
-    setSearchData(value);
-    const result = mergedData.filter((info) => console.log(info));
+    setSearchInput(value);
   };
-
   return (
-    <div>
+    <div className='w-full h-full p-4'>
       <div className='flex'>
+        <Modal show={showImage} onClose={closeImage}>
+          <Image
+            src={ss}
+            width={400}
+            height={600}
+            objectFit='contain'
+            objectPosition='top'
+          />
+        </Modal>
         <div>
           <InputTextField
             type={'search'}
@@ -110,91 +160,160 @@ export default function RequestView() {
             label={'Search'}
           />
         </div>
-        <Button
-          type='button'
-          disabled={backwardButton}
-          onClick={handleBackwardPage}
-          className='bg-transparent disabled:text-gray-300'
-        >
-          {'<<'}
-        </Button>
-        <Button
-          type='button'
-          disabled={backButton}
-          onClick={handlePrevPage}
-          className='bg-transparent disabled:text-gray-300'
-        >
-          {'<'}
-        </Button>
-        <div className='flex flex-row'>
-          <h4>{currentPage + 1}</h4>
-          <span>out of</span>
-          <h4>{pages.length - 1}</h4>
-        </div>
-
-        <Button
-          type='button'
-          disabled={nextButton}
-          onClick={handleNextPage}
-          className='bg-transparent disabled:text-gray-300'
-        >
-          {'>'}
-        </Button>
-        <Button
-          type='button'
-          disabled={forwardButton}
-          onClick={handleForwardPage}
-          className='bg-transparent disabled:text-gray-300'
-        >
-          {'>>'}
-        </Button>
+        {searchInput.length === 0 ? (
+          <>
+            <Button
+              type='button'
+              disabled={backwardButton}
+              onClick={handleBackwardPage}
+              className='bg-transparent disabled:text-gray-300'
+            >
+              {'<<'}
+            </Button>
+            <Button
+              type='button'
+              disabled={backButton}
+              onClick={handlePrevPage}
+              className='bg-transparent disabled:text-gray-300'
+            >
+              {'<'}
+            </Button>
+            <div className='flex flex-row'>
+              <h4>{currentPage + 1}</h4>
+              <span>out of</span>
+              {!isFetching ? (
+                <h4>{pages.length - 1}</h4>
+              ) : (
+                <h3>{currentPage + 1}</h3>
+              )}
+            </div>
+            <Button
+              type='button'
+              disabled={nextButton}
+              onClick={handleNextPage}
+              className='bg-transparent disabled:text-gray-300'
+            >
+              {'>'}
+            </Button>
+            <Button
+              type='button'
+              disabled={forwardButton}
+              onClick={handleForwardPage}
+              className='bg-transparent disabled:text-gray-300'
+            >
+              {'>>'}
+            </Button>{' '}
+          </>
+        ) : null}
       </div>
-
-      <table className='border-2 rounded-lg'>
-        <thead>
-          <tr>
-            <th>Index</th>
-            <th>Serial Code</th>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Payment Method</th>
-            <th>Document Type</th>
-            <th>Document Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pages.at(currentPage)?.map((doc, index) => {
-            return (
-              <tr key={doc.id}>
-                <td>{index + 1}</td>
-                <td>{doc.serialCode}</td>
-                <td>{doc.firstName}</td>
-                <td>{doc.lastName}</td>
-                <td>{doc.date}</td>
-                <td>{doc.paymentMethod}</td>
-                <td>{doc.documentType}</td>
-                <td>{doc.documentStatus}</td>
-                <td className='flex'>
-                  <Button type='button' className='bg-transparent'>
-                    ✅
-                  </Button>
-                  <Button type='button' className='bg-transparent'>
-                    ❌
-                  </Button>
-                  <Button type='button' className='bg-transparent'>
-                    💥
-                  </Button>
-                  <Button type='button' className='bg-transparent'>
-                    🖨️
-                  </Button>
+      <div className='overflow-auto h-full w-full'>
+        <table className='w-full h-full border-2 rounded-lg'>
+          <thead>
+            <tr className=''>
+              <Th>Index</Th>
+              <Th>Serial Code</Th>
+              <Th>Name</Th>
+              <Th>Date</Th>
+              <Th>Time</Th>
+              <Th>Payment Method</Th>
+              <Th>Document Type</Th>
+              <Th>Document Status</Th>
+              <Th>Actions</Th>
+            </tr>
+          </thead>
+          {searchInput.length > 0 ? (
+            <tbody>
+              {searchPage.map((doc, index) => {
+                return (
+                  <tr key={doc.id} className='max-h-7'>
+                    <Td className=''>{index + 1}</Td>
+                    <Td className=''>{doc.serialCode}</Td>
+                    <Td className=''>{doc.firstName}</Td>
+                    <Td className=''>{doc.lastName}</Td>
+                    <Td className=''>{doc.date}</Td>
+                    <Td className=''>
+                      {doc.paymentMethod === 'GCash' ? (
+                        <a onClick={handleViewPayment(doc.screenShotUrl)}>
+                          {doc.paymentMethod}
+                        </a>
+                      ) : (
+                        doc.paymentMethod
+                      )}
+                    </Td>
+                    <Td className=''>{doc.documentType}</Td>
+                    <Td className=''>{doc.documentStatus}</Td>
+                    <Td className='flex justify-center items-center align-middle'>
+                      <Button type='button' className='bg-transparent'>
+                        ✅
+                      </Button>
+                      <Button type='button' className='bg-transparent'>
+                        ❌
+                      </Button>
+                      <Button type='button' className='bg-transparent'>
+                        💥
+                      </Button>
+                      <Button type='button' className='bg-transparent'>
+                        🖨️
+                      </Button>
+                    </Td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          ) : isFetching && pages.length === pages.length - pages.length ? (
+            <tbody>
+              <tr>
+                <td>
+                  <PulseLoader />
                 </td>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            </tbody>
+          ) : (
+            <tbody>
+              {pages.at(currentPage)?.map((doc, index) => {
+                return (
+                  <tr key={doc.id}>
+                    <Td className=''>{index + 1}</Td>
+                    <Td className=''>{doc.serialCode}</Td>
+                    <Td className=''>{doc.firstName}</Td>
+                    <Td className=''>{doc.lastName}</Td>
+                    <Td className=''>{doc.date}</Td>
+                    <Td className=''>
+                      {doc.paymentMethod === 'GCash' ? (
+                        <Button
+                          value={doc.screenShotUrl}
+                          onClick={(e) => handleViewPayment(e)}
+                          className='bg-transparent'
+                        >
+                          {doc.paymentMethod}
+                        </Button>
+                      ) : (
+                        doc.paymentMethod
+                      )}
+                    </Td>
+                    <Td className=''>{doc.documentType}</Td>
+                    <Td className=''>{doc.documentStatus}</Td>
+                    <Td className='flex'>
+                      <Button type='button' className='bg-transparent'>
+                        ✅
+                      </Button>
+                      <Button type='button' className='bg-transparent'>
+                        ❌
+                      </Button>
+                      <Button type='button' className='bg-transparent'>
+                        💥
+                      </Button>
+                      <Button type='button' className='bg-transparent'>
+                        🖨️
+                      </Button>
+                    </Td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          )}
+        </table>
+      </div>
     </div>
   );
 }
