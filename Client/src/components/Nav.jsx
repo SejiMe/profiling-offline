@@ -83,7 +83,7 @@ export default function Nav(props) {
               About
             </ScrollLink>
           </div>
-          {user ? (
+          {user === 'HLMj2JbZR1RdzkAiZEya0eAl0AD2' ? (
             <div id='dropdown' className='group'>
               <button
                 className='peer cursor-pointer mr-5'
