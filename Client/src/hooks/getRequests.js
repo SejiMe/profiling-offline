@@ -14,7 +14,7 @@ const requestCollection = collection(db, 'requests');
 const getQuery = query(
   requestCollection,
   orderBy('createdAt', 'desc'),
-  limit(3)
+  limit(10)
 );
 
 const fetchRequests = async (queryParam) => {

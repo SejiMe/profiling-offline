@@ -15,6 +15,7 @@ import { useAddRequestDoc } from '@/hooks/useAddRequestDoc';
 import { DotLoader } from 'react-spinners';
 import { useAuth } from '@/contexts/AuthContext';
 import { serverTimestamp } from 'firebase/firestore';
+import Image from 'next/image';
 
 function RequestForm() {
   //TODO Disable Submit if there
@@ -22,6 +23,7 @@ function RequestForm() {
   const [isFirstPage, setIsFirstPage] = useState(true);
   const [isGcash, setIsGCash] = useState();
   const [imageFile, setImageFile] = useState(null);
+  const [isConfirm, setIsConfirm] = useState(false);
   const [requestObj, setRequestObj] = useState({
     serialCode: null,
     firstName: '',
@@ -79,7 +81,6 @@ function RequestForm() {
     }
     setIsDisabled(false);
   };
-  console.log(requestObj.paymentMethod);
   const handleInput = (val) => {
     const { value, name } = val;
     console.log('from handleInput: ' + value);
@@ -102,40 +103,41 @@ function RequestForm() {
     }
   };
 
-  useEffect(() => {
-    const doThings = addAutoInfo();
-    return doThings;
-  }, []);
-
-  function addAutoInfo() {
-    console.log('adding auto info...');
-    setRequestObj({
-      ...requestObj,
-      email: user.email,
-      documentStatus: STATUS_TYPES.PENDING,
-    });
-    if (requestObj.serialCode === null) {
-      console.log('serial is null generating serial...');
+  const addInfo = () => {
+    return new Promise((resolve) => {
       setRequestObj({
         ...requestObj,
-        serialCode: generateSerial(),
+        documentStatus: STATUS_TYPES.PENDING,
+        email: user.email,
+      });
+      resolve(requestObj.documentStatus);
+    });
+  };
+  async function addAutoInfo() {
+    console.log('adding auto info...');
+    const infoAdded = await addInfo();
+    console.log(infoAdded);
+    if (requestObj.serialCode === null) {
+      console.log('serial is null generating serial...');
+      const serial = await generateSerial();
+      setRequestObj({
+        ...requestObj,
+        serialCode: serial,
       });
     }
   }
-  const handleNextPage = () => {
-    setRequestObj({
-      ...requestObj,
-      createdAt: serverTimestamp(),
-      email: user.email,
-      documentStatus: STATUS_TYPES.PENDING,
-    });
 
-    if (requestObj.serialCode === null) {
-      setRequestObj({
-        ...requestObj,
-        serialCode: generateSerial(),
-      });
-    }
+  if (requestObj.documentStatus === '' || requestObj.email === '') {
+    addAutoInfo();
+  }
+
+  const handleNextPage = () => {
+    // setRequestObj({
+    //   ...requestObj,
+    //   createdAt: serverTimestamp(),
+    //   email: user.email,
+    //   documentStatus: STATUS_TYPES.PENDING,
+    // });
     setIsFirstPage(false);
   };
 
@@ -189,21 +191,55 @@ function RequestForm() {
       let randomVal = Math.floor(Math.random() * digits.length);
       generatedSerial += digits[randomVal];
     }
-    return generatedSerial;
+    return new Promise((resolve) => {
+      if (generatedSerial.length === serialPattern) {
+        resolve(generatedSerial);
+      }
+    });
+  };
+  const addTimestamp = () => {
+    const timeStamp = serverTimestamp();
+    return new Promise((resolve) => {
+      resolve(timeStamp);
+    });
+  };
+  const checkInfoifComplete = () => {
+    return new Promise((resolve, reject) => {
+      if (requestObj.createdAt !== '' && isConfirm === true) {
+        resolve(requestObj);
+      } else {
+        reject('There is no object');
+      }
+    });
   };
 
+  // -------- button handlers ----------
+  const handleConfirmation = async (e) => {
+    e.preventDefault();
+    console.log('Hey This should be triggered first');
+    setIsConfirm(true);
+    const timestamp = await addTimestamp();
+    setRequestObj({
+      ...requestObj,
+      createdAt: timestamp,
+    });
+    setTimeout(() => {
+      setIsConfirm(true);
+    }, 200);
+  };
+
+  // This needs to be triggered by another button and
+  // in Form Event
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
-      await setRequestObj({
-        ...requestObj,
-        createdAt: serverTimestamp(),
-      });
+      const request = await checkInfoifComplete();
+      addRequest(request);
       setTimeout(() => {
-        addRequest(requestObj);
-      }, 1000);
+        setIsConfirm(false);
+      }, 500);
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
   };
 
@@ -239,15 +275,60 @@ function RequestForm() {
       </>
     );
   }
-
-  console.log(isFirstPage);
   return (
     <>
       <form
         className='grid grid-cols-3 border-2 rounded-sm p-4'
         onSubmit={handleSubmit}
       >
-        {isFirstPage ? (
+        {(isConfirm && isFirstPage) ||
+        (isConfirm && !isFirstPage && !isGcash) ? (
+          <>
+            <div className='col-span-3 grid grid-cols-2'>
+              <p className='col-span-2'>
+                See if your entered information below are correct
+              </p>
+              <div className='col-span-2 grid grid-cols-4'>
+                <h4 className='col-span-1'>Name:</h4>
+                <h3 className='col-span-3 text-right'>{`${requestObj.firstName} ${requestObj.lastName}`}</h3>
+              </div>
+              <div className='col-span-2 grid grid-cols-4'>
+                <h4 className='col-span-1'>Document:</h4>
+                <h3 className='col-span-3 text-right'>
+                  {requestObj.documentType}
+                </h3>
+              </div>
+            </div>
+          </>
+        ) : isConfirm && !isFirstPage && isGcash ? (
+          <>
+            <div className='col-span-3 grid grid-cols-2'>
+              <p className='col-span-2'>
+                See if your entered information below are correct
+              </p>
+              <div className='col-span-2 grid grid-cols-4'>
+                <h4 className='col-span-1'>Name:</h4>
+                <h3 className='col-span-3 text-right'>{`${requestObj.firstName} ${requestObj.lastName}`}</h3>
+              </div>
+              <div className='col-span-2 grid grid-cols-4'>
+                <h4 className='col-span-1'>Document:</h4>
+                <h3 className='col-span-3 text-right'>
+                  {requestObj.documentType}
+                </h3>
+              </div>
+              <div className='col-span-2 grid grid-cols-4'>
+                <h4>Payment Screenshot</h4>
+                {/* TODO Image */}
+                <Image
+                  src={requestObj.screenShotUrl}
+                  alt={requestObj.screenShotUrl}
+                  width={100}
+                  height={100}
+                />
+              </div>
+            </div>
+          </>
+        ) : isFirstPage ? (
           <>
             <div className='col-span-3 grid grid-cols-2 gap-4 items-center '>
               <span className='col-span-2 text-center'>
@@ -366,21 +447,54 @@ function RequestForm() {
               Next
             </Button>
           </>
-        ) : isFirstPage ? (
+        ) : isFirstPage &&
+          (requestObj.documentType !== 'Business Permit' ||
+            requestObj.documentType !== 'Barangay Clearance') ? (
           <>
+            {isConfirm && isFirstPage ? (
+              <Button
+                className='col-span-1 bg-blue-200'
+                type='button'
+                onClick={() => setIsConfirm(false)}
+              >
+                Back
+              </Button>
+            ) : (
+              <div></div>
+            )}
             <div></div>
-            <div></div>
-            <Button
-              disabled={isDisabled}
-              type='submit'
-              className='bg-blue-300 mt-4 disabled:bg-gray-400'
-            >
-              Submit Request
-            </Button>
+            {isConfirm && isFirstPage ? (
+              <Button
+                disabled={isDisabled}
+                type='submit'
+                className='bg-blue-300 mt-4 disabled:bg-gray-400'
+              >
+                Confirm Send
+              </Button>
+            ) : !isConfirm && isFirstPage ? (
+              <Button
+                disabled={isDisabled}
+                type='button'
+                onClick={handleConfirmation}
+                className='bg-blue-300 mt-4 disabled:bg-gray-400'
+              >
+                Send Request
+              </Button>
+            ) : (
+              // <button
+              //   type='button'
+              //   disabled={isDisabled}
+              //   onClick={(e) => handleConfirmation(e)}
+              //   className='bg-blue-300 mt-4 disabled:bg-gray-400'
+              // >
+              //   Send
+              // </button>
+              <></>
+            )}
           </>
         ) : null}
 
-        {!isFirstPage && (
+        {!isFirstPage && isConfirm === false ? (
           <>
             <Button
               className='col-span-1 bg-blue-200'
@@ -391,14 +505,42 @@ function RequestForm() {
             </Button>
             <div></div>
             <Button
+              name='to-Confirmation'
+              type='button'
+              disabled={isDisabled}
+              onClick={handleConfirmation}
+              className='bg-blue-300 mt-4 disabled:bg-gray-400'
+            >
+              Send Request
+            </Button>
+            {/* <button
+              type='button'
+              disabled={isDisabled}
+              onClick={(e) => handleConfirmation(e)}
+              className='bg-blue-300 mt-4 disabled:bg-gray-400'
+            >
+              Send
+            </button> */}
+          </>
+        ) : !isFirstPage && isConfirm ? (
+          <>
+            <Button
+              className='col-span-1 bg-blue-200'
+              type='button'
+              onClick={() => setIsConfirm(false)}
+            >
+              Back
+            </Button>
+            <div></div>
+            <Button
               disabled={isDisabled}
               className='col-span-1 disabled:bg-gray-500'
               type='submit'
             >
-              Submit Request
+              Confirm Request
             </Button>
           </>
-        )}
+        ) : null}
       </form>
     </>
   );
