@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import moment from 'moment/moment';
 import InputTextField from '../Fields/InputTextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import Checkbox from '../Checkbox';
 import InputNumberField from '../Fields/InputNumberField';
-import TextField from '@mui/material/TextField';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Button from '../Button';
 import { getAge } from '@/hooks/getAge';
 
@@ -206,16 +201,6 @@ const ResidentForm = ({ getObject, objectData }) => {
                 <option value='Female'>Female</option>
               </select>
             </div>
-            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label='Birth Date'
-                value={data.birthdate}
-                onChange={(newVal) => {
-                  setData({ ...data, birthdate: newVal });
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider> */}
             <div className='flex flex-col'>
               <label htmlFor='birthdate'>Birthdate</label>
               <input

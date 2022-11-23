@@ -1,12 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import ResidentItem from './ResidentItem';
-import { useQuery } from 'react-query';
-import { db } from '@/config/firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import Button from '../Button';
 import DotLoader from 'react-spinners/DotLoader';
-import Popup from '../Popup';
 import AddResident from './AddResident';
 import Tr from '../Table/Tr';
 import Th from '../Table/Th';
@@ -26,7 +21,6 @@ function ResidentView() {
   const [backButton, setBackButton] = useState(true);
   const [backwardButton, setBackwardButton] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const router = useRouter();
   const [openPopup, setOpenPopup] = useState(false);
   let pages = [];
   let mergedData = [];
