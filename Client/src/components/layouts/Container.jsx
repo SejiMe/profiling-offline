@@ -21,7 +21,7 @@ function DefaultView({ children, className }) {
   return (
     <main
       className={clsx(
-        'px-2 py-1 w-full h-full md:flex md:flex-row rounded-sm',
+        'px-2 py-1 w-full h-full flex md:flex-row rounded-sm',
         className
       )}
     >
