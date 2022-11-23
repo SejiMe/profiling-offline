@@ -11,10 +11,6 @@ import {
   UnderlineType,
   VerticalPositionRelativeFrom,
 } from 'docx';
-import { storage } from '@/config/firebaseConfig';
-
-import { getBytes, getDownloadURL, ref } from 'firebase/storage';
-import { headers } from 'next.config';
 
 export default async function DocumentCreate() {
   const logo1 = await fetch(
