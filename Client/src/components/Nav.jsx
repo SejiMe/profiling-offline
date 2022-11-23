@@ -26,10 +26,8 @@ const adminLinks = [
   //TODO Links
   { href: '/admin/', label: 'Home' },
   { href: '/admin/residents', label: 'Resident Information' },
-  { href: '/admin/charter', label: 'Documents and Requests' },
-  { href: '/admin/charter', label: 'Charter' },
   { href: '/admin/requests', label: 'Requests' },
-  { href: '/admin/templates', label: 'Audit Log' },
+  { href: '/admin/charter', label: 'Barangay Officials' },
 ];
 
 const provider = new GoogleAuthProvider();
@@ -83,7 +81,7 @@ export default function Nav(props) {
               About
             </ScrollLink>
           </div>
-          {user === 'HLMj2JbZR1RdzkAiZEya0eAl0AD2' ? (
+          {user?.uid === 'HLMj2JbZR1RdzkAiZEya0eAl0AD2' ? (
             <div id='dropdown' className='group'>
               <button
                 className='peer cursor-pointer mr-5'
@@ -91,7 +89,12 @@ export default function Nav(props) {
               >
                 <IconUser className='text-6xl text-white' />
               </button>
-              <div className={(isDrop ? 'hidden' : 'block') + ' flex flex-col'}>
+              <div
+                className={
+                  (isDrop ? 'hidden' : 'block') +
+                  ' flex flex-col gap-2 p-2 text-center bg-slate-200'
+                }
+              >
                 <Link href='/admin'>
                   <a>Admin</a>
                 </Link>
@@ -111,7 +114,7 @@ export default function Nav(props) {
         </ul>
       ) : (
         //THIS IS ADMIN LINKS
-        <ul className='flex flex-col h-full '>
+        <ul className='flex flex-col h-full w-40 '>
           <li>
             <Link href='/'>
               <img
@@ -141,6 +144,10 @@ function Login({ setShowLogin }) {
   const isSmall = useMedia('(max-width: 480px)');
   console.log('isSmall: ' + isSmall);
 
+  /**
+   * When the user clicks the login button, the user will be redirected to the Google login page, and
+   * then redirected back to the app.
+   */
   const handleLogin = async () => {
     await signInWithPopup(auth, provider);
     setShowLogin(false);
@@ -162,7 +169,6 @@ function Login({ setShowLogin }) {
           <div className='flex justify-center align-middle'>
             <Image src={CaramutanLogo} width={128} height={128} />
           </div>
-          {/* TODO Design this with google provider logo */}
           <div className='flex justify-center'>
             <button
               type='button'
