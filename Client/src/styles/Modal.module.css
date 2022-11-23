@@ -3,9 +3,13 @@
   bottom: 0;
   left: 0;
   right: 0;
-  border-radius: 15px;
-  height: 70%;
+  border-radius: 5px;
+  height: 80%;
   z-index: 100;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  padding: 1.3em;
 }
 
 .header {
@@ -25,7 +29,6 @@
   width: 100%;
   height: 100%;
   display: flex;
-
   justify-content: center;
   align-items: center;
   background: center;

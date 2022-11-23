@@ -420,6 +420,8 @@ function RequestForm() {
               />
               {isGcash ? (
                 <div className='col-span-2'>
+                  <span>Please Send to</span>
+                  <span>0999-xxxx-xxx</span>
                   <input
                     type='file'
                     name='screenShot'

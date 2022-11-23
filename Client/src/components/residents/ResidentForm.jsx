@@ -5,13 +5,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import Checkbox from '../Checkbox';
 import InputNumberField from '../Fields/InputNumberField';
+import TextField from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Button from '../Button';
+import { getAge } from '@/hooks/getAge';
 
 const ResidentForm = ({ getObject, objectData }) => {
   //#region Document Information for firestore
   const [data, setData] = useState(objectData);
   //#endregion
   //TODO Control for Submit
-  console.log(data);
+
+  //references
+
   const [isDisable, setDisable] = useState(true);
   /**
    * The handleInputChange function takes an event as an argument, and then sets the state of the data
@@ -57,7 +65,6 @@ const ResidentForm = ({ getObject, objectData }) => {
   };
   const handleBenefChecks = (e) => {
     const { name, checked } = e;
-
     setData({
       ...data,
       beneficiaries: {
@@ -66,6 +73,7 @@ const ResidentForm = ({ getObject, objectData }) => {
       },
     });
   };
+
   const handleFamilyChange = (e) => {
     const { name, value } = e;
     setData({
@@ -147,7 +155,6 @@ const ResidentForm = ({ getObject, objectData }) => {
               type='text'
               label='First Name'
               name='firstName'
-              pattern='[a-zA-Z]'
               placeholder='Juan'
               required
               value={data.firstName}
@@ -157,7 +164,6 @@ const ResidentForm = ({ getObject, objectData }) => {
               type='text'
               label='Last Name'
               name='lastName'
-              pattern='[a-zA-Z]'
               placeholder='Cruz'
               required
               value={data.lastName}
@@ -167,7 +173,6 @@ const ResidentForm = ({ getObject, objectData }) => {
               type='text'
               label='Middle Name'
               name='middleName'
-              pattern='[a-zA-Z]'
               placeholder='Garcia'
               value={data.middleName}
               getValue={(value) => handleTextChange(value)}
@@ -189,6 +194,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               getValue={(value) => handleTextChange(value)}
             />
             <div className='grid grid-flow-row grow'>
+              <label htmlFor='gender'>Gender </label>
               <select
                 name='gender'
                 value={data.gender}
@@ -200,15 +206,35 @@ const ResidentForm = ({ getObject, objectData }) => {
                 <option value='Female'>Female</option>
               </select>
             </div>
-            <div className='grid grid-flow-row grow'>
-              <label htmlFor='dob'>Birth Date</label>
+            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label='Birth Date'
+                value={data.birthdate}
+                onChange={(newVal) => {
+                  setData({ ...data, birthdate: newVal });
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider> */}
+            <div className='flex flex-col'>
+              <label htmlFor='birthdate'>Birthdate</label>
               <input
                 type='date'
-                name='dob'
+                name='birthdate'
                 required
+                value={data.birthdate}
                 selected={data.birthdate}
                 onChange={handleInputChange}
                 id=''
+              />
+            </div>
+            <div className='flex flex-col'>
+              <label htmlFor='age'>Age</label>
+              <input
+                name='age'
+                type='text'
+                readOnly
+                value={getAge(data?.birthdate)}
               />
             </div>
 
@@ -238,6 +264,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               getValue={(value) => handleTextChange(value)}
             />
             <div className='grid grid-flow-row grow'>
+              <label htmlFor='civ_status'>Civilian Status</label>
               <select
                 name='civ_status'
                 value={data.civ_status}
@@ -262,6 +289,7 @@ const ResidentForm = ({ getObject, objectData }) => {
             />
 
             <div className='grid grid-flow-row grow'>
+              <label htmlFor='education'>Education</label>
               <select
                 name='education'
                 value={data.education}
@@ -499,7 +527,7 @@ const ResidentForm = ({ getObject, objectData }) => {
             </Checkbox>
           </div>
         </div>
-        <button type='submit'>Add Resident</button>
+        <Button type='submit'>Add Resident</Button>
       </form>
     </div>
   );

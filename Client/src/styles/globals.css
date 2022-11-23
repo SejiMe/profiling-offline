@@ -44,7 +44,9 @@
     max-width: 68.75rem;
     @apply w-11/12 mx-auto;
   }
+}
 
+@layer utilities {
   /* For Webkit-based browsers (Chrome, Safari and Opera) */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -55,9 +57,19 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
-}
 
-@layer utilities {
+  .custom-scroll::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .custom-scroll::-webkit-scrollbar:hover {
+    background-color: #312f30;
+  }
+
+  .custom-scroll:hover {
+    scrollbar-color: #312f30;
+  }
+
   .animated-underline {
     background-image: linear-gradient(#33333300, #33333300),
       linear-gradient(to right, #00e0f3, #00c4fd);

@@ -13,7 +13,7 @@ export function useAuth() {
 }
 
 export function AuthContextProvider({ children }) {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({ uid: '', email: '', token: '' });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export function AuthContextProvider({ children }) {
           });
         }
       } else {
-        sessionStorage.clear();
+        sessionStorage.setItem('token', '');
         setUser(null);
       }
       setLoading(false);

@@ -9,6 +9,12 @@ import Td from '../Table/Td';
 import Th from '../Table/Th';
 import Modal from '../Modal/Modal';
 import Image from 'next/image';
+import { Packer } from 'docx';
+import DocumentCreate from '@/lib/DocumentCreator';
+import { saveAs } from 'file-saver';
+import Tr from '../Table/Tr';
+import SVGApproval from '@/components/svg/icons8-submit-for-approval/icons8-submit-for-approval.svg';
+import TableNavigator from '../Table/TableNavigator';
 
 export default function RequestView() {
   const { data, fetchNextPage, isFetching, isFetched, hasNextPage } =
@@ -36,14 +42,21 @@ export default function RequestView() {
         data.date = moment(data.createdAt.seconds * 1000).format('MM/DD/YYYY');
         return data;
       });
+      console.log('documents:');
+      console.log(documents);
       if (!documents.length) {
         return '*';
       } else {
         return documents;
       }
     });
+    console.log('page:');
+    console.log(page);
     pages = page;
   }
+
+  console.log('pages');
+  console.log(pages);
   if (!hasNextPage) {
     pages.forEach((pageArr) => {
       mergedData = mergedData.concat(pageArr);
@@ -51,8 +64,6 @@ export default function RequestView() {
   }
 
   const searchPage = useMemo(() => {
-    console.log('inside memo');
-    console.log(searchInput);
     const result = mergedData.filter((info) => {
       if (info === '*') {
         return;
@@ -67,13 +78,26 @@ export default function RequestView() {
           }
         }
       }
-      console.log('inside filter');
-      console.log(info);
     });
-    console.log('inside memo result:');
-    console.log(result);
     return result;
   }, [searchInput, pages]);
+
+  const ss = useMemo(() => {
+    return ssURL;
+  }, [ssURL]);
+
+  //Link handlers
+  const handleViewPayment = (e) => {
+    const { value } = e.target;
+    setShowImage(true);
+    setSSURL(value);
+  };
+
+  // ----- button handlers ---------
+
+  const closeImage = () => {
+    setShowImage(false);
+  };
 
   const handleNextPage = () => {
     setCurrentPage((prev) => prev + 1);
@@ -96,29 +120,12 @@ export default function RequestView() {
       setBackButton(true);
     } else if (currentPage > pages.length - pages.length + 1) {
       setNextButton(false);
-
       if (currentPage > pages.length - pages.length + 2) {
         setForwardButton(false);
       } else if (currentPage > pages.length - pages.length + 2) {
         setBackwardButton(true);
       }
     }
-  };
-
-  const ss = useMemo(() => {
-    return ssURL;
-  }, [ssURL]);
-  //Link handlers
-  const handleViewPayment = (e) => {
-    const { value } = e.target;
-    setShowImage(true);
-    setSSURL(value);
-  };
-
-  // ----- button handlers ---------
-
-  const closeImage = () => {
-    setShowImage(false);
   };
   const handleForwardPage = () => {
     setCurrentPage(pages.length - 2);
@@ -135,14 +142,30 @@ export default function RequestView() {
     setBackwardButton(true);
   };
 
+  const handleFindRelevance = () => {};
+
+  const handleGenerateDoc = async () => {
+    const doc = await DocumentCreate();
+    Packer.toBlob(doc).then((blob) => {
+      saveAs(blob, 'sample.docx');
+    });
+  };
+  const handleValidateResident = (resident) => {
+    console.log('inside validator');
+    console.log(resident);
+    const { firstName, lastName, birthdate } = resident;
+  };
+
+  console.log('request page');
+  console.log(pages);
   // ---- Search handler
   const handleInput = (e) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     setSearchInput(value);
   };
   return (
     <div className='w-full h-full p-4'>
-      <div className='flex'>
+      <div className='flex flex-row min-w-full justify-between'>
         <Modal show={showImage} onClose={closeImage}>
           <Image
             src={ss}
@@ -160,56 +183,58 @@ export default function RequestView() {
             label={'Search'}
           />
         </div>
-        {searchInput.length === 0 ? (
-          <>
-            <Button
-              type='button'
-              disabled={backwardButton}
-              onClick={handleBackwardPage}
-              className='bg-transparent disabled:text-gray-300'
-            >
-              {'<<'}
-            </Button>
-            <Button
-              type='button'
-              disabled={backButton}
-              onClick={handlePrevPage}
-              className='bg-transparent disabled:text-gray-300'
-            >
-              {'<'}
-            </Button>
-            <div className='flex flex-row'>
-              <h4>{currentPage + 1}</h4>
-              <span>out of</span>
-              {!isFetching ? (
-                <h4>{pages.length - 1}</h4>
-              ) : (
-                <h3>{currentPage + 1}</h3>
-              )}
-            </div>
-            <Button
-              type='button'
-              disabled={nextButton}
-              onClick={handleNextPage}
-              className='bg-transparent disabled:text-gray-300'
-            >
-              {'>'}
-            </Button>
-            <Button
-              type='button'
-              disabled={forwardButton}
-              onClick={handleForwardPage}
-              className='bg-transparent disabled:text-gray-300'
-            >
-              {'>>'}
-            </Button>{' '}
-          </>
-        ) : null}
+        <TableNavigator>
+          {searchInput.length === 0 ? (
+            <>
+              <Button
+                type='button'
+                disabled={backwardButton}
+                onClick={handleBackwardPage}
+                className='bg-transparent disabled:text-gray-300'
+              >
+                {'<<'}
+              </Button>
+              <Button
+                type='button'
+                disabled={backButton}
+                onClick={handlePrevPage}
+                className='bg-transparent disabled:text-gray-300'
+              >
+                {'<'}
+              </Button>
+              <div className='flex flex-row items-center'>
+                <h4>{currentPage + 1}</h4>
+                <span>out of</span>
+                {!isFetching ? (
+                  <h4>{pages.length - 1}</h4>
+                ) : (
+                  <h4>{currentPage + 1}</h4>
+                )}
+              </div>
+              <Button
+                type='button'
+                disabled={nextButton}
+                onClick={handleNextPage}
+                className='bg-transparent disabled:text-gray-300'
+              >
+                {'>'}
+              </Button>
+              <Button
+                type='button'
+                disabled={forwardButton}
+                onClick={handleForwardPage}
+                className='bg-transparent disabled:text-gray-300'
+              >
+                {'>>'}
+              </Button>{' '}
+            </>
+          ) : null}
+        </TableNavigator>
       </div>
       <div className='overflow-auto h-full w-full'>
         <table className='w-full h-full border-2 rounded-lg'>
           <thead>
-            <tr className=''>
+            <Tr className=''>
               <Th>Index</Th>
               <Th>Serial Code</Th>
               <Th>Name</Th>
@@ -219,13 +244,13 @@ export default function RequestView() {
               <Th>Document Type</Th>
               <Th>Document Status</Th>
               <Th>Actions</Th>
-            </tr>
+            </Tr>
           </thead>
           {searchInput.length > 0 ? (
             <tbody>
               {searchPage.map((doc, index) => {
                 return (
-                  <tr key={doc.id} className='max-h-7'>
+                  <Tr key={doc.id} className='max-h-7'>
                     <Td className=''>{index + 1}</Td>
                     <Td className=''>{doc.serialCode}</Td>
                     <Td className=''>{doc.firstName}</Td>
@@ -253,24 +278,32 @@ export default function RequestView() {
                       <Button type='button' className='bg-transparent'>
                         ❌
                       </Button>
-                      <Button type='button' className='bg-transparent'>
-                        💥
+                      <Button
+                        type='button'
+                        className='bg-transparent'
+                        onClick={() => handleValidateResident(doc)}
+                      >
+                        <SVGApproval />
                       </Button>
-                      <Button type='button' className='bg-transparent'>
+                      <Button
+                        type='button'
+                        className='bg-transparent'
+                        onClick={handleGenerateDoc}
+                      >
                         🖨️
                       </Button>
                     </Td>
-                  </tr>
+                  </Tr>
                 );
               })}
             </tbody>
           ) : isFetching && pages.length === pages.length - pages.length ? (
             <tbody>
-              <tr>
+              <Tr>
                 <td>
                   <PulseLoader />
                 </td>
-              </tr>
+              </Tr>
             </tbody>
           ) : (
             <tbody>
@@ -304,10 +337,18 @@ export default function RequestView() {
                       <Button type='button' className='bg-transparent'>
                         ❌
                       </Button>
-                      <Button type='button' className='bg-transparent'>
-                        💥
+                      <Button
+                        type='button'
+                        className='bg-transparent'
+                        onClick={() => handleValidateResident(doc)}
+                      >
+                        <SVGApproval />
                       </Button>
-                      <Button type='button' className='bg-transparent'>
+                      <Button
+                        type='button'
+                        className='bg-transparent'
+                        onClick={handleGenerateDoc}
+                      >
                         🖨️
                       </Button>
                     </Td>

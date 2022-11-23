@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 export default function Seo(props) {
   const router = useRouter();
   const meta = {
-    title: 'pwu-profiling',
-    site_name: 'pwu-profiling',
-    description: 'pwu-profiling description',
+    title: 'caramutan-profiling',
+    site_name: 'caramutan-profiling',
+    description: 'Barangay Caramutan in La Paz, Tarlac',
     url: '...',
     image: '...',
     type: 'website',
