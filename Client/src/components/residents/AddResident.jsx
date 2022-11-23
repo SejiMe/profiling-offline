@@ -16,7 +16,7 @@ const AddResident = () => {
     suffix: '',
     alias: '',
     gender: '',
-    birthdate: moment().format('MM-DD-YYYY'),
+    birthdate: '',
     birthplace: '',
     religion: '',
     bloodType: '',
@@ -61,7 +61,6 @@ const AddResident = () => {
     error,
   } = useAddResident();
 
-  console.log({ isIdle, isLoading });
   const handleObjectData = (value) => {
     const objectDocument = value;
     /* Setting the state of the object to the data. */
@@ -102,9 +101,19 @@ const AddResident = () => {
   }
   if (isSuccess) {
     return (
-      <div>
+      <div className='flex flex-col justify-center align-middle items-center content-center'>
         <h2>Resident Added Successfully</h2>
-        <button type='button' onClick={() => useAddResident.reset()}></button>
+        <h3>
+          {object.firstName} {object.lastName}
+        </h3>
+        <Button
+          type='button'
+          onClick={() => {
+            router.reload;
+          }}
+        >
+          Confirm
+        </Button>
       </div>
     );
   }
