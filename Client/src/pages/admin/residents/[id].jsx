@@ -13,6 +13,9 @@ import {
   DialogTitle,
 } from '@mui/material';
 
+import BackSVG128 from '@/components/svg/icons8-go-back-pastel-glyph/icons8-go-back-128.svg';
+import BackSVG64 from '@/components/svg/icons8-go-back-pastel-glyph/icons8-go-back-64.svg';
+
 const ResidentDetails = () => {
   //TODO back button for User Interaction
   // 1. Read Data from firebase get the Doc file === Doc ID
@@ -41,35 +44,22 @@ const ResidentDetails = () => {
 
   if (idLoading) return <div>Loading...</div>;
 
-  // if (isSuccess)
-  //   return (
-  //     <div>
-  //       <Dialog open={openDialog}>
-  //         <DialogTitle>
-  //           <h2>Successfully Updated Resident</h2>
-  //         </DialogTitle>
-  //         <DialogContent dividers>
-  //           <p></p>
-  //         </DialogContent>
-  //         <DialogActions>
-  //           <Button type='button' onClick={() => setOpenDialog(false)}>
-  //             Confirm
-  //           </Button>
-  //         </DialogActions>
-  //       </Dialog>
-  //     </div>
-  //   );
-
   return (
-    <div>
+    <div className='p-4'>
       {/* TODO Icon */}
-      <Button type='button' onClick={() => router.push('/admin/residents')}>
-        Go back
+      <Button
+        type='button'
+        className='bg-none'
+        onClick={() => router.push('/admin/residents')}
+      >
+        <BackSVG128 />
       </Button>
-      <ResidentForm
-        objectData={data}
-        getObject={(value) => handleProcessMutation(value)}
-      />
+      <div className='p-2 w-full h-full'>
+        <ResidentForm
+          objectData={data}
+          getObject={(value) => handleProcessMutation(value)}
+        />
+      </div>
     </div>
   );
 };
