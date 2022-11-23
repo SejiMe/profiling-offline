@@ -6,7 +6,6 @@ import {
   ImageRun,
   Paragraph,
   TextRun,
-  TextWrappingSide,
   TextWrappingType,
   UnderlineType,
   VerticalPositionRelativeFrom,
