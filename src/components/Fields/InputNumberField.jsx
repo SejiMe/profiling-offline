@@ -27,6 +27,7 @@ const InputNumberField = ({
         type={type}
         value={value}
         name={name}
+        className='rounded-md'
         onChange={inputTextHandler}
         pattern={pattern}
         required={isRequired}

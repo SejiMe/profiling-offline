@@ -42,12 +42,19 @@ const AddResident = () => {
       children: [],
     },
     beneficiaries: {
-      _4ps: false,
+      _4ps: [],
+      senior: '',
       pension: false,
     },
     health: {
       pwd: false,
-      covidvax: false,
+      Vaccine1Type: '',
+      Vaccine1Date: '',
+      Vaccine1Location: '',
+      Vaccine2Type: '',
+      Vaccine2Date: '',
+      Vaccine2Location: '',
+      boosters: [],
     },
   });
 

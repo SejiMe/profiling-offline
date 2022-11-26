@@ -6,6 +6,9 @@ import Checkbox from '../Checkbox';
 import InputNumberField from '../Fields/InputNumberField';
 import Button from '../Button';
 import { getAge } from '@/hooks/getAge';
+import ChildButtons from './ChildButtons';
+import SVGRemove from '@/components/svg/icons8-remove/icons8-remove.svg';
+import SVGHeart from '@/components/svg/icons8-heart-health/icons8-heart-health.svg';
 
 const ResidentForm = ({ getObject, objectData }) => {
   //#region Document Information for firestore
@@ -27,6 +30,7 @@ const ResidentForm = ({ getObject, objectData }) => {
       [name]: value,
     });
   };
+
   //TODO Needs refactoring see if this is available use as a library
   const handleTextChange = (e) => {
     const { name, value } = e;
@@ -49,7 +53,6 @@ const ResidentForm = ({ getObject, objectData }) => {
 
   const handleHealthCheck = (e) => {
     const { name, checked } = e;
-
     setData({
       ...data,
       health: {
@@ -58,6 +61,28 @@ const ResidentForm = ({ getObject, objectData }) => {
       },
     });
   };
+
+  const handleHealthInput = (e) => {
+    const { name, value } = e;
+    setData({
+      ...data,
+      health: {
+        ...data.health,
+        [name]: value,
+      },
+    });
+  };
+  const handleHealthDates = (evt) => {
+    const { name, value } = evt.target;
+    setData({
+      ...data,
+      health: {
+        ...data.health,
+        [name]: value,
+      },
+    });
+  };
+
   const handleBenefChecks = (e) => {
     const { name, checked } = e;
     setData({
@@ -95,16 +120,33 @@ const ResidentForm = ({ getObject, objectData }) => {
     console.table(data.family.children);
   };
 
-  const clickRemoveChild = (index) => {
-    const allData = [...data.family.children];
-    allData.splice(index, 1);
+  // Beneficiary Controls ----------
+  const handleBeneficiaryDate = (e, index) => {
+    const { name, value } = e.target;
+    const dataMember = [...data.beneficiaries._4ps];
+    dataMember[index][name] = value;
+    console.log(dataMember);
     setData({
       ...data,
-      family: {
-        ...data.family,
-        children: allData,
+      beneficiaries: {
+        ...data.beneficiaries,
+        _4ps: dataMember,
       },
     });
+  };
+
+  const handleBeneficiaryInputs = (e, index) => {
+    const { name, value } = e;
+    const dataMember = [...data.beneficiaries._4ps];
+    dataMember[index][name] = value;
+    setData({
+      ...data,
+      beneficiaries: {
+        ...data.beneficiaries,
+        _4ps: dataMember,
+      },
+    });
+    console.log(dataMember);
   };
 
   const validateInput = (evt) => {
@@ -123,6 +165,37 @@ const ResidentForm = ({ getObject, objectData }) => {
    * with a new child object added to the children array.
    */
   //This is to add
+
+  const handleBoosterInputs = (e, index) => {
+    const { name, value } = e;
+    const dataBooster = [...data.health.boosters];
+    dataBooster[index][name] = value;
+    setData({
+      ...data,
+      health: {
+        ...data.health,
+        boosters: dataBooster,
+      },
+    });
+    console.log(dataBooster);
+  };
+
+  const handleBoosterDate = (e, index) => {
+    const { name, value } = e.target;
+    const dataBooster = [...data.health.boosters];
+    dataBooster[index][name] = value;
+    console.log(dataMember);
+    setData({
+      ...data,
+      health: {
+        ...data.health,
+        boosters: dataBooster,
+      },
+    });
+  };
+
+  // Button Handler
+  //----------- for adding child in children
   const handleAddChildForm = () => {
     setData({
       ...data,
@@ -135,16 +208,83 @@ const ResidentForm = ({ getObject, objectData }) => {
       },
     });
   };
+
+  const handleAdd_4ps = () => {
+    console.log('triggered');
+    setData({
+      ...data,
+      beneficiaries: {
+        ...data.beneficiaries,
+        _4ps: [...data.beneficiaries._4ps, { FullName: '', birthdate: '' }],
+      },
+    });
+  };
+
+  const handleAddBooster = () => {
+    setData({
+      ...data,
+      health: {
+        ...data.health,
+        boosters: [
+          ...data.health.boosters,
+          { VaccinationType: '', VaccinationDate: '', VaccinationLocation: '' },
+        ],
+      },
+    });
+  };
+
+  // Removing child in --->> children under family members
+  const clickRemoveChild = (index) => {
+    const allData = [...data.family.children];
+    allData.splice(index, 1);
+    setData({
+      ...data,
+      family: {
+        ...data.family,
+        children: allData,
+      },
+    });
+  };
+
+  const clickRemoveMember = (index) => {
+    /* Creating a new array with all the data from the data.beneficiaries._4ps array. */
+    const allData = [...data.beneficiaries._4ps];
+    allData.splice(index, 1);
+    setData({
+      ...data,
+      beneficiaries: {
+        ...data.beneficiaries,
+        _4ps: allData,
+      },
+    });
+  };
+
+  const clickRemoveBooster = (index) => {
+    /* Creating a new array with all the data from the data.health.boosters array. */
+    const allData = [...data.health.boosters];
+    allData.splice(index, 1);
+    setData({
+      ...data,
+      health: {
+        ...data.health,
+        boosters: allData,
+      },
+    });
+  };
+
   const submitInformation = (evt) => {
     evt.preventDefault();
     getObject(data);
   };
   return (
     <div>
-      <form className='flex flex-col gap-2 my-5 ' onSubmit={submitInformation}>
+      <form
+        className='flex flex-col gap-2 my-5 p-1 '
+        onSubmit={submitInformation}
+      >
         {/* Personal Information */}
         <div>
-          Personal Information
+          <SectionDivider>Personal Information</SectionDivider>
           <div className='grid grid-cols-3 gap-4 items-center'>
             <InputTextField
               type='text'
@@ -192,6 +332,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               <label htmlFor='gender'>Gender </label>
               <select
                 name='gender'
+                className='rounded-md'
                 value={data.gender}
                 onChange={handleInputChange}
                 onBlur={validateInput}
@@ -206,6 +347,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               <input
                 type='date'
                 name='birthdate'
+                className='rounded-md'
                 required
                 value={data.birthdate}
                 selected={data.birthdate}
@@ -216,6 +358,7 @@ const ResidentForm = ({ getObject, objectData }) => {
             <div className='flex flex-col'>
               <label htmlFor='age'>Age</label>
               <input
+                className='rounded-md'
                 name='age'
                 type='text'
                 readOnly
@@ -251,6 +394,7 @@ const ResidentForm = ({ getObject, objectData }) => {
             <div className='grid grid-flow-row grow'>
               <label htmlFor='civ_status'>Civilian Status</label>
               <select
+                className='rounded-md'
                 name='civ_status'
                 value={data.civ_status}
                 onChange={handleInputChange}
@@ -277,6 +421,7 @@ const ResidentForm = ({ getObject, objectData }) => {
               <label htmlFor='education'>Education</label>
               <select
                 name='education'
+                className='rounded-md'
                 value={data.education}
                 onChange={handleInputChange}
                 id=''
@@ -304,7 +449,7 @@ const ResidentForm = ({ getObject, objectData }) => {
         </div>
         {/* Contacts Section */}
         <div>
-          <h3>Contact Information</h3>
+          <SectionDivider>Contact Information</SectionDivider>
           <div className='grid grid-cols-3 gap-4 items-center'>
             <InputTextField
               label='Lot Number'
@@ -384,103 +529,99 @@ const ResidentForm = ({ getObject, objectData }) => {
         </div>
         {/*The Family Background */}
         <div>
-          <h3>Family Background</h3>
-          <div className='grid grid-cols-3 gap-4 items-center'>
-            <InputTextField
-              label="Father's Name"
-              type='text'
-              name='father'
-              value={data.family.father}
-              getValue={(value) => handleFamilyChange(value)}
-            />
-            <InputTextField
-              label="Mother's Name"
-              type='text'
-              name='mother'
-              value={data.family.mother}
-              getValue={(value) => handleFamilyChange(value)}
-            />
-            <InputTextField
-              label="Spouse's Name"
-              type='text'
-              name='spouse'
-              value={data.family.spouse}
-              getValue={(value) => handleFamilyChange(value)}
-            />
-            <h4>Children</h4>
-            <div
-              className={`grid items-center justify-items-center col-span-3`}
-            >
-              {data.family.children?.map((child, index) => (
-                <div key={index} className='grid grid-cols-6'>
-                  <InputTextField
-                    type='text'
-                    label='First Name'
-                    name='firstName'
-                    isRequired={true}
-                    value={child.firstName}
-                    getValue={(e) => handleChildValues(e, index)}
-                  />
-                  <InputTextField
-                    type='text'
-                    label='Last Name'
-                    name='lastName'
-                    isRequired={true}
-                    value={child.lastName}
-                    getValue={(e) => handleChildValues(e, index)}
-                  />
-                  <InputTextField
-                    type='text'
-                    label='Middle Name'
-                    name='middleName'
-                    isRequired={false}
-                    value={child.middleName}
-                    getValue={(e) => handleChildValues(e, index)}
-                  />
-                  <InputTextField
-                    type='text'
-                    label='Suffix'
-                    name='suffix'
-                    isRequired={false}
-                    value={child.suffix}
-                    getValue={(e) => handleChildValues(e, index)}
-                  />
-                  <div className='col-span-2'>
-                    <button
-                      type='button'
-                      onClick={() => clickRemoveChild(index)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              ))}
-              <ul>
-                {data.family.children.map((child, index) => (
-                  <li key={index}>{child.firstName}</li>
-                ))}
-              </ul>
-              <button
-                type='button'
-                className='w-full h-10 border cursor-pointer hover:bg-sky-50 focus:bg-sky-200 rounded-lg'
-                onClick={handleAddChildForm}
-              >
-                <FontAwesomeIcon className='text-3xl' icon={faUserPlus} />
-              </button>
+          <SectionDivider>Family Background</SectionDivider>
+          <div>
+            <div className='flex justify-between gap-2'>
+              <InputTextField
+                label="Father's Name"
+                type='text'
+                name='father'
+                className={'grow'}
+                value={data.family.father}
+                getValue={(value) => handleFamilyChange(value)}
+              />
+              <InputTextField
+                label="Mother's Name"
+                type='text'
+                name='mother'
+                className={'grow'}
+                value={data.family.mother}
+                getValue={(value) => handleFamilyChange(value)}
+              />
+              <InputTextField
+                label="Spouse's Name"
+                type='text'
+                name='spouse'
+                className={'grow'}
+                value={data.family.spouse}
+                getValue={(value) => handleFamilyChange(value)}
+              />
             </div>
+
+            <div>
+              <h5 className='mt-3'>Children</h5>
+              <ListContainer>
+                {data.family.children?.map((child, index) => (
+                  <MapsContainer key={index} className='flex gap-2'>
+                    <InputTextField
+                      type='text'
+                      label='First Name'
+                      name='firstName'
+                      isRequired={true}
+                      value={child.firstName}
+                      getValue={(e) => handleChildValues(e, index)}
+                    />
+                    <InputTextField
+                      type='text'
+                      label='Last Name'
+                      name='lastName'
+                      isRequired={true}
+                      value={child.lastName}
+                      getValue={(e) => handleChildValues(e, index)}
+                    />
+                    <InputTextField
+                      type='text'
+                      label='Middle Name'
+                      name='middleName'
+                      isRequired={false}
+                      value={child.middleName}
+                      getValue={(e) => handleChildValues(e, index)}
+                    />
+                    <InputTextField
+                      type='text'
+                      label='Suffix'
+                      name='suffix'
+                      isRequired={false}
+                      value={child.suffix}
+                      getValue={(e) => handleChildValues(e, index)}
+                    />
+                    <div>
+                      <span>Remove</span>
+                      <ChildButtons
+                        className={'flex border-0 items-center justify-center'}
+                        type='button'
+                        onClick={() => clickRemoveChild(index)}
+                      >
+                        <SVGRemove className='fill-red-400 w-6 h-6' />
+                      </ChildButtons>
+                    </div>
+                  </MapsContainer>
+                ))}
+              </ListContainer>
+            </div>
+            <ChildButtons
+              type='button'
+              className='mt-2 '
+              onClick={handleAddChildForm}
+            >
+              <FontAwesomeIcon className='text-3xl' icon={faUserPlus} />
+            </ChildButtons>
           </div>
         </div>
         {/* Beneficiary */}
         <div>
-          <h3>Beneficiaries</h3>
+          <SectionDivider>Beneficiary Information</SectionDivider>
           <div className='grid grid-cols-3 py-4'>
-            <Checkbox
-              name='_4ps'
-              checkVal={data.beneficiaries._4ps}
-              getValue={(value) => handleBenefChecks(value)}
-            >
-              4PS
-            </Checkbox>
             <Checkbox
               name='pension'
               checkVal={data.beneficiaries.pension}
@@ -489,10 +630,64 @@ const ResidentForm = ({ getObject, objectData }) => {
               Pension
             </Checkbox>
           </div>
+          <div>
+            <h5>4P's Member/s</h5>
+            <ListContainer>
+              {data.beneficiaries._4ps?.map((member, index) => (
+                <MapsContainer key={index} className='flex gap-2'>
+                  <InputTextField
+                    type='text'
+                    label='Full Name'
+                    name='FullName'
+                    value={member.FullName}
+                    getValue={(e) => handleBeneficiaryInputs(e, index)}
+                  />
+                  <div className='flex flex-col'>
+                    <label htmlFor='age'>Age</label>
+                    <input
+                      name='age'
+                      type='text'
+                      readOnly
+                      value={getAge(member?.birthdate)}
+                    />
+                  </div>
+                  <div className='flex flex-col'>
+                    <label htmlFor='birthdate'>Birthdate</label>
+                    <input
+                      type='date'
+                      name='birthdate'
+                      required
+                      value={member.birthdate}
+                      selected={member.birthdate}
+                      onChange={(e) => handleBeneficiaryDate(e, index)}
+                      id=''
+                    />
+                  </div>
+                  <div>
+                    <span>Remove</span>
+                    <ChildButtons
+                      className={'flex border-0 items-center justify-center'}
+                      type='button'
+                      onClick={() => clickRemoveMember(index)}
+                    >
+                      <SVGRemove className='fill-red-400 w-6 h-6' />
+                    </ChildButtons>
+                  </div>
+                </MapsContainer>
+              ))}
+            </ListContainer>
+          </div>
+          <ChildButtons
+            className={'mt-2'}
+            type='button'
+            onClick={handleAdd_4ps}
+          >
+            <FontAwesomeIcon className='text-3xl' icon={faUserPlus} />
+          </ChildButtons>
         </div>
         {/* health */}
         <div>
-          <h3>Health</h3>
+          <SectionDivider>Health Information</SectionDivider>
           <div className='grid grid-cols-3 py-4 gap-2'>
             <Checkbox
               value='pwd'
@@ -502,15 +697,128 @@ const ResidentForm = ({ getObject, objectData }) => {
             >
               Person With Disability (P.W.D.)
             </Checkbox>
-            <Checkbox
-              value='covid-19'
-              name='covidvax'
-              checkVal={data.health.covidvax}
-              getValue={(value) => handleHealthCheck(value)}
-            >
-              Covid-19 Vax
-            </Checkbox>
           </div>
+
+          <VaccineContainer className='flex justify-start gap-3'>
+            <InputTextField
+              label={'Vaccination Type'}
+              type='text'
+              placeholder='Example Moderna'
+              name='Vaccine1Type'
+              value={data.health.Vaccine1Type}
+              getValue={(value) => handleHealthInput(value)}
+            />
+
+            <div className='flex flex-col'>
+              <label htmlFor='Vaccine1Date'>Vaccination Date</label>
+              <input
+                type='date'
+                name='Vaccine1Date'
+                required
+                className='rounded-md'
+                value={data.health.Vaccine1Date}
+                selected={data.health.Vaccine1Date}
+                onChange={handleHealthDates}
+              />
+            </div>
+            <InputTextField
+              label='Municipality/ City of Vaccination '
+              type='text'
+              placeholder='Example La Paz'
+              name='Vaccine1Location'
+              value={data.health.Vaccine1Location}
+              getValue={(value) => handleHealthInput(value)}
+            />
+          </VaccineContainer>
+          <VaccineContainer className='flex justify-start gap-3'>
+            <InputTextField
+              label={'Vaccination Type'}
+              type='text'
+              placeholder='Example Moderna'
+              name='Vaccine2Type'
+              value={data.health.Vaccine2Type}
+              getValue={(value) => handleHealthInput(value)}
+            />
+
+            <div className='flex flex-col'>
+              <label htmlFor='Vaccine2Date'>Vaccination Date</label>
+              <input
+                type='date'
+                name='Vaccine2Date'
+                required
+                className='rounded-md'
+                value={data.health.Vaccine2Date}
+                selected={data.health.Vaccine2Date}
+                onChange={handleHealthDates}
+              />
+            </div>
+            <InputTextField
+              label='Municipality/ City of Vaccination '
+              type='text'
+              placeholder='Example La Paz'
+              name='Vaccine2Location'
+              value={data.health.Vaccine2Location}
+              getValue={(value) => handleHealthInput(value)}
+            />
+          </VaccineContainer>
+          <div>
+            <h5>Boosters</h5>
+            <ListContainer>
+              {data.health.boosters?.map((booster, index) => (
+                <MapsContainer key={index}>
+                  <div className='flex flex-col-reverse align-middle mb-2'>
+                    <h6>B {index + 1}</h6>
+                  </div>
+                  <InputTextField
+                    type='text'
+                    label='Vaccine Type'
+                    name='VaccinationType'
+                    isRequired={true}
+                    value={booster.VaccinationType}
+                    getValue={(e) => handleBoosterInputs(e, index)}
+                  />
+                  <div className='flex flex-col'>
+                    <label htmlFor='VaccinationDate'>Vaccination Date</label>
+                    <input
+                      type='date'
+                      name='VaccinationDate'
+                      required
+                      className='rounded-md'
+                      value={booster.VaccinationDate}
+                      selected={booster.VaccinationDate}
+                      onChange={(e) => handleBoosterDate(e, index)}
+                    />
+                  </div>
+                  <InputTextField
+                    type='text'
+                    label='Municipality/ City of Vaccination'
+                    name='VaccinationLocation'
+                    isRequired={true}
+                    value={booster.VaccinationLocation}
+                    getValue={(e) => handleBoosterInputs(e, index)}
+                  />
+                  <div>
+                    <span>Remove</span>
+                    <ChildButtons
+                      className={'flex border-0 items-center justify-center'}
+                      type='button'
+                      onClick={() => clickRemoveBooster(index)}
+                    >
+                      <SVGRemove className='fill-red-400 w-6 h-6' />
+                    </ChildButtons>
+                  </div>
+                </MapsContainer>
+              ))}
+            </ListContainer>
+          </div>
+          <ChildButtons
+            className={'mt-2 flex justify-center items-center'}
+            type='button'
+            onClick={handleAddBooster}
+          >
+            <SVGHeart className='mr-4' />
+            Add Booster
+          </ChildButtons>
         </div>
         <Button type='submit'>Add Resident</Button>
       </form>
@@ -518,4 +826,37 @@ const ResidentForm = ({ getObject, objectData }) => {
   );
 };
 
+const SectionDivider = ({ children }) => {
+  return (
+    <div className='flex w-full border-b-2 mb-3'>
+      <h4>{children}</h4>
+    </div>
+  );
+};
+
+const ListContainer = ({ children }) => {
+  return (
+    <div className='flex flex-col justify-center items-center'>{children}</div>
+  );
+};
+
+const MapsContainer = ({ children, key }) => {
+  return (
+    <div key={key} className='flex flex-row justify-start align-middle gap-2 '>
+      {children}
+    </div>
+  );
+};
+
+const VaccineContainer = ({ children }) => {
+  return (
+    <div className='flex justify-center items-center gap-4 mb-2'>
+      {children}
+    </div>
+  );
+};
+
+const Sections = ({ children }) => {
+  return <div className=''>{children}</div>;
+};
 export default ResidentForm;
