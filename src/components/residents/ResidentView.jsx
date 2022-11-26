@@ -158,7 +158,7 @@ function ResidentView() {
             onClose={() => {
               setOpenPopup(false);
             }}
-            stylesBody='overflow-auto scrollbar-hide flex flex col'
+            stylesBody='overflow-auto scrollbar-hide flex flex col bg-white p-5 rounded-md shadow-lg'
           >
             <AddResident />
           </Modal>
