@@ -19,12 +19,15 @@ const InputTextField = ({
     });
   };
   return (
-    <div className={clsx('grid grid-flow-row', className)}>
-      <label htmlFor={name}>{label}</label>
+    <div className={clsx('flex flex-col', className)}>
+      <label className='' htmlFor={name}>
+        {label}
+      </label>
       <input
         type={type}
         value={value}
         name={name}
+        className='rounded-md'
         onChange={inputTextHandler}
         placeholder={placeholder}
         {...rest}
