@@ -511,7 +511,7 @@ const ResidentForm = ({ getObject, objectData }) => {
             <InputNumberField
               label='Telephone Number'
               type='tel'
-              name='mobile'
+              name='telephone'
               placeholder='092-4565'
               pattern='[0-9]{7}'
               value={data.contacts.telephone}
