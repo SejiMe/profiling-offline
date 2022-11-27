@@ -6,15 +6,12 @@ import { useRouter } from 'next/router';
 import Button from '@/components/Button';
 import ResidentForm from '@/components/residents/ResidentForm';
 import { useUpdateResident } from '@/hooks/useUpdateResident';
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@mui/material';
-
+import SVGRemove from '@/components/svg/icons8-denied/icons8-denied-96.svg';
 import BackSVG128 from '@/components/svg/icons8-go-back-pastel-glyph/icons8-go-back-128.svg';
 import BackSVG64 from '@/components/svg/icons8-go-back-pastel-glyph/icons8-go-back-64.svg';
+import { useDeleteResident } from '@/hooks/useDeleteDoc';
+import { MoonLoader } from 'react-spinners';
+import useUpdateCount from '@/hooks/useUpdateCount';
 
 const ResidentDetails = () => {
   //TODO back button for User Interaction
@@ -36,26 +33,52 @@ const ResidentDetails = () => {
     }
   );
 
+  const { mutate: deleteResident } = useDeleteResident();
   const { mutate: updateResident } = useUpdateResident();
+  const { mutate: decrementCount } = useUpdateCount();
 
   const handleProcessMutation = (Doc) => {
     updateResident({ residentDoc: Doc, residentID: id });
   };
 
-  if (idLoading) return <div>Loading...</div>;
+  if (idLoading)
+    return (
+      <div className='h-screen w-screen flex justify-center align-middle items-center'>
+        <MoonLoader />
+      </div>
+    );
+
+  const handleDelete = (docID) => {
+    decrementCount(-1);
+    deleteResident(docID);
+    setTimeout(() => {
+      router.push('/admin/residents');
+    }, 2000);
+  };
 
   return (
     <div className='p-4'>
       {/* TODO Icon */}
-      <Button
-        type='button'
-        className='bg-none'
-        onClick={() => router.push('/admin/residents')}
-      >
-        <BackSVG128 />
-      </Button>
+      <div className='flex justify-between'>
+        <Button
+          type='button'
+          className='bg-transparent ml-10 '
+          onClick={() => router.push('/admin/residents')}
+        >
+          <BackSVG128 className='w-8 h-8' />
+        </Button>
+        <Button
+          type='button'
+          className='bg-transparent mr-10 '
+          onClick={() => handleDelete(id)}
+        >
+          <SVGRemove className='w-10 h-10 fill-red-600' />
+        </Button>
+      </div>
+
       <div className='p-2 w-full h-full'>
         <ResidentForm
+          ResidentFormType='Update'
           objectData={data}
           getObject={(value) => handleProcessMutation(value)}
         />

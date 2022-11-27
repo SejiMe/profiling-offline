@@ -9,8 +9,9 @@ import { getAge } from '@/hooks/getAge';
 import ChildButtons from './ChildButtons';
 import SVGRemove from '@/components/svg/icons8-remove/icons8-remove.svg';
 import SVGHeart from '@/components/svg/icons8-heart-health/icons8-heart-health.svg';
+import clsx from 'clsx';
 
-const ResidentForm = ({ getObject, objectData }) => {
+const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
   //#region Document Information for firestore
   const [data, setData] = useState(objectData);
   //#endregion
@@ -511,7 +512,7 @@ const ResidentForm = ({ getObject, objectData }) => {
             <InputNumberField
               label='Telephone Number'
               type='tel'
-              name='mobile'
+              name='telephone'
               placeholder='092-4565'
               pattern='[0-9]{7}'
               value={data.contacts.telephone}
@@ -820,15 +821,20 @@ const ResidentForm = ({ getObject, objectData }) => {
             Add Booster
           </ChildButtons>
         </div>
-        <Button type='submit'>Add Resident</Button>
+        <div className='mb-2'>
+          <SectionDivider className='mb-4'></SectionDivider>
+          <div className='flex flex-col justify-center'>
+            <Button type='submit'>{ResidentFormType} Resident</Button>
+          </div>
+        </div>
       </form>
     </div>
   );
 };
 
-const SectionDivider = ({ children }) => {
+const SectionDivider = ({ className, children }) => {
   return (
-    <div className='flex w-full border-b-2 mb-3'>
+    <div className={clsx('flex w-full border-b-2 mb-3', className)}>
       <h4>{children}</h4>
     </div>
   );

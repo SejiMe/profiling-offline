@@ -90,6 +90,7 @@ const AddResident = () => {
             objectData={object}
             /* A function that takes in a value, sets the data to that value, and then sets the object to
         that data. */
+            ResidentFormType='Add'
             getObject={(value) => handleObjectData(value)}
           />
         </div>
