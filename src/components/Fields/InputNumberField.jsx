@@ -8,10 +8,8 @@ const InputNumberField = ({
   type,
   value,
   getValue,
-  required = false,
-  pattern = '',
   placeholder = '',
-  isRequired = false,
+  ...rest
 }) => {
   const inputTextHandler = (e) => {
     const { name, value } = e.target;
@@ -24,13 +22,12 @@ const InputNumberField = ({
     <div className={clsx('grid grid-flow-row', className)}>
       <label htmlFor={name}>{label}</label>
       <input
+        {...rest}
         type={type}
         value={value}
         name={name}
         className='rounded-md'
         onChange={inputTextHandler}
-        pattern={pattern}
-        required={isRequired}
         placeholder={placeholder}
       />
     </div>

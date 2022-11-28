@@ -506,6 +506,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
               name='mobile'
               placeholder='0920-123-4567'
               pattern='[0-9]{11}'
+              maxLength={11}
               value={data.contacts.mobile}
               getValue={(value) => handleContactChange(value)}
             />
@@ -515,6 +516,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
               name='telephone'
               placeholder='092-4565'
               pattern='[0-9]{7}'
+              maxLength={7}
               value={data.contacts.telephone}
               getValue={(value) => handleContactChange(value)}
             />
@@ -632,7 +634,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
             </Checkbox>
           </div>
           <div>
-            <h5>4P's Member/s</h5>
+            <h5>4P's Member/s</h5>4
             <ListContainer>
               {data.beneficiaries._4ps?.map((member, index) => (
                 <MapsContainer key={index} className='flex gap-2'>
@@ -640,6 +642,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
                     type='text'
                     label='Full Name'
                     name='FullName'
+                    required
                     value={member.FullName}
                     getValue={(e) => handleBeneficiaryInputs(e, index)}
                   />
@@ -715,7 +718,6 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
               <input
                 type='date'
                 name='Vaccine1Date'
-                required
                 className='rounded-md'
                 value={data.health.Vaccine1Date}
                 selected={data.health.Vaccine1Date}
@@ -746,7 +748,6 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
               <input
                 type='date'
                 name='Vaccine2Date'
-                required
                 className='rounded-md'
                 value={data.health.Vaccine2Date}
                 selected={data.health.Vaccine2Date}
@@ -774,7 +775,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
                     type='text'
                     label='Vaccine Type'
                     name='VaccinationType'
-                    isRequired={true}
+                    required
                     value={booster.VaccinationType}
                     getValue={(e) => handleBoosterInputs(e, index)}
                   />
@@ -794,7 +795,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
                     type='text'
                     label='Municipality/ City of Vaccination'
                     name='VaccinationLocation'
-                    isRequired={true}
+                    required
                     value={booster.VaccinationLocation}
                     getValue={(e) => handleBoosterInputs(e, index)}
                   />
