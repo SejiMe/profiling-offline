@@ -504,7 +504,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
               label='Mobile Number'
               type='tel'
               name='mobile'
-              placeholder='0920-123-4567'
+              placeholder='09201234567'
               pattern='[0-9]{11}'
               maxLength={11}
               value={data.contacts.mobile}
@@ -514,7 +514,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
               label='Telephone Number'
               type='tel'
               name='telephone'
-              placeholder='092-4565'
+              placeholder='0924565'
               pattern='[0-9]{7}'
               maxLength={7}
               value={data.contacts.telephone}
@@ -560,7 +560,6 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
                 getValue={(value) => handleFamilyChange(value)}
               />
             </div>
-
             <div>
               <h5 className='mt-3'>Children</h5>
               <ListContainer>
