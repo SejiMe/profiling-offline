@@ -10,7 +10,7 @@ export const ProtectedRoutes = ({ children }) => {
   const { user } = useAuth();
   const router = useRouter();
   useEffect(() => {
-    if (user.id === '' && sessionStorage.getItem('token') === null) {
+    if (sessionStorage.getItem('token') === null) {
       router.push('/');
     }
   }, [router, user]);

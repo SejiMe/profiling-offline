@@ -5,11 +5,9 @@ import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import Button from '@/components/Button';
 import ResidentForm from '@/components/residents/ResidentForm';
-import { useUpdateResident } from '@/hooks/useUpdateResident';
 import SVGRemove from '@/components/svg/icons8-denied/icons8-denied-96.svg';
 import BackSVG128 from '@/components/svg/icons8-go-back-pastel-glyph/icons8-go-back-128.svg';
-import BackSVG64 from '@/components/svg/icons8-go-back-pastel-glyph/icons8-go-back-64.svg';
-import { useDeleteResident } from '@/hooks/useDeleteDoc';
+import { useDeleteResident, useUpdateResident } from '@/hooks/useResidentData';
 import { MoonLoader } from 'react-spinners';
 import useUpdateCount from '@/hooks/useUpdateCount';
 

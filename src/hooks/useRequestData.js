@@ -1,14 +1,16 @@
 import { db } from '@/config/firebaseConfig';
 import {
+  addDoc,
   collection,
   getDocs,
   limit,
   orderBy,
   query,
+  setDoc,
   startAfter,
   startAt,
 } from 'firebase/firestore';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query';
 
 const requestCollection = collection(db, 'requests');
 const getQuery = query(
@@ -41,4 +43,31 @@ export const useGetRequests = () => {
       },
     }
   );
+};
+
+// ==== Add
+const newRequestRef = collection(db, 'requests');
+
+const addRequestDoc = async (docRef) => {
+  return await addDoc(newRequestRef, docRef);
+};
+
+export const useAddRequestDoc = () => {
+  return useMutation(addRequestDoc);
+};
+
+// ======== Update
+
+const updateRequest = async ({ requestDoc, requestID }) => {
+  const requestRef = doc(db, 'requests', requestID);
+  return await setDoc(requestRef, requestID);
+};
+
+export const useUpdateOfficials = () => {
+  const queryClient = useQueryClient();
+  return useMutation(updateRequest, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('requests');
+    },
+  });
 };
