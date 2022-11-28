@@ -3,7 +3,7 @@ import ResidentForm from './ResidentForm';
 import moment from 'moment/moment';
 import 'firebase/app';
 import { useRouter } from 'next/router';
-import { useAddResident } from '@/hooks/useAddResident';
+import { useAddResident } from '@/hooks/useResidentData';
 import useUpdateCount from '@/hooks/useUpdateCount';
 import Button from '../Button';
 import { ClipLoader } from 'react-spinners';

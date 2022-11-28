@@ -1,6 +1,5 @@
 import { db } from '@/config/firebaseConfig';
-import { useGetOfficials } from '@/hooks/getOfficial';
-import { useUpdateOfficials } from '@/hooks/useUpdateOfficial';
+import { useGetOfficials, useUpdateOfficials } from '@/hooks/useOfficialData';
 import residents from '@/pages/admin/residents';
 import clsx from 'clsx';
 import { doc, getDoc } from 'firebase/firestore';

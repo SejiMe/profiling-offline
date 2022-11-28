@@ -6,7 +6,7 @@ import Pencil from '@/components/svg/icons8-pencil/icons8-pencil-32.svg';
 import React, { useState } from 'react';
 import { useMedia } from 'react-use';
 import Popup from '@/components/Popup';
-import { useGetOfficials } from '@/hooks/getOfficial';
+import { useGetOfficials } from '@/hooks/useOfficialData';
 import { MoonLoader } from 'react-spinners';
 import { useRouter } from 'next/router';
 

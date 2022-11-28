@@ -1,5 +1,5 @@
 import IconInfo from '@/components/svg/icons8-info-52.svg';
-import { useGetRequests } from '@/hooks/getRequests';
+import { useGetRequests } from '@/hooks/useRequestData';
 import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../Button';
@@ -143,6 +143,32 @@ export default function RequestView() {
   };
 
   const handleFindRelevance = () => {};
+
+  const handleSuccessPages = (doc, id, index) => {
+    console.log('button handle change to succes');
+    console.log(doc);
+    console.log(id);
+    console.log(index);
+    pages.at(currentPage).at(index)['documentStatus'] = 'Success';
+    console.log(pages.at(currentPage).at(index));
+  };
+  const handleDeclinePages = (doc, id, index) => {
+    console.log('button handle change to succes');
+    console.log(doc);
+    console.log(id);
+    console.log(index);
+    pages.at(currentPage).at(index)['documentStatus'] = 'Decline';
+    console.log(pages.at(currentPage).at(index));
+  };
+
+  const handleSuccessMerge = (doc, id, index) => {
+    console.log('button handle change to succes');
+    console.log(doc);
+    console.log(id);
+    console.log(index);
+    mergedData.at(index)['documentStatus'] = 'Success';
+    console.log(pages.at(currentPage).at(index));
+  };
 
   const handleGenerateDoc = async () => {
     const doc = await DocumentCreate();
@@ -331,7 +357,11 @@ export default function RequestView() {
                     <Td className=''>{doc.documentType}</Td>
                     <Td className=''>{doc.documentStatus}</Td>
                     <Td className='flex'>
-                      <Button type='button' className='bg-transparent'>
+                      <Button
+                        type='button'
+                        className='bg-transparent'
+                        onClick={() => handleSuccessPages(doc, doc.id, index)}
+                      >
                         ✅
                       </Button>
                       <Button type='button' className='bg-transparent'>

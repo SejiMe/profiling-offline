@@ -6,7 +6,7 @@ import AddResident from './AddResident';
 import Tr from '../Table/Tr';
 import Th from '../Table/Th';
 import Td from '../Table/Td';
-import { useGetResidents } from '@/hooks/getResidents';
+import { useGetResidents } from '@/hooks/useResidentData';
 import TableNavigator from '../Table/TableNavigator';
 import Link from 'next/link';
 import moment from 'moment';
