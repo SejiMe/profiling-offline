@@ -8,6 +8,18 @@ module.exports = {
         primary: ['Inter', ...fontFamily.sans],
       },
       colors: {
+        green: {
+          50: '#DEF8F1',
+          100: '#C0F1E4',
+          200: '#7EE2C7',
+          300: '#3FD5AD',
+          400: '#239F7E',
+          500: '#155F4B',
+          600: '#114B3C',
+          700: '#0D3A2E',
+          800: '#08261E',
+          900: '#051511',
+        },
         primary: {
           // Customize it on globals.css :root
           50: 'rgb(var(--tw-color-primary-50) / <alpha-value>)',
