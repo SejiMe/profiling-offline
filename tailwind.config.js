@@ -8,6 +8,18 @@ module.exports = {
         primary: ['Inter', ...fontFamily.sans],
       },
       colors: {
+        slightG: {
+          50: '#F9FBFA',
+          100: '#F6F9F8',
+          200: '#EDF3F1',
+          300: '#E4ECEA',
+          400: '#DBE6E3',
+          500: '#D0DFDB',
+          600: '#9EBDB5',
+          700: '#6A9A8D',
+          800: '#46675E',
+          900: '#23342F',
+        },
         green: {
           50: '#DEF8F1',
           100: '#C0F1E4',

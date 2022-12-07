@@ -8,8 +8,8 @@ const Container = ({ type = types.DEFAULT, children, className }) => {
       {type === types.DEFAULT && (
         <DefaultView className={className}>{children}</DefaultView>
       )}
-      {type === types.RESIDENT && (
-        <ResidentView className={className}>{children}</ResidentView>
+      {type === types.ADMIN && (
+        <AdminView className={className}>{children}</AdminView>
       )}
     </>
   );
@@ -30,11 +30,9 @@ function DefaultView({ children, className }) {
   );
 }
 
-function ResidentView({ children, className }) {
+function AdminView({ children, className }) {
   return (
-    <main
-      className={clsx('bg-green-100 px-8 py-8 h-screen w-min-full', className)}
-    >
+    <main className={clsx('px-8 py-8 h-screen w-min-full', className)}>
       {children}
     </main>
   );

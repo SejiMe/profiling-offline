@@ -11,6 +11,8 @@ import TableNavigator from '../Table/TableNavigator';
 import Link from 'next/link';
 import moment from 'moment';
 import Modal from '../Modal/Modal';
+import InputTextField from '../Fields/InputTextField';
+import Thead from '../Table/Thead';
 
 function ResidentView() {
   const { data, fetchNextPage, isLoading, isFetching, isFetched, hasNextPage } =
@@ -25,17 +27,48 @@ function ResidentView() {
   let pages = [];
   let mergedData = [];
 
+  if (hasNextPage) {
+    fetchNextPage();
+  }
+
+  if (isFetched) {
+    const thePage = data?.pages.map((page) => {
+      //console.log(page);
+      const documents = page?.docs.map((doc) => {
+        const data = doc.data();
+        data.id = doc.id;
+        //console.log(data.dob);
+        //console.log(age);
+        return data;
+      });
+      // console.log(documents);
+      if (!documents.length) {
+        return '*';
+      } else {
+        return documents;
+      }
+    });
+    pages = thePage;
+  }
+
+  if (!hasNextPage) {
+    // console.log('pages');
+    // console.log(pages);
+    pages.forEach((pageArr) => {
+      mergedData = mergedData.concat(pageArr);
+    });
+  }
+
   const searchPage = useMemo(() => {
+    // console.log(mergedData);
     const result = mergedData.filter((info) => {
       if (info === '*') {
         return;
       } else {
-        if (info.serialCode === '') {
+        if (info.lastName === '') {
           return;
         } else {
-          if (
-            info.serialCode.toLowerCase().includes(searchInput.toLowerCase())
-          ) {
+          if (info.lastName.toLowerCase().includes(searchInput.toLowerCase())) {
             return info;
           }
         }
@@ -50,45 +83,6 @@ function ResidentView() {
         <DotLoader />
       </>
     );
-
-  if (hasNextPage) {
-    fetchNextPage();
-  }
-
-  if (!hasNextPage) {
-    pages.forEach((pageArr) => {
-      mergedData = mergedData.concat(pageArr);
-    });
-  }
-
-  console.log('from query:');
-  //console.log(data);
-  if (isFetched) {
-    const page = data?.pages.map((page) => {
-      console.log('from data:');
-      //console.log(page);
-      const documents = page?.docs.map((doc) => {
-        const data = doc.data();
-        data.id = doc.id;
-        //console.log(data.dob);
-        const age = moment(data.dob).fromNow(true);
-        //console.log(age);
-        return data;
-      });
-      console.log('documents:');
-      //console.log(documents);
-      if (!documents.length) {
-        return '*';
-      } else {
-        return documents;
-      }
-    });
-    console.log('page:');
-    //console.log(page);
-    pages = page;
-  }
-  console.log('pages:');
-  //console.log(pages);
 
   // ------ Button Handlers ---------
 
@@ -142,17 +136,24 @@ function ResidentView() {
   };
 
   return (
-    <div className='h-full w-full flex flex-col'>
-      <div className='flex justify-between'>
-        <div>
-          <input
-            className='col-span-2'
-            type='text'
-            placeholder='Search Resident Name'
-          />
-          <Button className='col-span-1' onClick={() => setOpenPopup(true)}>
-            Add Resident
-          </Button>
+    <div className='h-full w-full p-4'>
+      <div className='flex justify-between mb-2'>
+        <div className='flex gap-2'>
+          <div className=''>
+            <InputTextField
+              className='col-span-2'
+              type='search'
+              name={'searchData'}
+              onChange={handleInput}
+              label={'Search Resident'}
+              placeholder='Resident Last Name'
+            />
+          </div>
+          <div className='flex flex-col-reverse'>
+            <Button className='' onClick={() => setOpenPopup(true)}>
+              Add Resident
+            </Button>
+          </div>
           <Modal
             show={openPopup}
             onClose={() => {
@@ -162,86 +163,105 @@ function ResidentView() {
           >
             <AddResident />
           </Modal>
-          {/* <Popup
-            title='Add Resident Form'
-            openPopup={openPopup}
-            setOpenPopup={setOpenPopup}
-          >
-            <AddResident />
-          </Popup> */}
         </div>
         <TableNavigator>
-          <>
-            <Button
-              type='button'
-              disabled={backwardButton}
-              onClick={handleBackwardPage}
-              className='bg-transparent disabled:text-gray-300'
-            >
-              {'<<'}
-            </Button>
-            <Button
-              type='button'
-              disabled={backButton}
-              onClick={handlePrevPage}
-              className='bg-transparent disabled:text-gray-300'
-            >
-              {'<'}
-            </Button>
-            <div className='flex flex-row items-center'>
-              <h4>{currentPage + 1}</h4>
-              <span>out of</span>
-              {!isFetching ? (
-                <h4>{pages.length - 1}</h4>
-              ) : (
+          {searchInput.length === 0 ? (
+            <>
+              <Button
+                type='button'
+                disabled={backwardButton}
+                onClick={handleBackwardPage}
+                className='bg-transparent disabled:text-gray-300'
+              >
+                {'<<'}
+              </Button>
+              <Button
+                type='button'
+                disabled={backButton}
+                onClick={handlePrevPage}
+                className='bg-transparent disabled:text-gray-300'
+              >
+                {'<'}
+              </Button>
+              <div className='flex flex-row items-center'>
                 <h4>{currentPage + 1}</h4>
-              )}
-            </div>
-            <Button
-              type='button'
-              disabled={nextButton}
-              onClick={handleNextPage}
-              className='bg-transparent disabled:text-gray-300'
-            >
-              {'>'}
-            </Button>
-            <Button
-              type='button'
-              disabled={forwardButton}
-              onClick={handleForwardPage}
-              className='bg-transparent disabled:text-gray-300'
-            >
-              {'>>'}
-            </Button>{' '}
-          </>
+                <span>out of</span>
+                {!isFetching ? (
+                  <h4>{pages.length - 1}</h4>
+                ) : (
+                  <h4>{currentPage + 1}</h4>
+                )}
+              </div>
+              <Button
+                type='button'
+                disabled={nextButton}
+                onClick={handleNextPage}
+                className='bg-transparent disabled:text-gray-300'
+              >
+                {'>'}
+              </Button>
+              <Button
+                type='button'
+                disabled={forwardButton}
+                onClick={handleForwardPage}
+                className='bg-transparent disabled:text-gray-300'
+              >
+                {'>>'}
+              </Button>{' '}
+            </>
+          ) : null}
         </TableNavigator>
       </div>
-      <div className='col-span-4'>
-        <table>
-          <thead>
+      <div className='overflow-auto h-full w-full'>
+        <table className='w-full px-2 border-2 border-l-0 border-r-0 rounded-md p-4 shadow-md '>
+          <Thead>
             <Tr>
-              <Th>Index</Th>
               <Th>First Name</Th>
               <Th>Middle Name</Th>
               <Th>Last Name</Th>
               <Th>Resident Information</Th>
             </Tr>
-          </thead>
-          <tbody>
-            {pages?.at(currentPage)?.map((doc, index) => {
-              return (
-                <Tr>
-                  <Td className=''>{index + 1}</Td>
-                  <Td className=''>{doc.firstName}</Td>
-                  <Td className=''>{doc.middleName}</Td>
-                  <Td className=''>{doc.lastName}</Td>
-                  <Td className=''>
-                    <Link href={`residents/${doc.id}`}>View Information</Link>
-                  </Td>
-                </Tr>
-              );
-            })}
-          </tbody>
+          </Thead>
+          {searchInput.length > 0 ? (
+            <tbody>
+              {searchPage.map((doc, index) => {
+                return (
+                  <Tr key={doc.id}>
+                    <Td className=''>{doc.firstName}</Td>
+                    <Td className=''>{doc.middleName}</Td>
+                    <Td className=''>{doc.lastName}</Td>
+                    <Td className=''>
+                      <Link href={`residents/${doc.id}`}>View Information</Link>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </tbody>
+          ) : isFetching && pages.length === pages.length - pages.length ? (
+            <tbody>
+              <Tr>
+                <td>
+                  <PulseLoader />
+                </td>
+              </Tr>
+            </tbody>
+          ) : (
+            <tbody>
+              {pages?.at(currentPage)?.map((doc, index) => {
+                return (
+                  <Tr key={doc.id}>
+                    <Td className=''>{index + 1}</Td>
+                    <Td className=''>{doc.firstName}</Td>
+                    <Td className=''>{doc.middleName}</Td>
+                    <Td className=''>{doc.lastName}</Td>
+                    <Td className=''>
+                      <Link href={`residents/${doc.id}`}>View Information</Link>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </tbody>
+          )}
         </table>
       </div>
     </div>

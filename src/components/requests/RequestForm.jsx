@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import InputTextField from '../Fields/InputTextField';
-import moment from 'moment/moment';
 import { STATUS_TYPES } from '@/constants/getTypes';
 import InputNumberField from '../Fields/InputNumberField';
 import Button from '../Button';
@@ -31,6 +30,7 @@ function RequestForm() {
     email: '',
     contactNumber: '',
     documentType: '',
+    birthdate: '',
     documentStatus: '',
     paymentMethod: '',
     screenShotUrl: '',
@@ -39,13 +39,10 @@ function RequestForm() {
 
   const optionValues = [
     'Barangay Clearance',
+    'Barangay Residency',
     'Barangay Indigency',
-    'Guardianship',
     'Business Permit',
   ];
-
-  //Value truty
-  const trutyVal = true;
 
   const {
     mutate: addRequest,
@@ -61,10 +58,18 @@ function RequestForm() {
     setImageFile(e.target.files[0]);
   };
 
+  const handleBirthdate = (evt) => {
+    const { name, value } = evt.target;
+    setRequestObj({
+      ...requestObj,
+      [name]: value,
+    });
+  };
+
   const handleSelect = (e) => {
     const { value, name } = e.target;
 
-    if (value === 'Guardianship' || value === 'Barangay Indigency') {
+    if (value === 'Barangay Residency' || value === 'Barangay Indigency') {
       setRequestObj({
         ...requestObj,
         documentType: value,
@@ -338,7 +343,7 @@ function RequestForm() {
                 className='col-span-1 '
                 type='text'
                 name='firstName'
-                isRequired={trutyVal}
+                required
                 placeholder='E.g. Juan'
                 label='First Name (Pangalan)'
                 value={requestObj.firstName}
@@ -348,12 +353,23 @@ function RequestForm() {
                 className='col-span-1'
                 type='text'
                 name='lastName'
-                isRequired={trutyVal}
+                required
                 placeholder='E.g. Cruz'
                 label='Last Name (Apellido)'
                 value={requestObj.lastName}
                 getValue={(e) => handleInput(e)}
               />
+              <div className='flex flex-col'>
+                <label htmlFor='birthdate'>Birthdate</label>
+                <input
+                  name='birthdate'
+                  type='date'
+                  required
+                  value={requestObj.birthdate}
+                  selected={requestObj.birthdate}
+                  onChange={handleBirthdate}
+                />
+              </div>
               <InputNumberField
                 className='col-span-2'
                 type='tel'
@@ -369,7 +385,12 @@ function RequestForm() {
                   Choose Document
                   {requestObj.documentType === 'Barangay Clearance' ||
                   requestObj.documentType === 'Business Permit' ? (
-                    <span className='text-orange-600'>Payment required!</span>
+                    <span className='text-orange-600'>
+                      {requestObj.documentType === 'Business Permit'
+                        ? '150 Php'
+                        : '20 Php'}{' '}
+                      Payment required!
+                    </span>
                   ) : null}
                 </label>
                 <select
@@ -396,7 +417,10 @@ function RequestForm() {
               <h2 className='col-span-2'>Choose your Payment Method</h2>
               {isGcash && (
                 <h3 className='col-span-3 text-orange-400'>
-                  Please send 50Php
+                  Please send{' '}
+                  {requestObj.documentType === 'Business Permit'
+                    ? '150 Php'
+                    : '20 Php'}
                 </h3>
               )}
               <RadioButton

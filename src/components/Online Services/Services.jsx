@@ -7,34 +7,36 @@ import unsplashImg from '~/images/unsplashimg.jpg';
 import Button from '../Button';
 import Popup from '../Popup';
 import RequestForm from '../requests/RequestForm';
+import SVGSubmitRequest from '@/components/svg/icons8-submit-document/icons8-submit-document.svg';
+import Modal from '../Modal/Modal';
 
 const provider = new GoogleAuthProvider();
 
 function Services() {
-  const [requestPopOpen, setRequestPop] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { user, logout } = useAuth();
 
   const handleRequestPopup = () => {
     logout();
-    setRequestPop(false);
+    setShowModal(false);
   };
 
   const handleRequestClick = async (evt) => {
     evt.preventDefault();
     sessionStorage.clear();
     if (user) {
-      setRequestPop(true);
+      setShowModal(true);
     }
     if (!user) {
       await signInWithPopup(auth, provider);
-      setRequestPop(true);
+      setShowModal(true);
     }
   };
   return (
     <div>
-      <div className='grid grid-cols-3 gap-3'>
-        <div className='col-span-2'>
-          <h1>Online Services</h1>
+      <div className='bg-slightG-500 text-black px-2 py-4 flex flex-col md:grid md:grid-cols-3 gap-3'>
+        <div className='md:col-span-2'>
+          <h1 className=''>Online Services</h1>
           <p>
             We offer the full spectrum of services to help organisations work
             better. Everything from creating standards of excellence to training
@@ -74,19 +76,25 @@ function Services() {
         </div>
         <div></div>
         <div>
-          <Button type='button' onClick={handleRequestClick}>
-            Request Document
+          <Button
+            type='button'
+            className='flex justify-center items-center rounded text-white fill-white bg-green-500 p-3 w-full font-medium text-base'
+            onClick={handleRequestClick}
+          >
+            <SVGSubmitRequest className='w-4 h-4 mr-4' /> Request Document
           </Button>
         </div>
         {/* TODO able to close popup when submit request  */}
         <Popup
           title='Request Document'
-          openPopup={requestPopOpen}
+          openPopup={showModal}
           setClose={handleRequestPopup}
         >
           <RequestForm />
         </Popup>
-
+        {/* <Modal show={showModal} onClose={handleRequestPopup}>
+          <RequestForm />
+        </Modal> */}
         <div></div>
       </div>
     </div>

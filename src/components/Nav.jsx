@@ -15,6 +15,11 @@ import Modal from '@/components/Modal/Modal';
 import { useMedia } from 'react-use';
 import Blob from '@/components/svg/blob.svg';
 import SecureDraw from '@/components/svg/undraw_secure_login_pdn4.svg';
+import { useRouter } from 'next/router';
+import SVGPeople from '@/components/svg/icons8-people/icons8-people.svg';
+import SVGHome from '@/components/svg/icons8-home-page/icons8-home-page.svg';
+import SVGDocument from '@/components/svg/icons8-submit-document/icons8-submit-document.svg';
+import SVGProfile from '@/components/svg/icons8-profile/icons8-profile.svg';
 
 // ----- Links for Navigation ----
 
@@ -24,16 +29,16 @@ const publicLinks = [
 ];
 const adminLinks = [
   //TODO Links
-  { href: '/admin/', label: 'Home' },
-  { href: '/admin/residents', label: 'Resident Information' },
+  { href: '/admin', label: 'Home' },
+  { href: '/admin/residents', label: 'Residents' },
   { href: '/admin/requests', label: 'Requests' },
-  { href: '/admin/charter', label: 'Barangay Officials' },
+  { href: '/admin/charter', label: 'Charter' },
 ];
 
 const provider = new GoogleAuthProvider();
 export default function Nav(props) {
   const [showLogin, setShowLogin] = useState(false);
-  const navStyle = `bg-green-800 ${
+  const navStyle = `bg-green-500 ${
     props.type === NAV_TYPES.PUBLIC ? 'h-40 w-full' : 'h-full'
   }`;
 
@@ -43,6 +48,8 @@ export default function Nav(props) {
     setIsDrop((prev) => !prev);
   };
 
+  const router = useRouter();
+  // console.log(router);
   // -----------------------
   // for signin popups
   const handleShowLogin = () => {
@@ -67,11 +74,17 @@ export default function Nav(props) {
         // PUBLIC LINKS OUTSIDE ADMIN PAGE
         <ul className='w-full h-full flex items-center justify-between p-3 space-x-4'>
           <div></div>
-          <div className='flex flex-row space-x-3 gap-2'>
+          <div className='flex flex-row space-x-3 gap-2 text-white'>
             <ScrollLink activeClass='active' to='home' spy={true}>
               Home
             </ScrollLink>
-            <ScrollLink activeClass='active' to='services' spy={true}>
+            <ScrollLink
+              activeClass='active'
+              to='services'
+              smooth={true}
+              duration={700}
+              spy={true}
+            >
               Online Services
             </ScrollLink>
             <ScrollLink activeClass='active' to='contact' spy={true}>
@@ -90,22 +103,32 @@ export default function Nav(props) {
                 <IconUser className='text-6xl text-white' />
               </button>
               <div
-                className={
-                  (isDrop ? 'hidden' : 'block') +
-                  ' flex flex-col gap-2 p-2 text-center bg-slate-200'
-                }
+                className={`${
+                  isDrop ? 'block absolute' : 'hidden'
+                } flex flex-col gap-2 text-center bg-slate-200 float-right rounded right-10`}
               >
                 <Link href='/admin'>
-                  <a>Admin</a>
+                  <a className='hover:bg-green-50 w-full h-full py-2 px-6 rounded'>
+                    Admin
+                  </a>
                 </Link>
-                <button onClick={logout}>Logout</button>
+                <button
+                  onClick={logout}
+                  className='px-6 py-2 hover:bg-green-50 w-full h-full rounded'
+                >
+                  Logout
+                </button>
               </div>
             </div>
           ) : (
             <>
-              <Button className='bg-transparent' onClick={handleShowLogin}>
-                Login
+              <Button
+                className='border rounded px-4 bg-transparent flex text-white text-center hover:text-white'
+                onClick={handleShowLogin}
+              >
+                <IconUser className='text-white mr-1 mt-1' /> Login
               </Button>
+
               <Modal show={showLogin} onClose={handleCloseLogin}>
                 <Login setShowLogin={setShowLogin} />
               </Modal>
@@ -114,21 +137,51 @@ export default function Nav(props) {
         </ul>
       ) : (
         //THIS IS ADMIN LINKS
-        <ul className='flex flex-col h-full w-40 '>
+        <ul className='flex flex-col h-full'>
           <li>
             <Link href='/'>
               <img
                 src='/images/Logo Caramutan.png'
-                className='w-[80%] hover:cursor-pointer'
+                className='w-[50%] hover:cursor-pointer'
                 alt=''
               />
+              {/* <Image
+                width={100}
+                height={100}
+                src='/images/Logo Caramutan.png'
+              /> */}
             </Link>
           </li>
-          <ul className='flex flex-col justify-between space-y-4'>
+          <ul className='flex flex-col justify-between space-y-4 '>
             {adminLinks.map(({ href, label }) => (
-              <li key={`${href} ${label}`} className='hover:bg-green-300'>
-                <Link href={href}>
-                  <a className='text-white hover:text-black'>{label}</a>
+              <li
+                key={`${href} ${label}`}
+                className={` ${
+                  router.pathname === href
+                    ? 'border-l-8 border-green-800 bg-green-200 text-black group'
+                    : null
+                } h-10 py-2 pl-2 hover:bg-green-300 group`}
+              >
+                <Link href={href} className=''>
+                  <a
+                    className={` ${
+                      router.pathname === href
+                        ? 'text-black hover:text-white'
+                        : 'text-white fill-white  hover:text-black hover:fill-black'
+                    } flex  justify-start items-center h-full align-middle`}
+                  >
+                    {href === '/admin' ? <SVGHome className='mr-2' /> : null}
+                    {href === '/admin/residents' ? (
+                      <SVGProfile className='mr-2' />
+                    ) : null}
+                    {href === '/admin/requests' ? (
+                      <SVGDocument className='mr-2' />
+                    ) : null}
+                    {href === '/admin/charter' ? (
+                      <SVGPeople className='mr-2' />
+                    ) : null}
+                    {label}
+                  </a>
                 </Link>
               </li>
             ))}
@@ -153,14 +206,14 @@ function Login({ setShowLogin }) {
     setShowLogin(false);
   };
   return (
-    <Container className='md:flex flex-row  flex-grow-1 px-0 py-0 w-full'>
+    <Container className='md:flex flex-row  flex-grow-1 px-0 py-0 w-full overflow-auto'>
       {!isSmall ? (
-        <div className='bg-blue-600 w-[50%] p-0 rounded-l-xl'>
+        <div className='bg-blue-600 w-[50%] p-0 rounded-l-xl overflow-auto'>
           <Blob className='p-0 w-96 h-96 z-0 absolute top-1/3 left-1/3' />
           <SecureDraw className='w-52 h-52 absolute sm:left-1/4 lg:left-1/3 top-1/3 z-10' />
         </div>
       ) : null}
-      <div className='bg-green-600 p-10 h-[80%] md:w-[50%] md:h-full rounded-xl sm:rounded-none md:rounded-r-xl flex flex-col sm:p-2 text-center'>
+      <div className='bg-green-500 p-10 overflow-auto h-[80%] md:w-[50%] md:h-full rounded-xl sm:rounded-none md:rounded-r-xl flex flex-col sm:p-2 text-center'>
         <div className='border-b-2 mt-10 w-full'>
           <h1 className='text-white mb-2'>Admin Login</h1>
         </div>
