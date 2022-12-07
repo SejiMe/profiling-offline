@@ -10,8 +10,14 @@ import {
   setDoc,
   startAfter,
   startAt,
+  where,
 } from 'firebase/firestore';
-import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from 'react-query';
 
 const requestCollection = collection(db, 'residents');
 const getQuery = query(

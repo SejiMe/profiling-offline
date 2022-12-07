@@ -5,8 +5,7 @@ const NAV_TYPES = Object.freeze({
 
 const VIEW_TYPES = Object.freeze({
   DEFAULT: 'Default',
-  RESIDENT: 'Resident',
-  CHARTER: 'Charter',
+  ADMIN: 'Admin',
 });
 
 const STATUS_TYPES = Object.freeze({

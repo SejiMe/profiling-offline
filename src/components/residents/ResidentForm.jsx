@@ -280,7 +280,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
   return (
     <div>
       <form
-        className='flex flex-col gap-2 my-5 p-1 '
+        className='flex flex-col gap-2 my-5 p-1  '
         onSubmit={submitInformation}
       >
         {/* Personal Information */}

@@ -23,13 +23,13 @@ const Popup = (props) => {
       fullScreen={fullscreen}
     >
       <DialogTitle>
-        <div className='grid grid-cols-6'>
+        <div className='flex'>
           <h2 className='col-span-4'>{title}</h2>
           <div className='col-span-1'></div>
           {setOpenPopup && (
             <Button
               type='button'
-              className='bg-red-300'
+              className='p-4 bg-red-300'
               onClick={() => setOpenPopup(false)}
             >
               Close
@@ -38,7 +38,11 @@ const Popup = (props) => {
           {
             // Google logout and close popup for request
             setClose && (
-              <Button type='button' onClick={setClose} className='bg-red-300'>
+              <Button
+                type='button'
+                onClick={setClose}
+                className='text-center flex justify-center items-center align-middle bg-red-300'
+              >
                 Cancel
               </Button>
             )

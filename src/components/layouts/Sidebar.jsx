@@ -9,18 +9,9 @@ function Sidebar() {
   const router = useRouter();
 
   return (
-    <div className='flex flex-col justify-between gap-1 w-full h-screen'>
+    <div className='flex flex-col justify-between gap-1 bg-green-500 h-screen'>
       <Nav type={NAV_TYPES.ADMIN} />
       {/**Temporary button for logging out*/}
-      <button
-        className='border'
-        onClick={() => {
-          logout();
-          router.push('/');
-        }}
-      >
-        Log out
-      </button>
     </div>
   );
 }

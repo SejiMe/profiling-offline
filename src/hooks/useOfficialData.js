@@ -5,8 +5,6 @@ import { useMutation, useQuery } from 'react-query';
 const fetchOfficials = async () => {
   const docReference = doc(db, 'officials', 'charter');
   const document = await getDoc(docReference);
-  console.log('inside hook');
-  console.log(document.data());
   return document.data();
 };
 

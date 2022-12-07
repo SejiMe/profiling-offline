@@ -20,7 +20,7 @@ const InputTextField = ({
   };
   return (
     <div className={clsx('flex flex-col', className)}>
-      <label className='' htmlFor={name}>
+      <label className='ml-1' htmlFor={name}>
         {label}
       </label>
       <input

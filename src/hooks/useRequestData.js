@@ -2,6 +2,7 @@ import { db } from '@/config/firebaseConfig';
 import {
   addDoc,
   collection,
+  doc,
   getDocs,
   limit,
   orderBy,
@@ -60,10 +61,10 @@ export const useAddRequestDoc = () => {
 
 const updateRequest = async ({ requestDoc, requestID }) => {
   const requestRef = doc(db, 'requests', requestID);
-  return await setDoc(requestRef, requestID);
+  return await setDoc(requestRef, requestDoc);
 };
 
-export const useUpdateOfficials = () => {
+export const useUpdateRequests = () => {
   const queryClient = useQueryClient();
   return useMutation(updateRequest, {
     onSuccess: () => {
