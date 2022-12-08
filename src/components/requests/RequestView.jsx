@@ -317,7 +317,6 @@ export default function RequestView() {
           yearNow
         );
         break;
-
       default:
         break;
     }
