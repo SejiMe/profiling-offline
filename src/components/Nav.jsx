@@ -43,7 +43,7 @@ export default function Nav(props) {
   }`;
 
   const { user, logout } = useAuth();
-  const [isDrop, setIsDrop] = useState(true);
+  const [isDrop, setIsDrop] = useState(false);
   const handleDropdown = () => {
     setIsDrop((prev) => !prev);
   };
@@ -87,7 +87,13 @@ export default function Nav(props) {
             >
               Online Services
             </ScrollLink>
-            <ScrollLink activeClass='active' to='contact' spy={true}>
+            <ScrollLink
+              activeClass='active'
+              to='contact'
+              smooth={true}
+              duration={600}
+              spy={true}
+            >
               Contact Us
             </ScrollLink>
             <ScrollLink activeClass='active' to='about' spy={true}>
@@ -206,7 +212,7 @@ function Login({ setShowLogin }) {
     setShowLogin(false);
   };
   return (
-    <Container className='md:flex flex-row  flex-grow-1 px-0 py-0 w-full overflow-auto'>
+    <Container className='md:flex flex-row flex-grow-1 px-0 py-0 w-full overflow-auto'>
       {!isSmall ? (
         <div className='bg-blue-600 w-[50%] p-0 rounded-l-xl overflow-auto'>
           <Blob className='p-0 w-96 h-96 z-0 absolute top-1/3 left-1/3' />

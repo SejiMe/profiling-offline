@@ -2,6 +2,7 @@ import Seo from '@/components/Seo';
 import MainLayout from '@/components/layouts/MainLayout';
 import Services from '@/components/Online Services/Services';
 import { Element } from 'react-scroll';
+import Overview from '@/components/Overview/Overview';
 
 export default function Home() {
   return (
@@ -34,24 +35,13 @@ export default function Home() {
           </p>
         </section>
         <Element name='services'>
-          <section className='flex flex-col justify-center items-center text-white min-h-screen layout'>
+          <section className='flex flex-col justify-center items-center py-4 text-white h-full px-3 bg-slightG-500 '>
             <Services />
           </section>
         </Element>
 
         <section className='flex flex-col justify-center items-center text-white min-h-screen layout'>
-          <h1 className='text-white hover:text-slate-400'>
-            Organizational Chart
-          </h1>
-          <p></p>
-          <span>There will be a chart of images here</span>
-          <p className='text-base  '>
-            Irure amet labore aute ipsum anim quis incididunt nulla eiusmod amet
-            magna. Deserunt adipisicing non cillum velit consectetur occaecat
-            cillum ut tempor. Ipsum duis tempor duis ipsum sint labore ut
-            ullamco nulla officia cillum. Fugiat nisi enim cupidatat quis irure
-            esse ut Lorem proident dolor culpa nisi do ad.
-          </p>
+          <Overview />
         </section>
         <section className='flex flex-col justify-center items-center text-white min-h-screen layout'>
           <h1 className='text-white hover:text-slate-400'>

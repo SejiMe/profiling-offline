@@ -39,7 +39,7 @@ const SplitPane = (props) => {
   return (
     //TODO UI
     <div className='flex flex-row h-screen w-screen'>
-      <div className='lg:w-[32%] md:w-[28%] sm:w-[20%] h-screen'>
+      <div className='lg:w-[20%] md:w-[15%] sm:w-[20%] h-screen'>
         {props.left}
       </div>
       <div className='w-screen h-screen bg-slate-200 overflow-auto'>

@@ -233,8 +233,6 @@ function RequestForm() {
     }, 200);
   };
 
-  // This needs to be triggered by another button and
-  // in Form Event
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
@@ -415,14 +413,17 @@ function RequestForm() {
           <>
             <div className='col-span-3 gap-2 justify-center text-center grid grid-cols-2 w-full h-full p-2'>
               <h2 className='col-span-2'>Choose your Payment Method</h2>
-              {isGcash && (
-                <h3 className='col-span-3 text-orange-400'>
-                  Please send{' '}
-                  {requestObj.documentType === 'Business Permit'
-                    ? '150 Php'
-                    : '20 Php'}
-                </h3>
-              )}
+              {isGcash ? (
+                <div>
+                  <h3 className='col-span-3 text-orange-400'>
+                    Please send{' '}
+                    {requestObj.documentType === 'Business Permit'
+                      ? '150 Php'
+                      : '20 Php'}
+                  </h3>
+                  <h4>To 0999-xxxx-xxx </h4>
+                </div>
+              ) : null}
               <RadioButton
                 src={GCashImg}
                 name='paymentMethod'
@@ -444,8 +445,6 @@ function RequestForm() {
               />
               {isGcash ? (
                 <div className='col-span-2'>
-                  <span>Please Send to</span>
-                  <span>0999-xxxx-xxx</span>
                   <input
                     type='file'
                     name='screenShot'
