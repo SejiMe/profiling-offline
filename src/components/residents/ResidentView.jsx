@@ -250,7 +250,6 @@ function ResidentView() {
               {pages?.at(currentPage)?.map((doc, index) => {
                 return (
                   <Tr key={doc.id}>
-                    <Td className=''>{index + 1}</Td>
                     <Td className=''>{doc.firstName}</Td>
                     <Td className=''>{doc.middleName}</Td>
                     <Td className=''>{doc.lastName}</Td>
