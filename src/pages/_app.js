@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import { useRouter } from 'next/router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { ParallaxProvider } from 'react-scroll-parallax';
 
 const noAuthRequired = ['/', '/login', '/contact', '/services'];
 
@@ -14,15 +15,17 @@ function MyApp({ Component, pageProps }) {
     /* Checking if the pathname is in the noAuthRequired array. If it is, it renders the component. If
     it is not, it renders the ProtectedRoutes component. */
     <QueryClientProvider client={queryClient}>
-      <AuthContextProvider>
-        {noAuthRequired.includes(router.pathname) ? (
-          <Component {...pageProps} />
-        ) : (
-          <ProtectedRoutes>
+      <ParallaxProvider>
+        <AuthContextProvider>
+          {noAuthRequired.includes(router.pathname) ? (
             <Component {...pageProps} />
-          </ProtectedRoutes>
-        )}
-      </AuthContextProvider>
+          ) : (
+            <ProtectedRoutes>
+              <Component {...pageProps} />
+            </ProtectedRoutes>
+          )}
+        </AuthContextProvider>
+      </ParallaxProvider>
       <ReactQueryDevtools position='bottom-right' initialIsOpen={false} />
     </QueryClientProvider>
   );

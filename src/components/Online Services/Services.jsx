@@ -8,10 +8,12 @@ import Button from '../Button';
 import Popup from '../Popup';
 import RequestForm from '../requests/RequestForm';
 import SVGSubmitRequest from '@/components/svg/icons8-submit-document/icons8-submit-document.svg';
+import { useMedia } from 'react-use';
 
 const provider = new GoogleAuthProvider();
 
 function Services() {
+  const isSmall = useMedia('(max-width: 580px)');
   const [showModal, setShowModal] = useState(false);
   const { user, logout } = useAuth();
 
@@ -31,10 +33,11 @@ function Services() {
       setShowModal(true);
     }
   };
+
   return (
     <div className=' text-black px-2 py-4 flex flex-col md:grid md:grid-cols-3'>
+      <h1 className='md:mb-10 text-center md:col-span-3'>Online Services</h1>
       <div className='md:col-span-2 mb-4'>
-        <h1 className=''>Online Services</h1>
         <p>
           We offer the full spectrum of services to help organisations work
           better. Everything from creating standards of excellence to training
@@ -47,7 +50,9 @@ function Services() {
           point.
         </p>
       </div>
-      <Image src={unsplashImg} />
+
+      <Image src={unsplashImg} layout='responsive' />
+
       <div>
         <h4>Barangay Residency</h4>
         <p>
@@ -73,7 +78,7 @@ function Services() {
         </p>
       </div>
       <div></div>
-      <div>
+      <div className='mt-4'>
         <Button
           type='button'
           className='flex justify-center items-center rounded text-white fill-white bg-green-500 p-3 w-full font-medium text-base'

@@ -26,6 +26,8 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
    */
   const handleInputChange = (evt) => {
     const { name, value } = evt.target;
+    if (value === '') return;
+
     setData({
       ...data,
       [name]: value,

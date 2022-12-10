@@ -16,7 +16,7 @@ const nextConfig = {
     dirs: ['src'],
     ignoreDuringBuilds: true,
   },
-  reactStrictMode: true,
+
   swcMinify: true,
 };
 
