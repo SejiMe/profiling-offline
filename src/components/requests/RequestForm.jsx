@@ -221,7 +221,6 @@ function RequestForm() {
   // -------- button handlers ----------
   const handleConfirmation = async (e) => {
     e.preventDefault();
-    console.log('Hey This should be triggered first');
     setIsConfirm(true);
     const timestamp = await addTimestamp();
     setRequestObj({
@@ -414,9 +413,9 @@ function RequestForm() {
             <div className='col-span-3 gap-2 justify-center text-center grid grid-cols-2 w-full h-full p-2'>
               <h2 className='col-span-2'>Choose your Payment Method</h2>
               {isGcash ? (
-                <div>
-                  <h3 className='col-span-3 text-orange-400'>
-                    Please send{' '}
+                <div className='col-span-3'>
+                  <h3 className=' text-orange-400'>
+                    Please send
                     {requestObj.documentType === 'Business Permit'
                       ? '150 Php'
                       : '20 Php'}
@@ -466,7 +465,12 @@ function RequestForm() {
             <div></div>
             <Button
               type='button'
-              className='bg-blue-300 mt-4'
+              disabled={
+                requestObj.firstName === '' ||
+                requestObj.birthdate === '' ||
+                requestObj.lastName === ''
+              }
+              className='disabled:bg-gray-400 bg-blue-300 mt-4'
               onClick={handleNextPage}
             >
               Next
@@ -498,7 +502,11 @@ function RequestForm() {
               </Button>
             ) : !isConfirm && isFirstPage ? (
               <Button
-                disabled={isDisabled}
+                disabled={
+                  requestObj.firstName === '' ||
+                  requestObj.birthdate === '' ||
+                  requestObj.lastName === ''
+                }
                 type='button'
                 onClick={handleConfirmation}
                 className='bg-blue-300 mt-4 disabled:bg-gray-400'
@@ -506,14 +514,6 @@ function RequestForm() {
                 Send Request
               </Button>
             ) : (
-              // <button
-              //   type='button'
-              //   disabled={isDisabled}
-              //   onClick={(e) => handleConfirmation(e)}
-              //   className='bg-blue-300 mt-4 disabled:bg-gray-400'
-              // >
-              //   Send
-              // </button>
               <></>
             )}
           </>
@@ -532,20 +532,15 @@ function RequestForm() {
             <Button
               name='to-Confirmation'
               type='button'
-              disabled={isDisabled}
+              disabled={
+                requestObj.paymentMethod !== 'Cash' ||
+                requestObj.screenShotUrl === ''
+              }
               onClick={handleConfirmation}
               className='bg-blue-300 mt-4 disabled:bg-gray-400'
             >
               Send Request
             </Button>
-            {/* <button
-              type='button'
-              disabled={isDisabled}
-              onClick={(e) => handleConfirmation(e)}
-              className='bg-blue-300 mt-4 disabled:bg-gray-400'
-            >
-              Send
-            </button> */}
           </>
         ) : !isFirstPage && isConfirm ? (
           <>
