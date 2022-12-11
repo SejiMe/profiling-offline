@@ -219,17 +219,42 @@ function ResidentView() {
               <Th>First Name</Th>
               <Th>Middle Name</Th>
               <Th>Last Name</Th>
+              <Th>Vaccination</Th>
               <Th>Resident Information</Th>
             </Tr>
           </Thead>
           {searchInput.length > 0 ? (
             <tbody>
               {searchPage.map((doc, index) => {
+                let color = '';
+                if (
+                  (doc.health.Vaccine1Date === '' &&
+                    doc.health.Vaccine1Type === '') ||
+                  (doc.health.Vaccine2Date === '' &&
+                    doc.health.Vaccine2Type === '')
+                ) {
+                  color = 'text-red-600 bg-orange-200';
+                } else if (
+                  (doc.health.Vaccine1Date !== '' &&
+                    doc.health.Vaccine1Type !== '') ||
+                  (doc.health.Vaccine2Date !== '' &&
+                    doc.health.Vaccine2Type !== '')
+                ) {
+                  color = 'text-green-800 bg-green-200';
+                }
                 return (
                   <Tr key={doc.id}>
                     <Td className=''>{doc.firstName}</Td>
                     <Td className=''>{doc.middleName}</Td>
                     <Td className=''>{doc.lastName}</Td>
+                    <Td className=''>
+                      <span className={`${color} p-1 rounded shadow-md border`}>
+                        {doc.health.Vaccine1Date === '' &&
+                        doc.health.Vaccine1Type === ''
+                          ? 'Unvaccinated'
+                          : 'Vaccinated'}
+                      </span>
+                    </Td>
                     <Td className=''>
                       <Link href={`residents/${doc.id}`}>
                         <a className='text-blue-400 underline'>
@@ -252,11 +277,35 @@ function ResidentView() {
           ) : (
             <tbody>
               {pages?.at(currentPage)?.map((doc, index) => {
+                let color = '';
+                if (
+                  (doc.health.Vaccine1Date === '' &&
+                    doc.health.Vaccine1Type === '') ||
+                  (doc.health.Vaccine2Date === '' &&
+                    doc.health.Vaccine2Type === '')
+                ) {
+                  color = 'text-red-600 bg-orange-200';
+                } else if (
+                  (doc.health.Vaccine1Date !== '' &&
+                    doc.health.Vaccine1Type !== '') ||
+                  (doc.health.Vaccine2Date !== '' &&
+                    doc.health.Vaccine2Type !== '')
+                ) {
+                  color = 'text-green-800 bg-green-200';
+                }
                 return (
                   <Tr key={doc.id}>
                     <Td className=''>{doc.firstName}</Td>
                     <Td className=''>{doc.middleName}</Td>
                     <Td className=''>{doc.lastName}</Td>
+                    <Td className=''>
+                      <span className={`${color} p-1 rounded shadow-md border`}>
+                        {doc.health.Vaccine1Date === '' &&
+                        doc.health.Vaccine1Type === ''
+                          ? 'Unvaccinated'
+                          : 'Vaccinated'}
+                      </span>
+                    </Td>
                     <Td className=''>
                       <Link href={`residents/${doc.id}`}>
                         <a href='' className='text-blue-400 underline'>

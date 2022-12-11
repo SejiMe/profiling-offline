@@ -417,8 +417,8 @@ function RequestForm() {
                   <h3 className=' text-orange-400'>
                     Please send
                     {requestObj.documentType === 'Business Permit'
-                      ? '150 Php'
-                      : '20 Php'}
+                      ? ' 150 Php'
+                      : ' 20 Php'}
                   </h3>
                   <h4>To 0999-xxxx-xxx </h4>
                 </div>
@@ -532,10 +532,7 @@ function RequestForm() {
             <Button
               name='to-Confirmation'
               type='button'
-              disabled={
-                requestObj.paymentMethod !== 'Cash' ||
-                requestObj.screenShotUrl === ''
-              }
+              disabled={isDisabled}
               onClick={handleConfirmation}
               className='bg-blue-300 mt-4 disabled:bg-gray-400'
             >
