@@ -23,7 +23,7 @@ const Popup = (props) => {
       fullScreen={fullscreen}
     >
       <DialogTitle>
-        <div className='flex'>
+        <div className='flex justify-between'>
           <h2 className='col-span-4'>{title}</h2>
           <div className='col-span-1'></div>
           {setOpenPopup && (
