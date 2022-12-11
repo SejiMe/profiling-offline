@@ -134,7 +134,6 @@ export default function Nav(props) {
               >
                 <IconUser className='text-white mr-1 mt-1' /> Login
               </Button>
-
               <Modal show={showLogin} onClose={handleCloseLogin}>
                 <Login setShowLogin={setShowLogin} />
               </Modal>

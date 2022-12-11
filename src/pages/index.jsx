@@ -17,7 +17,7 @@ import { useMedia } from 'react-use';
 import CharterPublic from '@/components/charter/CharterPublic';
 
 export default function Home() {
-  const isXSmall = useMedia('(max-width: 400px)');
+  const isXSmall = useMedia('(max-width: 420px)');
   const isSmall = useMedia('(max-width: 580px)');
   const isMedium = useMedia('(max-width: 920px)');
 
@@ -44,7 +44,7 @@ export default function Home() {
                 src={logo}
                 width={`${
                   isXSmall
-                    ? '130px'
+                    ? '150px'
                     : isSmall
                     ? '180px'
                     : isMedium
@@ -53,7 +53,7 @@ export default function Home() {
                 }`}
                 height={`${
                   isXSmall
-                    ? '130px'
+                    ? '150px'
                     : isSmall
                     ? '180px'
                     : isMedium

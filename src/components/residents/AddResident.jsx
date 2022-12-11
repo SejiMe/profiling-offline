@@ -14,7 +14,6 @@ const AddResident = () => {
     lastName: '',
     middleName: '',
     suffix: '',
-    alias: '',
     gender: '',
     birthdate: '',
     birthplace: '',

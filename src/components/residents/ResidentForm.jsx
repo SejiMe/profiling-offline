@@ -323,14 +323,6 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
               value={data.suffix}
               getValue={(value) => handleTextChange(value)}
             />
-            <InputTextField
-              type='text'
-              label='Alias'
-              name='alias'
-              placeholder='Pepe'
-              value={data.alias}
-              getValue={(value) => handleTextChange(value)}
-            />
             <div className='grid grid-flow-row grow'>
               <label htmlFor='gender'>Gender </label>
               <select
@@ -455,7 +447,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
           <SectionDivider>Contact Information</SectionDivider>
           <div className='grid grid-cols-3 gap-4 items-center'>
             <InputTextField
-              label='Lot Number'
+              label='Housing Number'
               type='text'
               name='lot'
               value={data.contacts.lot}
@@ -635,7 +627,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
             </Checkbox>
           </div>
           <div>
-            <h5>4P's Member/s</h5>4
+            <h5>4P's Member/s</h5>
             <ListContainer>
               {data.beneficiaries._4ps?.map((member, index) => (
                 <MapsContainer key={index} className='flex gap-2'>
