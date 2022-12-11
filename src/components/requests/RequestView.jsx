@@ -438,6 +438,7 @@ export default function RequestView() {
                       {validateDocType === 'Business Permit' ? (
                         <Button
                           type='button'
+                          className={'text-blue-300'}
                           onClick={() => {
                             router.push(`residents/${doc.id}`);
                           }}

@@ -231,7 +231,11 @@ function ResidentView() {
                     <Td className=''>{doc.middleName}</Td>
                     <Td className=''>{doc.lastName}</Td>
                     <Td className=''>
-                      <Link href={`residents/${doc.id}`}>View Information</Link>
+                      <Link href={`residents/${doc.id}`}>
+                        <a className='text-blue-400 underline'>
+                          View Information
+                        </a>
+                      </Link>
                     </Td>
                   </Tr>
                 );
@@ -254,7 +258,11 @@ function ResidentView() {
                     <Td className=''>{doc.middleName}</Td>
                     <Td className=''>{doc.lastName}</Td>
                     <Td className=''>
-                      <Link href={`residents/${doc.id}`}>View Information</Link>
+                      <Link href={`residents/${doc.id}`}>
+                        <a href='' className='text-blue-400 underline'>
+                          View Information
+                        </a>
+                      </Link>
                     </Td>
                   </Tr>
                 );

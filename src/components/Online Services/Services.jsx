@@ -96,9 +96,7 @@ function Services() {
       >
         <RequestForm />
       </Popup>
-      {/* <Modal show={showModal} onClose={handleRequestPopup}>
-          <RequestForm />
-        </Modal> */}
+
       <div></div>
     </div>
   );
