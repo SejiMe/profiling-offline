@@ -18,7 +18,12 @@ import SVGCheck from '@/components/svg/icons8-checkmark/icons8-checkmark.svg';
 import SVGDecline from '@/components/svg/icons8-macos-close/icons8-macos-close.svg';
 import { useGetResemblance } from '@/hooks/useResemblance';
 import Thead from '../Table/Thead';
-import { BarangayClearance, BarangayResidency } from '@/lib/DocumentCreator';
+import {
+  BarangayClearance,
+  BarangayResidency,
+  BusinessPermit,
+  CertificateIndigency,
+} from '@/lib/DocumentCreator';
 import { getAge } from '@/hooks/getAge';
 import clsx from 'clsx';
 import { useGetOfficials } from '@/hooks/useOfficialData';
@@ -264,13 +269,10 @@ export default function RequestView() {
     setIsValidating(true);
     setValidateAge(age);
     setValidateDocType(documentType);
-
+    console.log(firstName);
+    console.log(lastName);
     const reference = collection(db, 'residents');
-    const query1 = query(
-      reference,
-      where('firstName', '==', firstName),
-      where('lastName', '==', lastName)
-    );
+    const query1 = query(reference, where('lastName', '==', lastName));
     const resemblance = await getDocs(query1);
     const docs = resemblance.docs.map((doc) => {
       const data = doc.data();
@@ -279,7 +281,10 @@ export default function RequestView() {
       return data;
     });
     setResemblanceData(docs);
+    console.log(docs);
   };
+
+  console.log(resemblanceData);
 
   const handleGenerateDoc = async (
     documentType,
@@ -292,6 +297,7 @@ export default function RequestView() {
   ) => {
     console.log(documentType);
     let doc;
+    let docName = '';
     const date = new Date();
     const yearNow = date.getFullYear();
     switch (documentType) {
@@ -305,6 +311,7 @@ export default function RequestView() {
           Capt,
           yearNow
         );
+        docName = `CLEARANCE_${lastName}.docx`;
         break;
       case 'Barangay Residency':
         doc = await BarangayResidency(
@@ -316,12 +323,25 @@ export default function RequestView() {
           Capt,
           yearNow
         );
+        docName = `RESIDENCY_${lastName}.docx`;
+        break;
+      case 'Barangay Indigency':
+        doc = await CertificateIndigency(
+          firstName,
+          lastName,
+          middleName,
+          age,
+          status,
+          Capt,
+          yearNow
+        );
+        docName = `INDIGENCY_${lastName}.docx`;
         break;
       default:
         break;
     }
     await Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, 'sample.docx');
+      saveAs(blob, docName);
     });
   };
   const handleValidateResident = (resident) => {
@@ -427,7 +447,7 @@ export default function RequestView() {
                   return (
                     <li
                       key={doc.id}
-                      className='bg-slate-100 shadow-md rounded-sm w-full flex px-2 gap-2 h-10 align-middle items-center'
+                      className='bg-slate-100 text-black  shadow-md rounded-sm w-full flex justify-between px-2 gap-2 h-10 align-middle items-center'
                     >
                       <div className='flex'>
                         <h4>
@@ -447,7 +467,7 @@ export default function RequestView() {
                         </Button>
                       ) : (
                         <Button
-                          className='bg-transparent'
+                          className='bg-transparent mr-10'
                           type='button'
                           onClick={() =>
                             handleGenerateDoc(
