@@ -144,17 +144,14 @@ export default function Nav(props) {
         //THIS IS ADMIN LINKS
         <ul className='flex flex-col h-full'>
           <li className='w-full px-4 py-2 mb-3 border-b-2 border-green-800 shadow-lg '>
-            <Link
-              href='/'
-              onClick={() => {
-                router.push('/');
-              }}
-            >
-              <Image
-                className='hover:cursor-pointer'
-                src={CaramutanLogo}
-                width=''
-              />
+            <Link href='/'>
+              <a>
+                <Image
+                  className='hover:cursor-pointer'
+                  src={CaramutanLogo}
+                  width=''
+                />
+              </a>
             </Link>
           </li>
           <ul className='flex flex-col justify-between space-y-4 '>

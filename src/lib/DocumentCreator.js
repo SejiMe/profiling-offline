@@ -497,7 +497,7 @@ export async function BarangayResidency(
                 },
               }),
               new TextRun({
-                text: ` ${status} a natural born Filipino, is a bona fide resident of Barangay Caramutan, La Paz, Tarlac.`,
+                text: ` a natural born Filipino, is a bona fide resident of Barangay Caramutan, La Paz, Tarlac.`,
                 size: 22,
               }),
             ],

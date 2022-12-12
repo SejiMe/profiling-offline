@@ -14,7 +14,7 @@ export default function Footer() {
         <Image src={LapazLogo} width={50} height={50} />
         <BrandWhite className={'fill-white w-[50px] h-[50px]'} />
       </div>
-      <div>Ⓒ BCPS 2022</div>
+      <div>Ⓒ CARAMUTAN 2022</div>
     </footer>
   );
 }
