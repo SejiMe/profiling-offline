@@ -32,6 +32,8 @@ import { db } from '@/config/firebaseConfig';
 import { useRouter } from 'next/router';
 import Tippy from '@tippyjs/react';
 import TippyTooltip from '../TippyTooltip';
+import UnstyledLink from '../UnstyledLink';
+import CustomLink from '../CustomLink';
 
 export default function RequestView() {
   const { data, fetchNextPage, isFetching, isFetched, hasNextPage } =
@@ -456,15 +458,12 @@ export default function RequestView() {
                         </h4>
                       </div>
                       {validateDocType === 'Business Permit' ? (
-                        <Button
-                          type='button'
+                        <CustomLink
                           className={'text-blue-300'}
-                          onClick={() => {
-                            router.push(`residents/${doc.id}`);
-                          }}
+                          href={`/admin/residents/${doc.id}`}
                         >
                           View Resident Information
-                        </Button>
+                        </CustomLink>
                       ) : (
                         <Button
                           className='bg-transparent mr-10'
