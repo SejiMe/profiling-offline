@@ -21,7 +21,7 @@ const Overview = () => {
             <h2>Vision</h2>
             <p>
               Pangarap na magkaroon ng maunlad, masagana at tiyak na hanap-buhay
-              ang bawal pamilya sa Barangay, maging mulat sa lahat.
+              ang bawat pamilya sa Barangay, maging mulat sa lahat.
             </p>
           </div>
         </div>

@@ -9,6 +9,7 @@ import Popup from '../Popup';
 import RequestForm from '../requests/RequestForm';
 import SVGSubmitRequest from '@/components/svg/icons8-submit-document/icons8-submit-document.svg';
 import { useMedia } from 'react-use';
+import { Link as ScrollLink } from 'react-scroll';
 
 const provider = new GoogleAuthProvider();
 
@@ -35,7 +36,7 @@ function Services() {
   };
 
   return (
-    <div className=' text-black px-2 py-4 flex flex-col md:grid md:grid-cols-3'>
+    <div className=' text-black px-2 py-4 flex flex-col md:grid md:grid-cols-3 md:gap-4'>
       <h1 className='md:mb-10 text-center md:col-span-3'>Online Services</h1>
       <div className='md:col-span-2 mb-4'>
         <p>
@@ -54,27 +55,34 @@ function Services() {
       <Image src={unsplashImg} layout='responsive' />
 
       <div>
-        <h4>Barangay Residency</h4>
+        <h4>Document Requesting</h4>
         <p>
-          File management can be a pain. We make it easy by letting you work
-          with files in one place. File management can be a pain. We make it
-          easy by letting you work with files in one place.
+          Resident of Caramutan, At a party? At Work? Stay at home? No. Problem
+          you can request a document wherever you are! Don't waste your time on
+          queueing just show us your serial code for validation.
         </p>
       </div>
       <div>
-        <h4>Barangay Residency</h4>
+        <h4>Documents</h4>
         <p>
-          You can have an amazing time at your next event with a little
-          strategic planning. Here's everything you need to know about planning
-          and executing an event that's just right for you.
+          What you can request? Barangay Indigency, Barangay Residency, Barangay
+          Clearance & Business Permit. you can pick up your requested document
+          at our Barangay, be sure to update your barangay residency
+          information.
         </p>
       </div>
       <div>
-        <h4>And More...</h4>
+        <ScrollLink
+          activeClass='active'
+          to='contact'
+          smooth={true}
+          duration={1000}
+        >
+          <h4>And More...</h4>
+        </ScrollLink>
         <p>
-          Sports are enjoyable and fun, but they can also be very competitive.
-          Here, we'll show you how to make sports fun and enjoyable for
-          everyone. Here are the best sports to keep your teen engaged.
+          Interact with us, share your experience with us, and leave us a review
+          to improve the system. Thank you.
         </p>
       </div>
       <div></div>
