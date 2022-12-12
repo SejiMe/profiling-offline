@@ -190,10 +190,9 @@ export default function RequestView() {
       setNextButton(true);
     } else {
       setBackButton(false);
-
+      setBackwardButton(false);
       if (currentPage > pages.length - 5) {
         setForwardButton(true);
-        setBackwardButton(false);
       }
     }
   };
@@ -201,6 +200,7 @@ export default function RequestView() {
   const handlePrevPage = () => {
     setCurrentPage((prev) => prev - 1);
     if (currentPage === pages.length - pages.length + 1) {
+      setBackwardButton(false);
       setBackButton(true);
     } else if (currentPage > pages.length - pages.length + 1) {
       setNextButton(false);
@@ -246,12 +246,11 @@ export default function RequestView() {
   const handleSearchPageSuccess = (id, index) => {
     searchPage.at(index)['documentStatus'] = 'Success';
     const document = searchPage.at(index);
-    console.log('searchPages');
-    console.table(searchPage);
     setDocToUpdate(document);
     setDocID(id);
     setIsConfirm(true);
   };
+
   const handleSearchPageDecline = (id, index) => {
     searchPage.at(index)['documentStatus'] = 'Decline';
     const document = searchPage.at(index);
@@ -285,8 +284,6 @@ export default function RequestView() {
     setResemblanceData(docs);
     console.log(docs);
   };
-
-  console.log(resemblanceData);
 
   const handleGenerateDoc = async (
     documentType,
@@ -635,8 +632,14 @@ export default function RequestView() {
                           handleSearchPageSuccess(doc.id, index);
                         }}
                       >
-                        <SVGCheck className='group-disabled:fill-gray-600 h-4 w-4 fill-green-300' />
+                        <TippyTooltip
+                          content={'Update Status Success'}
+                          className={'bg-green-400'}
+                        >
+                          <SVGCheck className='group-disabled:fill-gray-600 h-4 w-4 fill-green-300' />
+                        </TippyTooltip>
                       </Button>
+
                       <Button
                         type='button'
                         className='bg-transparent'
@@ -644,8 +647,11 @@ export default function RequestView() {
                           handleSearchPageDecline(doc.id, index);
                         }}
                       >
-                        <SVGDecline className='h-5 w-5 fill-red-600' />
+                        <TippyTooltip content={'Decline Request'}>
+                          <SVGDecline className='h-5 w-5 fill-red-600' />
+                        </TippyTooltip>
                       </Button>
+
                       <Button
                         type='button'
                         className='bg-transparent'
@@ -658,7 +664,9 @@ export default function RequestView() {
                           )
                         }
                       >
-                        <SVGApproval />
+                        <TippyTooltip content={'Validate Resident'}>
+                          <SVGApproval />
+                        </TippyTooltip>
                       </Button>
                     </ActionTd>
                   </Tr>
