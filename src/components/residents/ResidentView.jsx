@@ -93,7 +93,6 @@ function ResidentView() {
       setNextButton(true);
     } else {
       setBackButton(false);
-
       if (currentPage > pages.length - 5) {
         setForwardButton(true);
         setBackwardButton(false);
@@ -103,16 +102,24 @@ function ResidentView() {
 
   const handlePrevPage = () => {
     setCurrentPage((prev) => prev - 1);
+
     if (currentPage === pages.length - pages.length + 1) {
+      setBackwardButton(true);
       setBackButton(true);
+    } else if (currentPage === 1) {
+      setBackwardButton(false);
     } else if (currentPage > pages.length - pages.length + 1) {
       setNextButton(false);
+      setBackwardButton(false);
       if (currentPage > pages.length - pages.length + 2) {
         setForwardButton(false);
+        console.log(pages.length - pages.length + 2);
       } else if (currentPage > pages.length - pages.length + 2) {
         setBackwardButton(true);
       }
     }
+    console.log(currentPage);
+    console.log(pages.length + 2);
   };
   const handleForwardPage = () => {
     setCurrentPage(pages.length - 2);

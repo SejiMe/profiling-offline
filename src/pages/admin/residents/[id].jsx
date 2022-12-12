@@ -196,22 +196,6 @@ const ResidentDetails = () => {
       saveAs(blob, `PERMIT_${data.lastName}_${data.firstName}.docx`);
     });
   };
-  const handleGenerateGuardianship = async () => {
-    setIsPermit(false);
-    alert('Sorry! this feature is under construction');
-    // const doc = await BarangayClearance(
-    //   data.firstName,
-    //   data.lastName,
-    //   data.middleName,
-    //   getAge(data.birthdate),
-    //   data.civ_status,
-    //   officialData.Captain,
-    //   yearNow
-    // );
-    // await Packer.toBlob(doc).then((blob) => {
-    //   saveAs(blob, `GUARDIANSHIP_${data.lastName}_${data.firstName}.docx`);
-    // });
-  };
 
   if (idLoading)
     return (
@@ -249,7 +233,7 @@ const ResidentDetails = () => {
       </div>
       <Modal show={isToPrint} onClose={closePrint} stylesBody='overflow-auto'>
         <div className='  text-white flex flex-col  bg-green-500 rounded-md shadow-sm py-4 px-8 overflow-auto'>
-          <div className='grid grid-cols-3 gap-4'>
+          <div className='grid grid-cols-4 gap-4'>
             <Button
               onClick={() => handleGenerateClearance()}
               className='text-white bg-transparent border border-gray-400 flex flex-col justify-center align-middle items-center p-2 text-center'
@@ -277,13 +261,6 @@ const ResidentDetails = () => {
             >
               <SVGDocument className='fill-red-400 h-10 w-10' />
               Business Permit
-            </Button>
-            <Button
-              onClick={() => handleGenerateGuardianship()}
-              className='text-white bg-transparent border border-gray-400 flex flex-col justify-center align-middle items-center p-2 text-center'
-            >
-              <SVGDocument className='fill-orange-400 h-10 w-10' />
-              Guardianship
             </Button>
           </div>
           {isPermit ? (
