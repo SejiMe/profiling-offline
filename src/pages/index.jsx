@@ -4,7 +4,7 @@ import Services from '@/components/Online Services/Services';
 import { Element } from 'react-scroll';
 import Overview from '@/components/Overview/Overview';
 import bg from '~/cover.jpg';
-import logo from '~/images/caramutan-logo.png';
+import logo from '~/images/testimg.png';
 import {
   ParallaxBanner,
   ParallaxBannerLayer,
