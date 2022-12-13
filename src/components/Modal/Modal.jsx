@@ -3,7 +3,14 @@ import ReactDOM from 'react-dom';
 import styles from '@/styles/Modal.module.css';
 import clsx from 'clsx';
 
-export default function Modal({ show, onClose, children, stylesBody = '' }) {
+export default function Modal({
+  show,
+  onClose,
+  children,
+  stylesBody = '',
+  stylesHeader = '',
+  stylesModal = '',
+}) {
   const [isBrowser, setIsBrowser] = useState(false);
   useEffect(() => {
     setIsBrowser(true);
@@ -22,7 +29,7 @@ export default function Modal({ show, onClose, children, stylesBody = '' }) {
             <button>Close</button>
           </a>
         </div>
-        <div className={clsx(styles.body, stylesBody)}>{children}</div>
+        <div className={stylesBody}>{children}</div>
       </div>
     </div>
   ) : null;

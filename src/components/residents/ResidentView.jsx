@@ -13,6 +13,7 @@ import moment from 'moment';
 import Modal from '../Modal/Modal';
 import InputTextField from '../Fields/InputTextField';
 import Thead from '../Table/Thead';
+import { useMedia } from 'react-use';
 
 function ResidentView() {
   const { data, fetchNextPage, isLoading, isFetching, isFetched, hasNextPage } =
@@ -24,6 +25,11 @@ function ResidentView() {
   const [backwardButton, setBackwardButton] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [openPopup, setOpenPopup] = useState(false);
+
+  const isXSmall = useMedia('(max-width: 700px)');
+  const isSmall = useMedia('(max-width: 850px)');
+  const isMedium = useMedia('(max-width: 920px)');
+
   let pages = [];
   let mergedData = [];
 
@@ -166,7 +172,9 @@ function ResidentView() {
             onClose={() => {
               setOpenPopup(false);
             }}
-            stylesBody='overflow-auto scrollbar-hide flex flex col bg-white p-5 rounded-md shadow-lg'
+            stylesBody={`${
+              isSmall ? 'h-screen w-screen' : 'p-5'
+            } overflow-auto scrollbar-hide bg-white  rounded-md shadow-lg`}
           >
             <AddResident />
           </Modal>
@@ -178,7 +186,7 @@ function ResidentView() {
                 type='button'
                 disabled={backwardButton}
                 onClick={handleBackwardPage}
-                className='bg-transparent disabled:text-gray-300'
+                className={`bg-transparent disabled:text-gray-300`}
               >
                 {'<<'}
               </Button>

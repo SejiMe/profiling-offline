@@ -22,10 +22,10 @@ export async function BarangayClearance(
   yearNow
 ) {
   const logo1 = await fetch(
-    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/caramutan-logo.png'
+    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/testimg.png'
   ).then((r) => r.blob());
   const logo2 = await fetch(
-    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/lapaz-logo.png'
+    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/testimg.png'
   ).then((r) => r.blob());
   console.log('inside create');
   console.log(logo1);
@@ -309,10 +309,10 @@ export async function BarangayResidency(
   year
 ) {
   const logo1 = await fetch(
-    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/caramutan-logo.png'
+    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/testimg.png'
   ).then((r) => r.blob());
   const logo2 = await fetch(
-    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/lapaz-logo.png'
+    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/testimg.png'
   ).then((r) => r.blob());
   console.log('inside create');
   console.log(logo1);
@@ -606,10 +606,10 @@ export async function CertificateIndigency(
   purok = ''
 ) {
   const logo1 = await fetch(
-    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/caramutan-logo.png'
+    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/testimg.png'
   ).then((r) => r.blob());
   const logo2 = await fetch(
-    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/lapaz-logo.png'
+    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/testimg.png'
   ).then((r) => r.blob());
   console.log('inside create');
   console.log(logo1);
@@ -977,10 +977,10 @@ export async function BusinessPermit(
   let monthNow = month[d.getMonth()];
 
   const logo1 = await fetch(
-    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/caramutan-logo.png'
+    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/testimg.png'
   ).then((r) => r.blob());
   const logo2 = await fetch(
-    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/lapaz-logo.png'
+    'https://raw.githubusercontent.com/SejiMe/profiling/main/public/images/testimg.png'
   ).then((r) => r.blob());
   console.log('inside create');
   console.log(logo1);
@@ -1108,7 +1108,7 @@ export async function BusinessPermit(
             },
             children: [
               new TextRun({
-                text: 'Propietor:        ',
+                text: 'Proprietor:        ',
                 size: 24,
                 bold: true,
               }),

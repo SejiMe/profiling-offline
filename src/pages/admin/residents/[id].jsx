@@ -231,7 +231,11 @@ const ResidentDetails = () => {
           </Button>
         </div>
       </div>
-      <Modal show={isToPrint} onClose={closePrint} stylesBody='overflow-auto'>
+      <Modal
+        show={isToPrint}
+        onClose={closePrint}
+        stylesBody='overflow-auto flex justify-center'
+      >
         <div className='  text-white flex flex-col  bg-green-500 rounded-md shadow-sm py-4 px-8 overflow-auto'>
           <div className='grid grid-cols-4 gap-4'>
             <Button
