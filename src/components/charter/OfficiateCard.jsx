@@ -5,7 +5,7 @@ function OfficiateCard({ name, position, className }) {
   return (
     <div
       className={clsx(
-        'col-span-1 flex flex-col text-center shadow-md rounded-md py-2 border-2 w-48 h-full',
+        'col-span-1 flex flex-col text-center shadow-md rounded-md py-2 border-2 w-full h-full',
         className
       )}
     >
