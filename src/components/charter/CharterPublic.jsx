@@ -22,9 +22,9 @@ const CharterPublic = () => {
       } `}
     >
       <Element name='about'>
-        <h2 className='text-center'>Barangay Officials</h2>
+        <h2 className='text-center mt-2'>Barangay Officials</h2>
       </Element>
-      <div className='p-10 flex flex-col md:grid md:grid-cols-3 gap-3'>
+      <div className='p-10 flex flex-col '>
         <OfficiateCard
           className={
             'col-start-1 col-end-3 bg-slate-50 p-5 border-2 border-black'

@@ -8,7 +8,7 @@ import Button from './Button';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import Image from 'next/image';
 import GoogleSVG from '@/components/svg/icons8-google.svg';
-import CaramutanLogo from '~/images/caramutan-logo.png';
+import TestLogo from '~/images/testimg.png';
 import Container from './layouts/Container';
 import { auth } from '@/config/firebaseConfig';
 import Modal from '@/components/Modal/Modal';
@@ -148,7 +148,7 @@ export default function Nav(props) {
               <a>
                 <Image
                   className='hover:cursor-pointer'
-                  src={CaramutanLogo}
+                  src={TestLogo}
                   width=''
                 />
               </a>
@@ -222,7 +222,7 @@ function Login({ setShowLogin }) {
         <br />
         <div className='mt-10 flex flex-col gap-10 justify-between'>
           <div className='flex justify-center align-middle'>
-            <Image src={CaramutanLogo} width={128} height={128} />
+            <Image src={TestLogo} width={128} height={128} />
           </div>
           <div className='flex justify-center'>
             <button
