@@ -74,11 +74,19 @@ export default function Nav(props) {
         // PUBLIC LINKS OUTSIDE ADMIN PAGE
         <ul className='w-full h-full flex items-center justify-between p-3 space-x-4'>
           <div></div>
-          <div className='flex flex-row space-x-3 gap-2 text-white'>
-            <ScrollLink activeClass='active' to='home' spy={true}>
+          <div className='flex flex-row space-x-3 gap-2 text-white md:text-lg'>
+            <ScrollLink
+              className='hover:font-bold hover:text-green-300 hover:cursor-pointer tracking-widest p-4 rounded hover:bg-green-600 h-full'
+              activeClass='active'
+              smooth={true}
+              duration={600}
+              to='home'
+              spy={true}
+            >
               Home
             </ScrollLink>
             <ScrollLink
+              className='hover:font-bold hover:text-green-300 hover:cursor-pointer tracking-widest p-4 rounded hover:bg-green-600 h-full'
               activeClass='active'
               to='services'
               smooth={true}
@@ -88,6 +96,7 @@ export default function Nav(props) {
               Online Services
             </ScrollLink>
             <ScrollLink
+              className='hover:font-bold hover:text-green-300 hover:cursor-pointer tracking-widest p-4 rounded hover:bg-green-600 h-full'
               activeClass='active'
               to='contact'
               smooth={true}
@@ -96,8 +105,15 @@ export default function Nav(props) {
             >
               Contact Us
             </ScrollLink>
-            <ScrollLink activeClass='active' to='about' spy={true}>
-              About
+            <ScrollLink
+              className='hover:font-bold hover:text-green-300 hover:cursor-pointer tracking-widest p-4 rounded hover:bg-green-600 h-full'
+              activeClass='active'
+              to='officials'
+              smooth={true}
+              duration={1200}
+              spy={true}
+            >
+              Officials
             </ScrollLink>
           </div>
           {user?.uid === 'HLMj2JbZR1RdzkAiZEya0eAl0AD2' ? (

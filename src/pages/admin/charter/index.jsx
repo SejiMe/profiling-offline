@@ -53,59 +53,59 @@ function index() {
               Edit
             </button>
           </div>
-          <div className='p-10 grid grid-cols-3 gap-x-3 gap-y-5'>
+          <div className='p-10 grid grid-cols-6 gap-x-3 gap-y-5'>
             <OfficiateCard
-              className={'col-start-1 col-end-3'}
+              className={'col-start-2 col-end-6'}
               name={data.Captain}
               position={'Barangay Captain'}
             />
             <OfficiateCard
-              className={'col-start-1 col-span-1'}
+              className={'col-start-1 col-span-3'}
               name={data.Secretary}
               position={'Barangay Secretary'}
             />
             <OfficiateCard
-              className={'col-span-1'}
+              className={'col-span-3'}
               name={data.Treasurer}
               position={'Barangay Treasurer'}
             />
             <OfficiateCard
-              className={'col-start-1'}
+              className={'col-span-2'}
               name={data.Kagawad1}
               position={'Barangay Kagawad'}
             />
             <OfficiateCard
-              className={''}
+              className={'col-span-2'}
               name={data.Kagawad2}
               position={'Barangay Kagawad'}
             />
             <OfficiateCard
-              className={''}
+              className={'col-span-2'}
               name={data.Kagawad3}
               position={'Barangay Kagawad'}
             />
             <OfficiateCard
-              className={'col-start-1'}
+              className={'col-span-2'}
               name={data.Kagawad4}
               position={'Barangay Kagawad'}
             />
             <OfficiateCard
-              className={''}
+              className={'col-span-2'}
               name={data.Kagawad5}
               position={'Barangay Kagawad'}
             />
             <OfficiateCard
-              className={''}
+              className={'col-span-2'}
               name={data.Kagawad6}
               position={'Barangay Kagawad'}
             />
             <OfficiateCard
-              className={'col-start-2'}
+              className={'col-span-2 col-start-3'}
               name={data.Kagawad7}
               position={'Barangay Kagawad'}
             />
             <OfficiateCard
-              className={'col-start-2'}
+              className={'col-start-3 col-span-2'}
               name={data.SK}
               position={'SK Chairman'}
             />

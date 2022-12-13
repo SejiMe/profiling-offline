@@ -374,6 +374,7 @@ function RequestForm() {
                 placeholder='e.g. 0920-xxxx-xxx'
                 label='Mobile Number (Optional)'
                 pattern='[0-9]{11}'
+                maxLength={11}
                 value={requestObj.contactNumber}
                 getValue={(e) => handleInput(e)}
               />

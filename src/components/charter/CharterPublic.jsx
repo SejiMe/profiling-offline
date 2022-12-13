@@ -21,7 +21,7 @@ const CharterPublic = () => {
         isSmall ? 'justify-center items-center' : ''
       } `}
     >
-      <Element name='about'>
+      <Element name='officials'>
         <h2 className='text-center mt-2'>Barangay Officials</h2>
       </Element>
       <div className='p-10 flex flex-col justify-center items-center md:grid md:grid-cols-6 gap-3 align-middle'>
