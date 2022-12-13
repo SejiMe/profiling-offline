@@ -70,8 +70,6 @@ const AddResident = () => {
   const handleObjectData = (value) => {
     const objectDocument = value;
     /* Setting the state of the object to the data. */
-    console.log('Inside handleObjectData');
-    console.log(objectDocument);
     setObject(objectDocument);
     updateCountBy(1);
     addResident(objectDocument);
