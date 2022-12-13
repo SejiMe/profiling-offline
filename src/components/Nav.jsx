@@ -76,7 +76,7 @@ export default function Nav(props) {
           <div></div>
           <div className='flex flex-row space-x-3 gap-2 text-white md:text-lg'>
             <ScrollLink
-              className='hover:font-bold hover:text-green-300 hover:cursor-pointer tracking-widest p-4 rounded hover:bg-green-600 h-full'
+              className='hover:font-bold hover:text-green-300 hover:cursor-pointer md:tracking-widest  md:p-4 rounded hover:bg-green-600 '
               activeClass='active'
               smooth={true}
               duration={600}
@@ -86,7 +86,7 @@ export default function Nav(props) {
               Home
             </ScrollLink>
             <ScrollLink
-              className='hover:font-bold hover:text-green-300 hover:cursor-pointer tracking-widest p-4 rounded hover:bg-green-600 h-full'
+              className='hover:font-bold hover:text-green-300 hover:cursor-pointer md:tracking-widest md:p-4 rounded hover:bg-green-600 '
               activeClass='active'
               to='services'
               smooth={true}
@@ -96,7 +96,7 @@ export default function Nav(props) {
               Online Services
             </ScrollLink>
             <ScrollLink
-              className='hover:font-bold hover:text-green-300 hover:cursor-pointer tracking-widest p-4 rounded hover:bg-green-600 h-full'
+              className='hover:font-bold hover:text-green-300 hover:cursor-pointer md:tracking-widest md:p-4 rounded hover:bg-green-600 '
               activeClass='active'
               to='contact'
               smooth={true}
@@ -106,7 +106,7 @@ export default function Nav(props) {
               Contact Us
             </ScrollLink>
             <ScrollLink
-              className='hover:font-bold hover:text-green-300 hover:cursor-pointer tracking-widest p-4 rounded hover:bg-green-600 h-full'
+              className='hover:font-bold hover:text-green-300 hover:cursor-pointer md:tracking-widest md:p-4 rounded hover:bg-green-600 '
               activeClass='active'
               to='officials'
               smooth={true}
@@ -145,7 +145,7 @@ export default function Nav(props) {
           ) : (
             <>
               <Button
-                className='border rounded px-4 bg-transparent flex text-white text-center hover:text-white'
+                className='border rounded bg-transparent flex text-white text-center hover:text-white'
                 onClick={handleShowLogin}
               >
                 <IconUser className='text-white mr-1 mt-1' /> Login
