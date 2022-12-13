@@ -72,7 +72,7 @@ export default function Nav(props) {
     <nav className={navStyle}>
       {props.type === NAV_TYPES.PUBLIC ? (
         // PUBLIC LINKS OUTSIDE ADMIN PAGE
-        <ul className='w-full h-full flex items-center justify-between p-3 space-x-4'>
+        <ul className='w-full h-full flex items-center justify-between p-3 space-x-4 overflow-auto scrollbar-hide'>
           <div></div>
           <div className='flex flex-row space-x-3 gap-2 text-white md:text-lg'>
             <ScrollLink
