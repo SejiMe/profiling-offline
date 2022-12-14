@@ -40,7 +40,7 @@ const ResidentDetails = () => {
       const docReference = doc(db, 'residents', id);
       const document = await getDoc(docReference);
       const docData = document.data();
-      console.log(docData);
+
       return docData;
     }
   );
