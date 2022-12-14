@@ -5,7 +5,7 @@ import Sidebar from './Sidebar';
 import SplitPane from './SplitPane';
 
 const AdminLayout = ({ children }) => {
-  const isMobile = useMedia('(max-width: 480px)');
+  const isMobile = useMedia('(max-width: 580px)');
 
   return (
     <>
