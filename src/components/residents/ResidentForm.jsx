@@ -329,6 +329,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
                 name='gender'
                 className='rounded-md'
                 value={data.gender}
+                required
                 onChange={handleInputChange}
                 onBlur={validateInput}
               >
@@ -391,6 +392,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
               <select
                 className='rounded-md'
                 name='civ_status'
+                required
                 value={data.civ_status}
                 onChange={handleInputChange}
                 onBlur={validateInput}
@@ -450,6 +452,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
               label='Housing Number'
               type='text'
               name='lot'
+              required
               value={data.contacts.lot}
               getValue={(value) => handleContactChange(value)}
             />
@@ -464,6 +467,7 @@ const ResidentForm = ({ getObject, objectData, ResidentFormType = '' }) => {
               label='Purok'
               type='text'
               name='purok'
+              required
               value={data.contacts.purok}
               getValue={(value) => handleContactChange(value)}
             />
